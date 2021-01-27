@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/fp-rap-build/back-end/issues"
   },
-  "homepage": "https://github.com/fp-rap-build/back-end#readme"
+  "homepage": "https://github.com/fp-rap-build/back-end#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "gitignore": "^0.6.0"
+  }
 }
