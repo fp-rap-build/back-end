@@ -1,0 +1,23 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "Rap Project API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fp-rap-build/back-end.git"
+  },
+  "author": "Christopher Harwell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fp-rap-build/back-end/issues"
+  },
+  "homepage": "https://github.com/fp-rap-build/back-end#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "gitignore": "^0.6.0"
+  }
+}
