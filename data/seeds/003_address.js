@@ -1,10 +1,10 @@
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
+  return knex('address').del()
     .then(function () {
       // Inserts seed entries
-      return knex('table_name').insert([
+      return knex('address').insert([
         {id: 1, streetNumber: '', streetName: '', cityName: '', state: '', zipCode: ''}
       ]);
     });
