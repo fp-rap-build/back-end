@@ -74,7 +74,7 @@ router.get("/me", authRequired, (req, res) => {
 router.get(
   "/",
   authRequired,
-  restrictTo("executive_director", "case_manager", "supervisor"),
+  restrictTo("admin"),
   (req, res) => {
     Users.findAll()
       .then((profiles) => {
@@ -245,7 +245,7 @@ router.get("/:id/family", authRequired, async (req, res) => {
 router.put(
   "/:id",
   authRequired,
-  restrictTo("executive_director", "case_manager", "supervisor"),
+  restrictTo("admin"),
   (req, res) => {
     const profile = req.body;
     const { id } = req.params;
