@@ -1,6 +1,6 @@
 exports.up = function (knex) {
     return knex.schema.createTable("user_roles", (tbl) => {
-        tbl.string("id").unique().notNullable();
+        tbl.increments()
 
         tbl
             .enu("role", ["pending", "tenant", "landlord", "admin"])

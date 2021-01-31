@@ -5,7 +5,7 @@ exports.seed = function(knex) {
     .then(function () {
       // Inserts seed entries
       return knex('income').insert([
-        {id: 1, monthlyIncome: '$1000'},
+        {id: 1, monthlyIncome: 1000},
       ]);
     });
 };

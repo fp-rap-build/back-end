@@ -1,8 +1,8 @@
 
 exports.up = function(knex) {
     return knex.schema.createTable("family_size", (tbl) => {
+        tbl.increments()
 
-        tbl.string("id").unique().notNullable();
         tbl.integer("size").notNullable();
 
     });

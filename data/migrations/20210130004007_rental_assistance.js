@@ -1,7 +1,7 @@
 
 exports.up = function (knex) {
     return knex.schema.createTable("rental_assistance", (tbl) => {
-        tbl.string("id").unique().notNullable();
+        tbl.increments()
 
         tbl
             .boolean("isRequestingAssistance")
