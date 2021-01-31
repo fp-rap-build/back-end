@@ -30,6 +30,7 @@ process.on("unhandledRejection", (reason, p) => {
   console.error("Unhandled Rejection at: Promise", p, "reason:", reason);
   // application specific logging, throwing an error, or other logic here
 });
+
 // docs would need to be built and committed
 app.use(
   "/api-docs",

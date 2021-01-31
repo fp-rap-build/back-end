@@ -5,9 +5,9 @@ exports.up = function (knex) {
 
     tbl.string("email", 128).unique().notNullable();
 
-    tbl.string("firstName", 128).notNullable();
+    tbl.string("firstName", 128)
 
-    tbl.string("lastName", 128).notNullable();
+    tbl.string("lastName", 128)
 
     tbl
       .enu("role", ["pending", "tenant", "landlord", "admin"])
