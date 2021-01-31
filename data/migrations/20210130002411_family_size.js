@@ -1,13 +1,13 @@
 
 exports.up = function(knex) {
-    return knex.schema.createTable("familySize", (tbl) => {
+    return knex.schema.createTable("family_size", (tbl) => {
 
         tbl.string("id").unique().notNullable();
-        tbl.int("Family Size").notNullable();
+        tbl.integer("size").notNullable();
 
     });
 };
 
 exports.down = function(knex) {
-    return knex.schema.dropTableIfExists("familySize")
+    return knex.schema.dropTableIfExists("family_size")
 };
