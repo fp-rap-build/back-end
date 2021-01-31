@@ -14,17 +14,6 @@
     "tests": "npx jest",
     "coverage": "CI=true npx jest --coverage --detectOpenHandles --forceExit"
   },
-  "lint-staged": {
-    "api/**/*.js": [
-      "eslint --fix",
-      "prettier-eslint --write"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "jest": {
     "testEnvironment": "node",
     "testResultsProcessor": "jest-sonar-reporter",
