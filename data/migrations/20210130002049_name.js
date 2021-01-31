@@ -5,6 +5,13 @@ exports.up = function (knex) {
 
         tbl.string("firstName", 128).notNullable();
         tbl.string("lastName", 128).notNullable();
+        tbl
+        .string('user_id')
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
 
     });
 };

@@ -6,6 +6,14 @@ exports.up = function (knex) {
         tbl.string('cityName', 30);
         tbl.string('state', 25);
         tbl.integer('zipCode');
+        
+        tbl
+        .string('user_id')
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
     });
 }
 exports.down = function (knex) {

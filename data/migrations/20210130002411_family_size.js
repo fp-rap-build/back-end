@@ -4,7 +4,14 @@ exports.up = function(knex) {
         tbl.increments()
 
         tbl.integer("size").notNullable();
-
+        
+        tbl
+        .string('user_id')
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
     });
 };
 

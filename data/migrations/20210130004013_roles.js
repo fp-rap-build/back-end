@@ -6,6 +6,14 @@ exports.up = function (knex) {
             .enu("role", ["pending", "tenant", "landlord", "admin"])
             .notNullable()
             .defaultsTo("pending");
+
+        tbl
+        .string('user_id')
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
     });
 }
 exports.down = function (knex) {
