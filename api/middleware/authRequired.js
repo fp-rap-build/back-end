@@ -50,7 +50,6 @@ const authRequired = async (req, res, next) => {
     oktaJwtVerifier
       .verifyAccessToken(idToken, oktaVerifierConfig.expectedAudience)
       .then(async (data) => {
-        console.log(data)
         const jwtUserObj = makeProfileObj(data.claims);
         const user = await Users.findOrCreateProfile(jwtUserObj);
         if (user) {
