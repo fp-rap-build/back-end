@@ -10,6 +10,14 @@ exports.up = function (knex) {
             .enu("status", ["pending", "approved", "denied"])
             .notNullable()
             .defaultsTo("pending");
+
+        tbl
+        .string('user_id')
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
     })
 };
 
