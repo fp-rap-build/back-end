@@ -1,7 +1,8 @@
-const express = require('express');
+const express = require("express");
+
 const router = express.Router();
-const dsModel = require('./dsModel');
-const authRequired = require('../middleware/authRequired');
+const dsModel = require("./dsModel");
+const authRequired = require("../middleware/authRequired");
 
 /**
  * @swagger
@@ -60,7 +61,7 @@ const authRequired = require('../middleware/authRequired');
  *      500:
  *        description: 'Error making prediction'
  */
-router.get('/predict/:x1/:x2/:3', authRequired, function (req, res) {
+router.get("/predict/:x1/:x2/:3", authRequired, (req, res) => {
   const x1 = String(req.params.x1);
   const x2 = String(req.params.x2);
   const x3 = String(req.params.x3);
@@ -103,7 +104,7 @@ router.get('/predict/:x1/:x2/:3', authRequired, function (req, res) {
  *      500:
  *        description: 'Error making prediction'
  */
-router.get('/viz/:state', authRequired, function (req, res) {
+router.get("/viz/:state", authRequired, (req, res) => {
   const state = String(req.params.state);
 
   dsModel
