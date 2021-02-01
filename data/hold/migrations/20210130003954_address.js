@@ -1,6 +1,6 @@
 exports.up = function (knex) {
     return knex.schema.createTable("address", (tbl) => {
-        tbl.increments()
+        tbl.increments('id')
         tbl.integer('streetNumber');
         tbl.string('streetName', 128);
         tbl.string('cityName', 30);

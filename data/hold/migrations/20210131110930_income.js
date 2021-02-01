@@ -1,6 +1,6 @@
 exports.up = function (knex) {
     return knex.schema.createTable("income", (tbl) => {
-        tbl.increments()
+        tbl.increments('id')
 
         tbl.decimal('monthlyIncome', [15,2])
             
