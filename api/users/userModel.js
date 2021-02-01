@@ -1,15 +1,5 @@
 const db = require("../../data/db-config");
 
-const findAllUserData = async () => {
-    await db("users")
-        .join("name", "users.id", "=", "name.user_id")
-        .join("rental_assistance", "users.id", "=", "rental_assistance.user_id" )
-        .join("roles", "users.id", "=", "roles.user_id")
-        .join("family_size", "users.id", "=", "family_size.user_id")
-        .join("address", "users.id", "=", "address.user_id")
-        .returning("*")
-}
-
 const findAll = async () => await db("users");
 
 const findBy = (filter) => db("users").where(filter);
@@ -46,5 +36,4 @@ module.exports = {
   update,
   remove,
   findOrCreateProfile,
-  findAllUserData
 };
