@@ -6,22 +6,19 @@ exports.seed = function (knex) {
       // Inserts seed entries
       return knex("addresses").insert([
         {
-          streetNumber: 904,
-          streetName: "E. Hartson Ave",
+          address: "904 E. Hartson Ave",
           cityName: "Spokane",
           state: "WA",
           zipCode: 99202,
         },
         {
-          streetNumber: 904,
-          streetName: "E. Hartson Ave",
+          address: "904 E. Hartson Ave",
           cityName: "Spokane",
           state: "WA",
           zipCode: 99202,
         },
         {
-          streetNumber: 904,
-          streetName: "E. Hartson Ave",
+          address: "904 E. Hartson Ave",
           cityName: "Spokane",
           state: "WA",
           zipCode: 99202,
