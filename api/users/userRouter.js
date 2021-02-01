@@ -320,21 +320,6 @@ router.delete("/:id", restrictTo("executive_director"), (req, res) => {
   }
 });
 
-router.get("/allData", async (req, res) => {
-  try {
-    const user = await Users.findAllUserData();
-
-    if (!user) {
-      res.status(404).json({ message: "Unable to find user" });
-    }
-
-    res.status(200).json({
-      user: user[0]
-    });
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
 
 module.exports = router;
 
