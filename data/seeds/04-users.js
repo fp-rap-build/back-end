@@ -1,4 +1,3 @@
-const { v4: uuidv4 } = require("uuid");
 
 exports.seed = function (knex) {
   return knex("users")
