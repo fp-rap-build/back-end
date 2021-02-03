@@ -5,7 +5,13 @@ exports.up = function (knex) {
     tbl.string("firstName", 128).notNullable();
     tbl.string("lastName", 128).notNullable();
     tbl
-      .enu("role", ["pending", "tenant", "landlord", "admin"])
+      .enu("role", [
+        "pending",
+        "tenant",
+        "landlord",
+        "admin",
+        "account manager",
+      ])
       .notNullable()
       .defaultsTo("pending");
     tbl.boolean("is_requesting_assistance").defaultsTo(0);
