@@ -18,6 +18,7 @@ exports.seed = function (knex) {
           firstName: "John",
           lastName: "Shelby",
           role: "landlord",
+          organization_id: 1,
         },
         {
           id: "00u4o1di44exWPbUQ5d6",

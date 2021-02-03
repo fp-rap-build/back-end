@@ -16,7 +16,7 @@ exports.up = function (knex) {
       .defaultsTo("pending");
     tbl.boolean("is_requesting_assistance").defaultsTo(0);
     tbl
-      .enu("request_status", ["pending", "approved", "denied"])
+      .enu("request_status", ["received", "in review", "pending", "approved", "denied"])
       .defaultsTo("pending");
     tbl.integer("family_size").defaultsTo(0);
     tbl
@@ -31,6 +31,13 @@ exports.up = function (knex) {
       .unsigned()
       .references("id")
       .inTable("addresses")
+      .onDelete("RESTRICT")
+      .onUpdate("RESTRICT");
+    tbl
+      .integer("organization_id")
+      .unsigned()
+      .references("id")
+      .inTable("organizations")
       .onDelete("RESTRICT")
       .onUpdate("RESTRICT");
   });
