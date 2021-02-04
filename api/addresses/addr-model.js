@@ -1,0 +1,29 @@
+const db = require("../../data/db-config");
+
+const findAll = () => {
+  return db("addresses");
+};
+
+const findById = (id) => {
+  return db("addresses").where("id", id).first();
+};
+
+const create = (addr) => {
+  return db("addresses").insert(addr).returning("*");
+};
+
+const update = (id, addr) => {
+  return db("addresses").where("id", id).update(addr);
+};
+
+const remove = (id) => {
+  return db("addresses").where("id", id).del();
+};
+
+module.exports = {
+  findAll,
+  findById,
+  create,
+  update,
+  remove,
+};
