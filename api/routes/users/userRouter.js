@@ -1,9 +1,9 @@
 const express = require("express");
-const authRequired = require("../middleware/authRequired");
+const authRequired = require("../../middleware/authRequired");
 const Users = require("./userModel");
 
 const router = express.Router();
-const restrictTo = require("../middleware/restrictTo");
+const restrictTo = require("../../middleware/restrictTo");
 
 router.get("/me", authRequired, (req, res) => {
   const { user } = req;

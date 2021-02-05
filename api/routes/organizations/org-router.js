@@ -1,9 +1,9 @@
 const express = require("express");
-const authRequired = require("../middleware/authRequired");
+const authRequired = require("../../middleware/authRequired");
 
 const Org = require("./org-model");
 const router = express.Router();
-const restrictTo = require("../middleware/restrictTo");
+const restrictTo = require("../../middleware/restrictTo");
 
 router.get("/", authRequired, restrictTo("admin"), async (req, res) => {
   try {

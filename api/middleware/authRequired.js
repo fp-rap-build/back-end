@@ -1,37 +1,40 @@
 const createError = require("http-errors");
 const OktaJwtVerifier = require("@okta/jwt-verifier");
 const oktaVerifierConfig = require("../../config/okta");
-const Users = require("../users/userModel");
+const Users = require("../routes/users/userModel");
 
 const oktaJwtVerifier = new OktaJwtVerifier(oktaVerifierConfig.config);
 
 const makeProfileObj = (claims) => {
-  let id, email, firstName, lastName = ''
+  let id,
+    email,
+    firstName,
+    lastName = "";
 
-  if(claims.firstName){
-    firstName = claims.firstName
+  if (claims.firstName) {
+    firstName = claims.firstName;
   }
 
-  if(claims.lastName){
-    lastName = claims.lastName
+  if (claims.lastName) {
+    lastName = claims.lastName;
   }
 
-  if(claims.name){
-    firstName = claims.name.split(' ')[0]
+  if (claims.name) {
+    firstName = claims.name.split(" ")[0];
   }
 
-  id = claims.sub
-  email = claims.email
+  id = claims.sub;
+  email = claims.email;
 
   const profile = {
     id,
     email,
     firstName,
-    lastName
-  }
+    lastName,
+  };
 
-  return profile
-}
+  return profile;
+};
 
 /**
  * A simple middleware that asserts valid Okta idToken and sends 401 responses
