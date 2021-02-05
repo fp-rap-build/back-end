@@ -1,5 +1,5 @@
 const axios = require("axios");
-const dsConfig = require("../../config/dsConfig");
+const dsConfig = require("../../../config/dsConfig");
 
 const dsClient = axios.create(dsConfig);
 

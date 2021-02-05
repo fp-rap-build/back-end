@@ -1,4 +1,4 @@
-const db = require("../../data/db-config");
+const db = require("../../../data/db-config");
 
 const findAll = () => {
   return db("addresses");
@@ -6,6 +6,10 @@ const findAll = () => {
 
 const findById = (id) => {
   return db("addresses").where("id", id).first();
+};
+
+const findBy = (filter) => {
+  return db("addresses").where(filter);
 };
 
 const create = (addr) => {
@@ -23,6 +27,7 @@ const remove = (id) => {
 module.exports = {
   findAll,
   findById,
+  findBy,
   create,
   update,
   remove,

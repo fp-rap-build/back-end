@@ -20,11 +20,11 @@ const swaggerUIOptions = {
 };
 
 // ###[  Routers ]###
-const indexRouter = require("./index/indexRouter");
-const userRouter = require("./users/userRouter");
-const dsRouter = require("./dsService/dsRouter");
-const orgRouter = require("./organizations/org-router");
-const addrRouter = require("./addresses/addr-router");
+const indexRouter = require("./routes/index/indexRouter");
+const userRouter = require("./routes/users/userRouter");
+const dsRouter = require("./routes/dsService/dsRouter");
+const orgRouter = require("./routes/organizations/org-router");
+const addrRouter = require("./routes/addresses/addr-router");
 
 const app = express();
 
