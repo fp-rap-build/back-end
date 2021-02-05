@@ -8,6 +8,10 @@ const findById = (id) => {
   return db("organizations").where("id", id).first();
 };
 
+const findBy = name => {
+  return db("organizations").where(name).first;
+}
+
 const create = (org) => {
   return db("organizations").insert(org).returning("*");
 };
@@ -26,4 +30,5 @@ module.exports = {
   create,
   update,
   remove,
+  findBy
 };
