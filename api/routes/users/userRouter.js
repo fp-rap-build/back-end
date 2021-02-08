@@ -16,15 +16,13 @@ router.get(
   "/",
   authRequired,
   restrictTo("admin"),
-  (req, res) => {
-    Users.findAll()
-      .then((profiles) => {
-        res.status(200).json(profiles);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json({ message: err.message });
-      });
+  async (req, res) => {
+   try {
+     let users = await Users.findAll()
+     res.status(200).json(users);
+   } catch (error) {
+     res.status(500).json({ message: error.message })
+   }
   }
 );
 
