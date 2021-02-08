@@ -43,6 +43,8 @@ const findOrCreateProfile = async (profileObj) => {
 		return foundProfile;
 	}
 
+  // Create an empty address for the user and set the address_id
+
 	let newAddress = await db('addresses').insert({}).returning('*');
 
 	profileObj['address_id'] = newAddress[0].id;
