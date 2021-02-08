@@ -22,14 +22,6 @@ exports.up = function (knex) {
     tbl
       .integer("monthly_income")
       .unsigned()
-      tbl
-        .integer("organization_id")
-        .unsigned()
-        .references("id")
-        .inTable("organizations")
-        .onDelete("RESTRICT")
-        .onUpdate("RESTRICT");
-    });
     tbl
       .integer("address_id")
       .unsigned()
@@ -37,6 +29,14 @@ exports.up = function (knex) {
       .inTable("addresses")
       .onDelete("RESTRICT")
       .onUpdate("RESTRICT");
+    tbl
+      .integer("organization_id")
+      .unsigned()
+      .references("id")
+      .inTable("organizations")
+      .onDelete("RESTRICT")
+      .onUpdate("RESTRICT");
+  });
 };
 
 exports.down = function (knex) {
