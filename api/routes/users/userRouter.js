@@ -56,6 +56,37 @@ router.get('/:id', authRequired, restrictTo('admin'), (req, res) => {
 		});
 });
 
+
+router.get('/:id/address', authRequired, restrictTo('admin'), async (req, res) => {
+  let { id } = req.params
+  try {
+    let address = await Users.findAddressByUserId(id)
+    res.status(200).json({ address: address[0]})
+  } catch (error) {
+    res.status(500).json({ message: error.message})
+  }
+});
+
+router.put('/:id/address', authRequired, restrictTo('admin'), async (req, res) => {
+  let { id } = req.params
+
+  // Make it impossible to update the id
+  req.body['id'] = undefined
+
+  let payload = req.body
+
+  try {
+    let user = await Users.findById(id)
+
+    let updatedAddress = await Users.updateAddressById(user.address_id, payload )
+
+    res.status(200).json({ address: updatedAddress[0] })
+
+  } catch (error) {
+    res.status(500).json({ message: error.message})
+  }
+})
+
 router.put('/:id', authRequired, restrictTo('admin'), (req, res) => {
 	const profile = req.body;
 	const { id } = req.params;
