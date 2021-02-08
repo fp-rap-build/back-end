@@ -14,18 +14,22 @@ exports.up = function (knex) {
       ])
       .notNullable()
       .defaultsTo("pending");
-    tbl.boolean("is_requesting_assistance").defaultsTo(0);
+    tbl.boolean("is_requesting_assistance").defaultsTo(false);
     tbl
-      .enu("request_status", ["received", "in_review", "pending", "approved", "denied"])
-      .defaultsTo("pending");
+      .enu("request_status", ["received", "in_review", "approved", "denied"])
+      .defaultsTo("received");
     tbl.integer("family_size").defaultsTo(0);
     tbl
-      .integer("income_id")
+      .integer("monthly_income")
       .unsigned()
-      .references("id")
-      .inTable("income_monthly")
-      .onDelete("RESTRICT")
-      .onUpdate("RESTRICT");
+      tbl
+        .integer("organization_id")
+        .unsigned()
+        .references("id")
+        .inTable("organizations")
+        .onDelete("RESTRICT")
+        .onUpdate("RESTRICT");
+    });
     tbl
       .integer("address_id")
       .unsigned()
@@ -33,14 +37,6 @@ exports.up = function (knex) {
       .inTable("addresses")
       .onDelete("RESTRICT")
       .onUpdate("RESTRICT");
-    tbl
-      .integer("organization_id")
-      .unsigned()
-      .references("id")
-      .inTable("organizations")
-      .onDelete("RESTRICT")
-      .onUpdate("RESTRICT");
-  });
 };
 
 exports.down = function (knex) {

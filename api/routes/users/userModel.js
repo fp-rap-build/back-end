@@ -26,6 +26,14 @@ const findOrCreateProfile = async (profileObj) => {
   if (foundProfile) {
     return foundProfile;
   }
+
+  let newAddress = await db('addresses').insert({}).returning('*')
+
+  profileObj["address_id"] = newAddress[0].id
+
+  console.log(profileObj)
+  console.log(newAddress)
+
   return await create(profileObj).then((newProfile) =>
     newProfile ? newProfile[0] : newProfile
   );
