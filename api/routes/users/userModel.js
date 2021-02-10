@@ -2,8 +2,8 @@ const db = require('../../../data/db-config');
 
 const findAll = async (query = {}) =>
 	await db('users').modify((qb) => {
-		if (query.is_requesting_assistance) {
-			qb.where({ is_requesting_assistance: true });
+		if (query.isRequestingAssistance) {
+			qb.where({ isRequestingAssistance: true });
 		}
 	});
 

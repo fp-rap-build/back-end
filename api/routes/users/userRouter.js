@@ -65,10 +65,10 @@ router.get('/', authRequired, restrictTo('admin'), async (req, res) => {
 	}
 });
 
-router.get('/requests', authRequired, restrictTo('admin', 'program_manager'), async (req, res) => {
+router.get('/requests', authRequired, restrictTo('admin', 'programManager'), async (req, res) => {
 	try {
 
-		let users = await Users.findAll({ is_requesting_assistance: true });
+		let users = await Users.findAll({ isRequestingAssistance: true });
 
 		res.status(200).json(users);
 	} catch (error) {
