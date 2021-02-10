@@ -11,10 +11,12 @@ const findBy = (filter) => db('users').where(filter);
 
 const findById = async (id) => db('users').where({ id }).first('*');
 
+const findByIdAndUpdate = async (id, payload) => await db('users').where({ id }).update(payload).returning('*') 
+
 const findAddressByUserId = async (id) =>
 	await db('users')
 		.where('users.id', id)
-		.join('addresses', 'users.address_id', '=', 'addresses.id')
+		.join('addresses', 'users.addressId', '=', 'addresses.id')
 		.select('addresses.address', 'addresses.state', 'addresses.cityName', 'addresses.zipCode');
 
 const findOrCreateAddress = async (user) => {
@@ -47,7 +49,7 @@ const findOrCreateProfile = async (profileObj) => {
 
 	let newAddress = await db('addresses').insert({}).returning('*');
 
-	profileObj['address_id'] = newAddress[0].id;
+	profileObj['addressId'] = newAddress[0].id;
 
 	return await create(profileObj).then((newProfile) => (newProfile ? newProfile[0] : newProfile));
 };
@@ -56,6 +58,7 @@ module.exports = {
 	findAll,
 	findBy,
 	findById,
+	findByIdAndUpdate,
 	findByOktaId,
 	create,
 	update,

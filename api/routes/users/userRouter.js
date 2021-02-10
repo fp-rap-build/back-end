@@ -11,6 +11,31 @@ router.get('/me', authRequired, (req, res) => {
 	});
 });
 
+
+router.put('/me', authRequired, async (req, res) => {
+	const { id } = req.user;
+
+	// Users can't update their role to admin or program manager
+
+	let role = req.body['role']
+
+	if(role == 'admin' || role == 'programManager') {
+		req.body['role'] = undefined
+	}
+
+	let payload = req.body
+
+	try {
+		let updatedUser = await Users.findByIdAndUpdate(id, payload)
+
+		res.status(200).json({ user: updatedUser[0] })
+
+	} catch (error) {
+		res.status(500).json({ message: "Internal server error" })
+	}
+
+});
+
 router.get('/', authRequired, restrictTo('admin'), async (req, res) => {
 	try {
 		let users = await Users.findAll();
@@ -58,33 +83,33 @@ router.get('/:id', authRequired, restrictTo('admin'), (req, res) => {
 
 
 router.get('/:id/address', authRequired, restrictTo('admin'), async (req, res) => {
-  let { id } = req.params
-  try {
-    let address = await Users.findAddressByUserId(id)
-    res.status(200).json({ address: address[0]})
-  } catch (error) {
-    res.status(500).json({ message: error.message})
-  }
+	let { id } = req.params
+	try {
+		let address = await Users.findAddressByUserId(id)
+		res.status(200).json({ address: address[0] })
+	} catch (error) {
+		res.status(500).json({ message: error.message })
+	}
 });
 
 router.put('/:id/address', authRequired, restrictTo('admin'), async (req, res) => {
-  let { id } = req.params
+	let { id } = req.params
 
-  // Make it impossible to update the id
-  req.body['id'] = undefined
+	// Make it impossible to update the id
+	req.body['id'] = undefined
 
-  let payload = req.body
+	let payload = req.body
 
-  try {
-    let user = await Users.findById(id)
+	try {
+		let user = await Users.findById(id)
 
-    let updatedAddress = await Users.updateAddressById(user.address_id, payload )
+		let updatedAddress = await Users.updateAddressById(user.address_id, payload)
 
-    res.status(200).json({ address: updatedAddress[0] })
+		res.status(200).json({ address: updatedAddress[0] })
 
-  } catch (error) {
-    res.status(500).json({ message: error.message})
-  }
+	} catch (error) {
+		res.status(500).json({ message: error.message })
+	}
 })
 
 router.put('/:id', authRequired, restrictTo('admin'), (req, res) => {
