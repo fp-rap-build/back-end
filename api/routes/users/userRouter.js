@@ -1,17 +1,17 @@
-const express = require("express");
-const authRequired = require("../../middleware/authRequired");
-const Users = require("./userModel");
+const express = require('express');
+const authRequired = require('../../middleware/authRequired');
+const Users = require('./userModel');
 const router = express.Router();
-const restrictTo = require("../../middleware/restrictTo");
+const restrictTo = require('../../middleware/restrictTo');
 
-router.get("/me", authRequired, (req, res) => {
+router.get('/me', authRequired, (req, res) => {
   const { user } = req;
   res.status(200).json({
     user,
   });
 });
 
-router.get("/", authRequired, restrictTo("admin"), async (req, res) => {
+router.get('/', authRequired, restrictTo('admin'), async (req, res) => {
   try {
     let users = await Users.findAll();
     res.status(200).json(users);
@@ -21,9 +21,9 @@ router.get("/", authRequired, restrictTo("admin"), async (req, res) => {
 });
 
 router.get(
-  "/requests",
+  '/requests',
   authRequired,
-  restrictTo("admin", "program_manager"),
+  restrictTo('admin', 'program_manager'),
   async (req, res) => {
     try {
       let users = await Users.findAll({ isRequestingAssistance: true });
@@ -35,24 +35,24 @@ router.get(
   }
 );
 
-router.post("/", authRequired, (req, res) => {
+router.post('/', authRequired, (req, res) => {
   Users.findOrCreateProfile(req.body)
     .then(() => {
-      res.status(201).json({ message: "Profile created" });
+      res.status(201).json({ message: 'Profile created' });
     })
     .catch(() => {
-      res.status(500).json({ message: "Unable to create profile" });
+      res.status(500).json({ message: 'Unable to create profile' });
     });
 });
 
-router.get("/:id", authRequired, restrictTo("admin"), (req, res) => {
+router.get('/:id', authRequired, restrictTo('admin'), (req, res) => {
   const id = String(req.params.id);
   Users.findById(id)
     .then((profile) => {
       if (profile) {
         res.status(200).json(profile);
       } else {
-        res.status(404).json({ error: "ProfileNotFound" });
+        res.status(404).json({ error: 'ProfileNotFound' });
       }
     })
     .catch((err) => {
@@ -61,9 +61,9 @@ router.get("/:id", authRequired, restrictTo("admin"), (req, res) => {
 });
 
 router.get(
-  "/:id/address",
+  '/:id/address',
   authRequired,
-  restrictTo("admin"),
+  restrictTo('admin'),
   async (req, res) => {
     let { id } = req.params;
     try {
@@ -76,14 +76,14 @@ router.get(
 );
 
 router.put(
-  "/:id/address",
+  '/:id/address',
   authRequired,
-  restrictTo("admin"),
+  restrictTo('admin'),
   async (req, res) => {
     let { id } = req.params;
 
     // Make it impossible to update the id
-    req.body["id"] = undefined;
+    req.body['id'] = undefined;
 
     let payload = req.body;
 
@@ -102,7 +102,7 @@ router.put(
   }
 );
 
-router.put("/:id", authRequired, restrictTo("admin"), (req, res) => {
+router.put('/:id', authRequired, restrictTo('admin'), (req, res) => {
   const profile = req.body;
   const { id } = req.params;
   Users.findById(id)
@@ -111,7 +111,7 @@ router.put("/:id", authRequired, restrictTo("admin"), (req, res) => {
         .then((updated) => {
           res
             .status(200)
-            .json({ message: "profile updated", profile: updated[0] });
+            .json({ message: 'profile updated', profile: updated[0] });
         })
         .catch((err) => {
           res.status(500).json({
@@ -128,7 +128,7 @@ router.put("/:id", authRequired, restrictTo("admin"), (req, res) => {
     });
 });
 
-router.delete("/:id", restrictTo("admin"), (req, res) => {
+router.delete('/:id', restrictTo('admin'), (req, res) => {
   const { id } = req.params;
   try {
     Users.findById(id).then((profile) => {
