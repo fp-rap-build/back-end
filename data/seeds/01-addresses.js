@@ -23,6 +23,12 @@ exports.seed = function (knex) {
           state: "WA",
           zipCode: 99202,
         },
+        {
+          address: "904 E. Hartson Ave",
+          cityName: "Spokane",
+          state: "WA",
+          zipCode: 99202,
+        },
       ]);
     });
 };
