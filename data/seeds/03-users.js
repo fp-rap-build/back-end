@@ -11,6 +11,7 @@ exports.seed = function (knex) {
           firstName: "Tommy",
           lastName: "Shelby",
           role: "admin",
+          addressId: 1
         },
         {
           id: "00u4o1ofebvodClCm5d6",
@@ -19,6 +20,7 @@ exports.seed = function (knex) {
           lastName: "Shelby",
           role: "landlord",
           organizationId: 1,
+          addressId: 2
         },
         {
           id: "00u4o1di44exWPbUQ5d6",
@@ -26,12 +28,14 @@ exports.seed = function (knex) {
           firstName: "John",
           lastName: "Shelby",
           role: "tenant",
+          addressId: 3
         },
         {
           id: "00u4o22duEeEM1UIj5d6",
           email: "pending@gmail.com",
           firstName: "Billy",
           lastName: "Kimber",
+          addressId: 4
         },
       ]);
     });
