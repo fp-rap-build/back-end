@@ -155,7 +155,6 @@ router.put('/:id', authRequired, restrictTo('admin'), async (req, res) => {
 
   try {
     const updatedUser = await Users.findByIdAndUpdate(id, payload)
-    console.log(updatedUser)
     res.status(200).json({ user: updatedUser[0] })
   } catch (error) {
     res.status(500).json({ message: 'Internal service error' })
