@@ -13,48 +13,48 @@ router.get('/me', authRequired, (req, res) => {
 
 
 router.put('/me', authRequired, async (req, res) => {
-	const { id } = req.user;
+  const { id } = req.user;
 
-	
-	let role = req.body['role']
-	
-	// Users can't update their role to admin or program manager
 
-	if(role == 'admin' || role == 'programManager') {
-		req.body['role'] = undefined
-	}
+  let role = req.body['role']
 
-	let payload = req.body
+  // Users can't update their role to admin or program manager
 
-	try {
-		let updatedUser = await Users.findByIdAndUpdate(id, payload)
+  if (role == 'admin' || role == 'programManager') {
+    req.body['role'] = undefined
+  }
 
-		res.status(200).json({ user: updatedUser[0] })
+  let payload = req.body
 
-	} catch (error) {
+  try {
+    let updatedUser = await Users.findByIdAndUpdate(id, payload)
+
+    res.status(200).json({ user: updatedUser[0] })
+
+  } catch (error) {
     console.log(error)
-		res.status(500).json({ message: "Internal server error" })
-	}
+    res.status(500).json({ message: "Internal server error" })
+  }
 });
 
 router.put('/me/address', authRequired, async (req, res) => {
-	let { id } = req.user
-	
-	// Make it impossible to update the id
-	req.body['id'] = undefined
+  let { id } = req.user
 
-	let payload = req.body
+  // Make it impossible to update the id
+  req.body['id'] = undefined
 
-	try {
-		let user = await Users.findById(id)
+  let payload = req.body
 
-		let updatedAddress = await Users.updateAddressById(user.addressId, payload)
+  try {
+    let user = await Users.findById(id)
 
-		res.status(200).json({ address: updatedAddress[0] })
+    let updatedAddress = await Users.updateAddressById(user.addressId, payload)
 
-	} catch (error) {
-		res.status(500).json({ message: error.message })
-	}
+    res.status(200).json({ address: updatedAddress[0] })
+
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
 })
 
 router.get('/', authRequired, restrictTo('admin'), async (req, res) => {
@@ -149,30 +149,17 @@ router.put(
   }
 );
 
-router.put('/:id', authRequired, restrictTo('admin'), (req, res) => {
-  const profile = req.body;
+router.put('/:id', authRequired, restrictTo('admin'), async (req, res) => {
+  const payload = req.body;
   const { id } = req.params;
-  Users.findById(id)
-    .then(
-      Users.update(id, profile)
-        .then((updated) => {
-          res
-            .status(200)
-            .json({ message: 'profile updated', profile: updated[0] });
-        })
-        .catch((err) => {
-          res.status(500).json({
-            message: `Could not update profile '${id}'`,
-            error: err.message,
-          });
-        })
-    )
-    .catch((err) => {
-      res.status(404).json({
-        message: `Could not find profile '${id}'`,
-        error: err.message,
-      });
-    });
+
+  try {
+    const updatedUser = await Users.findByIdAndUpdate(id, payload)
+    console.log(updatedUser)
+    res.status(200).json({ user: updatedUser[0] })
+  } catch (error) {
+    res.status(500).json({ message: 'Internal service error' })
+  }
 });
 
 router.delete('/:id', restrictTo('admin'), (req, res) => {
