@@ -67,5 +67,11 @@
   },
   "prettier": {
     "singleQuote": true
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
