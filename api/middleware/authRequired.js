@@ -50,6 +50,7 @@ const authRequired = async (req, res, next) => {
     if (!match) throw new Error("Missing idToken");
 
     const idToken = match[1];
+
     oktaJwtVerifier
       .verifyAccessToken(idToken, oktaVerifierConfig.expectedAudience)
       .then(async (data) => {
