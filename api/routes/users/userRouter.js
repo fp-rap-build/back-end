@@ -3,7 +3,31 @@ const authRequired = require('../../middleware/authRequired');
 const Users = require('./userModel');
 const router = express.Router();
 const restrictTo = require('../../middleware/restrictTo');
-
+/** 
+ * @swagger
+ * /me:
+ *  get:
+ *    summary: Attempts to request the current users profile.
+ *    description: 
+ *      add the description of what this endpoint does here
+ *    security:   
+ *      - okta: []
+ *    tags: 
+ *      - users
+ *    responses: 
+ *      200:
+ *        description: add a description of what a successful response looks like
+ *        content:
+ *          application/json: 
+ *            schema:
+ *              type: object
+ *              description: add a description here
+ *              items:
+ *                anyOf:
+ *                  - $ref: ''
+ *                example: 
+ *                  - Add an example of the shape of the data that is returned
+ * */
 router.get('/me', authRequired, (req, res) => {
   const { user } = req;
   res.status(200).json({
@@ -11,7 +35,34 @@ router.get('/me', authRequired, (req, res) => {
   });
 });
 
-
+/** 
+ * @swagger
+ * /me:
+ *  put:
+ *    summary: Attempts to request the current users profile.
+ *    description: 
+ *      add the description of what this endpoint does here
+ *    security:   
+ *      - okta: []
+ *    tags: 
+ *      - users
+ *    parameters:
+ *      - $ref: '#/components/parameters/id'
+ *    responses: 
+ *      200:
+ *        description: add a description of what a successful response looks like
+ *        content:
+ *          application/json: 
+ *            schema:
+ *              type: array
+ *              description: add a description here
+ *              items:
+ *                anyOf:
+ *                  - $ref: ''
+ *                example: 
+ *                  - Add an example of the shape of the data that is returned
+ *      500:
+ * */
 router.put('/me', authRequired, async (req, res) => {
   const { id } = req.user;
 
@@ -37,6 +88,34 @@ router.put('/me', authRequired, async (req, res) => {
   }
 });
 
+/** 
+ * @swagger
+ * /me/address:
+ *  put:
+ *    summary: Attempts to request the current users profile.
+ *    description: 
+ *      add the description of what this endpoint does here
+ *    security:   
+ *      - okta: []
+ *    tags: 
+ *      - users
+ *    parameters:
+ *      - $ref: ''
+ *    responses: 
+ *      200:
+ *        description: add a description of what a successful response looks like
+ *        content:
+ *          application/json: 
+ *            schema:
+ *              type: array
+ *              description: add a description here
+ *              items:
+ *                anyOf:
+ *                  - $ref: ''
+ *                example: 
+ *                  - Add an example of the shape of the data that is returned
+ *      500:
+ * */
 router.put('/me/address', authRequired, async (req, res) => {
   let { id } = req.user
 
@@ -57,6 +136,34 @@ router.put('/me/address', authRequired, async (req, res) => {
   }
 })
 
+/** 
+ * @swagger
+ * /:
+ *  get:
+ *    summary: Attempts to request the current users profile.
+ *    description: 
+ *      add the description of what this endpoint does here
+ *    security:   
+ *      - okta: []
+ *    tags: 
+ *      - users
+ *    parameters:
+ *      - $ref: ''
+ *    responses: 
+ *      200:
+ *        description: add a description of what a successful response looks like
+ *        content:
+ *          application/json: 
+ *            schema:
+ *              type: array
+ *              description: add a description here
+ *              items:
+ *                anyOf:
+ *                  - $ref: ''
+ *                example: 
+ *                  - Add an example of the shape of the data that is returned
+ *      500:
+ * */
 router.get('/', authRequired, restrictTo('admin'), async (req, res) => {
   try {
     let users = await Users.findAll();
@@ -67,6 +174,38 @@ router.get('/', authRequired, restrictTo('admin'), async (req, res) => {
   }
 });
 
+/** 
+ * @swagger
+ * /requests:
+ *  get:
+ *    summary: Attempts to request the current users profile.
+ *    description: 
+ *      add the description of what this endpoint does here
+ *    security:   
+ *      - okta: []
+ *    tags: 
+ *      - users
+ *    parameters:
+ *      - $ref: ''
+ *    responses: 
+ *      200:
+ *        description: add a description of what a successful response looks like
+ *        content:
+ *          application/json: 
+ *            schema:
+ *              type: array
+ *              description: add a description here
+ *              items:
+ *                anyOf:
+ *                  - $ref: ''
+ *                example: 
+ *                  - Add an example of the shape of the data that is returned
+ *      401:
+ *        $ref: ''
+ *      404: 
+ *        $ref: ''
+ *      500:
+ * */
 router.get(
   '/requests',
   authRequired,
@@ -82,6 +221,38 @@ router.get(
   }
 );
 
+/** 
+ * @swagger
+ * /:
+ *  post:
+ *    summary: Attempts to request the current users profile.
+ *    description: 
+ *      add the description of what this endpoint does here
+ *    security:   
+ *      - okta: []
+ *    tags: 
+ *      - users
+ *    parameters:
+ *      - $ref: ''
+ *    responses: 
+ *      200:
+ *        description: add a description of what a successful response looks like
+ *        content:
+ *          application/json: 
+ *            schema:
+ *              type: array
+ *              description: add a description here
+ *              items:
+ *                anyOf:
+ *                  - $ref: ''
+ *                example: 
+ *                  - Add an example of the shape of the data that is returned
+ *      401:
+ *        $ref: ''
+ *      404: 
+ *        $ref: ''
+ *      500:
+ * */
 router.post('/', authRequired, (req, res) => {
   Users.findOrCreateProfile(req.body)
     .then(() => {
@@ -92,6 +263,38 @@ router.post('/', authRequired, (req, res) => {
     });
 });
 
+/** 
+ * @swagger
+ * /{id}:
+ *  get:
+ *    summary: Attempts to request the current users profile.
+ *    description: 
+ *      add the description of what this endpoint does here
+ *    security:   
+ *      - okta: []
+ *    tags: 
+ *      - users
+ *    parameters:
+ *      - $ref: ''
+ *    responses: 
+ *      200:
+ *        description: add a description of what a successful response looks like
+ *        content:
+ *          application/json: 
+ *            schema:
+ *              type: array
+ *              description: add a description here
+ *              items:
+ *                anyOf:
+ *                  - $ref: ''
+ *                example: 
+ *                  - Add an example of the shape of the data that is returned
+ *      401:
+ *        $ref: ''
+ *      404: 
+ *        $ref: ''
+ *      500:
+ * */
 router.get('/:id', authRequired, restrictTo('admin'), (req, res) => {
   const id = String(req.params.id);
   Users.findById(id)
@@ -107,6 +310,38 @@ router.get('/:id', authRequired, restrictTo('admin'), (req, res) => {
     });
 });
 
+/** 
+ * @swagger
+ * /{id}/address/:
+ *  get:
+ *    summary: Attempts to request the current users profile.
+ *    description: 
+ *      add the description of what this endpoint does here
+ *    security:   
+ *      - okta: []
+ *    tags: 
+ *      - users
+ *    parameters:
+ *      - $ref: ''
+ *    responses: 
+ *      200:
+ *        description: add a description of what a successful response looks like
+ *        content:
+ *          application/json: 
+ *            schema:
+ *              type: array
+ *              description: add a description here
+ *              items:
+ *                anyOf:
+ *                  - $ref: ''
+ *                example: 
+ *                  - Add an example of the shape of the data that is returned
+ *      401:
+ *        $ref: ''
+ *      404: 
+ *        $ref: ''
+ *      500:
+ * */
 router.get(
   '/:id/address',
   authRequired,
@@ -122,6 +357,38 @@ router.get(
   }
 );
 
+/** 
+ * @swagger
+ * /{id}/address:
+ *  put:
+ *    summary: Attempts to request the current users profile.
+ *    description: 
+ *      add the description of what this endpoint does here
+ *    security:   
+ *      - okta: []
+ *    tags: 
+ *      - users
+ *    parameters:
+ *      - $ref: ''
+ *    responses: 
+ *      200:
+ *        description: add a description of what a successful response looks like
+ *        content:
+ *          application/json: 
+ *            schema:
+ *              type: array
+ *              description: add a description here
+ *              items:
+ *                anyOf:
+ *                  - $ref: ''
+ *                example: 
+ *                  - Add an example of the shape of the data that is returned
+ *      401:
+ *        $ref: ''
+ *      404: 
+ *        $ref: ''
+ *      500:
+ * */
 router.put(
   '/:id/address',
   authRequired,
@@ -149,6 +416,38 @@ router.put(
   }
 );
 
+/** 
+ * @swagger
+ * /{id}:
+ *  put:
+ *    summary: Attempts to request the current users profile.
+ *    description: 
+ *      add the description of what this endpoint does here
+ *    security:   
+ *      - okta: []
+ *    tags: 
+ *      - users
+ *    parameters:
+ *      - $ref: ''
+ *    responses: 
+ *      200:
+ *        description: add a description of what a successful response looks like
+ *        content:
+ *          application/json: 
+ *            schema:
+ *              type: array
+ *              description: add a description here
+ *              items:
+ *                anyOf:
+ *                  - $ref: ''
+ *                example: 
+ *                  - Add an example of the shape of the data that is returned
+ *      401:
+ *        $ref: ''
+ *      404: 
+ *        $ref: ''
+ *      500:
+ * */
 router.put('/:id', authRequired, restrictTo('admin'), async (req, res) => {
   const payload = req.body;
   const { id } = req.params;
@@ -161,6 +460,38 @@ router.put('/:id', authRequired, restrictTo('admin'), async (req, res) => {
   }
 });
 
+/** 
+ * @swagger
+ * /{id}:
+ *  delete:
+ *    summary: Attempts to request the current users profile.
+ *    description: 
+ *      add the description of what this endpoint does here
+ *    security:   
+ *      - okta: []
+ *    tags: 
+ *      - users
+ *    parameters:
+ *      - $ref: ''
+ *    responses: 
+ *      200:
+ *        description: add a description of what a successful response looks like
+ *        content:
+ *          application/json: 
+ *            schema:
+ *              type: array
+ *              description: add a description here
+ *              items:
+ *                anyOf:
+ *                  - $ref: ''
+ *                example: 
+ *                  - Add an example of the shape of the data that is returned
+ *      401:
+ *        $ref: ''
+ *      404: 
+ *        $ref: ''
+ *      500:
+ * */
 router.delete('/:id', restrictTo('admin'), (req, res) => {
   const { id } = req.params;
   try {
