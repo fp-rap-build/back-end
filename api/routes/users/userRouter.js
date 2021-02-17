@@ -3,32 +3,71 @@ const authRequired = require('../../middleware/authRequired');
 const Users = require('./userModel');
 const router = express.Router();
 const restrictTo = require('../../middleware/restrictTo');
+
+/** 
+  * @swagger
+  * components:
+  *   schemas:
+  *     User:
+  *       type: object
+  *       properties:
+  *         id:
+  *          type: string
+  *         email:
+  *           type: string
+  *         firstName:
+  *           type: string
+  *         lastName:
+  *           type: string
+  *         role: 
+  *           type: string
+  *         is_requesting_assistance:
+  *           type: boolean
+  *         request_status:
+  *           type: string
+  *         family_size:
+  *           type: number
+  *         income_id:
+  *           type: string
+  *         address_id:
+  *           type: string
+  *         organization_id:
+  *           type: string
+  * */
+
 /** 
  * @swagger
  * /me:
  *  get:
  *    summary: Attempts to request the current users profile.
  *    description: 
- *      add the description of what this endpoint does here
+ *     returns all the information about a user
  *    security:   
  *      - okta: []
  *    tags: 
  *      - users
- *    parameters:
- *      - $ref: ''
  *    responses: 
  *      200:
  *        description: add a description of what a successful response looks like
  *        content:
- *          application/json: 
+ *          application/json:
  *            schema:
  *              type: object
- *              description: add a description here
  *              items:
  *                anyOf:
- *                  - $ref: ''
- *                example: 
- *                  - Add an example of the shape of the data that is returned
+ *                  - $ref: '#/components/schemas/User'
+ *              example:
+ *                - id: "00u4o3bmgukEv4uzA5d6"
+ *                  email: "admin@gmail.com"
+ *                  firstName: "Tommy"
+ *                  lastName: "Shelby"
+ *                  role: "admin"
+ *                  is_requesting_assistance: false
+ *                  request_status: "pending"
+ *                  family_size: 0
+ *                  income_id: null
+ *                  address_id: null
+ *                  organization_id: null
  * */
 router.get('/me', authRequired, (req, res) => {
   const { user } = req;
