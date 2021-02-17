@@ -103,9 +103,20 @@ router.get('/me', authRequired, (req, res) => {
  *                example: 
  *                  - Add an example of the shape of the data that is returned
  *      500:
+ *        description: add a description of what a successful response looks like
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              description: add a description here
+ *              items:
+ *                anyOf:
+ *                  - $ref: ''
+ *                example:
+ *                  - Add an example of the shape of the data that is returned
  * */
 router.put('/me', authRequired, async (req, res) => {
-  const { id } = req.user;
+ const { id } = req.user;
 
 
   let role = req.body['role']
