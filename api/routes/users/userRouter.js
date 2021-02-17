@@ -14,6 +14,8 @@ const restrictTo = require('../../middleware/restrictTo');
  *      - okta: []
  *    tags: 
  *      - users
+ *    parameters:
+ *      - $ref: ''
  *    responses: 
  *      200:
  *        description: add a description of what a successful response looks like
@@ -54,7 +56,7 @@ router.get('/me', authRequired, (req, res) => {
  *        content:
  *          application/json: 
  *            schema:
- *              type: array
+ *              type: object
  *              description: add a description here
  *              items:
  *                anyOf:
@@ -99,15 +101,13 @@ router.put('/me', authRequired, async (req, res) => {
  *      - okta: []
  *    tags: 
  *      - users
- *    parameters:
- *      - $ref: ''
  *    responses: 
  *      200:
  *        description: add a description of what a successful response looks like
  *        content:
  *          application/json: 
  *            schema:
- *              type: array
+ *              type: object
  *              description: add a description here
  *              items:
  *                anyOf:
@@ -147,8 +147,6 @@ router.put('/me/address', authRequired, async (req, res) => {
  *      - okta: []
  *    tags: 
  *      - users
- *    parameters:
- *      - $ref: ''
  *    responses: 
  *      200:
  *        description: add a description of what a successful response looks like
@@ -185,8 +183,6 @@ router.get('/', authRequired, restrictTo('admin'), async (req, res) => {
  *      - okta: []
  *    tags: 
  *      - users
- *    parameters:
- *      - $ref: ''
  *    responses: 
  *      200:
  *        description: add a description of what a successful response looks like
@@ -200,10 +196,6 @@ router.get('/', authRequired, restrictTo('admin'), async (req, res) => {
  *                  - $ref: ''
  *                example: 
  *                  - Add an example of the shape of the data that is returned
- *      401:
- *        $ref: ''
- *      404: 
- *        $ref: ''
  *      500:
  * */
 router.get(
@@ -235,7 +227,7 @@ router.get(
  *    parameters:
  *      - $ref: ''
  *    responses: 
- *      200:
+ *      201:
  *        description: add a description of what a successful response looks like
  *        content:
  *          application/json: 
@@ -247,10 +239,6 @@ router.get(
  *                  - $ref: ''
  *                example: 
  *                  - Add an example of the shape of the data that is returned
- *      401:
- *        $ref: ''
- *      404: 
- *        $ref: ''
  *      500:
  * */
 router.post('/', authRequired, (req, res) => {
@@ -289,8 +277,6 @@ router.post('/', authRequired, (req, res) => {
  *                  - $ref: ''
  *                example: 
  *                  - Add an example of the shape of the data that is returned
- *      401:
- *        $ref: ''
  *      404: 
  *        $ref: ''
  *      500:
@@ -336,10 +322,6 @@ router.get('/:id', authRequired, restrictTo('admin'), (req, res) => {
  *                  - $ref: ''
  *                example: 
  *                  - Add an example of the shape of the data that is returned
- *      401:
- *        $ref: ''
- *      404: 
- *        $ref: ''
  *      500:
  * */
 router.get(
@@ -383,10 +365,6 @@ router.get(
  *                  - $ref: ''
  *                example: 
  *                  - Add an example of the shape of the data that is returned
- *      401:
- *        $ref: ''
- *      404: 
- *        $ref: ''
  *      500:
  * */
 router.put(
@@ -442,10 +420,6 @@ router.put(
  *                  - $ref: ''
  *                example: 
  *                  - Add an example of the shape of the data that is returned
- *      401:
- *        $ref: ''
- *      404: 
- *        $ref: ''
  *      500:
  * */
 router.put('/:id', authRequired, restrictTo('admin'), async (req, res) => {
@@ -486,10 +460,6 @@ router.put('/:id', authRequired, restrictTo('admin'), async (req, res) => {
  *                  - $ref: ''
  *                example: 
  *                  - Add an example of the shape of the data that is returned
- *      401:
- *        $ref: ''
- *      404: 
- *        $ref: ''
  *      500:
  * */
 router.delete('/:id', restrictTo('admin'), (req, res) => {
