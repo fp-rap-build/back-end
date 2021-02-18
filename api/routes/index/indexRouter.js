@@ -26,7 +26,7 @@ const router = express.Router();
  *                  example: true
  */
 router.get("/", (req, res) => {
-  res.status(200).json({ api: "up", timestamp: Date.now() });
+  res.status(200).json({ api: "test", timestamp: Date.now() });
 });
 
 module.exports = router;
