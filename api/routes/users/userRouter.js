@@ -12,7 +12,7 @@ router.get('/me', authRequired, (req, res) => {
 });
 
 
-router.put('/me', authRequired, async (req, res) => {
+router.put('/me', async (req, res) => {
   const { id } = req.user;
 
 
