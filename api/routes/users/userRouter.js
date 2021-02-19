@@ -186,7 +186,6 @@ router.get('/me', authRequired, (req, res) => {
 router.put('/me', authRequired, async (req, res) => {
  const { id } = req.user;
 
-
   let role = req.body['role']
 
   // Users can't update their role to admin or program manager
