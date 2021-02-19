@@ -1,7 +1,4 @@
-const request = require('supertest');
 const express = require('express');
-const Users = require('../../api/routes/users/userModel');
-const userRouter = require('../../api/routes/users/userRouter');
 
 const server = express();
 server.use(express.json());

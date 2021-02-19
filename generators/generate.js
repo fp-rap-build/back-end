@@ -17,7 +17,7 @@ const getName = () => `${faker.name.firstName()} ${faker.name.lastName()}`;
 const getAssistanceReq = () => faker.random.boolean();
 
 // Location data
-const getAddress = () => faker.address.streetAddress();
+// const getAddress = () => faker.address.streetAddress();
 const getPhoneNumber = () => faker.phone.phoneNumberFormat();
 
 // organization data
