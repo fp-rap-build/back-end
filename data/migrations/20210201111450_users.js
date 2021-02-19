@@ -16,8 +16,8 @@ exports.up = function (knex) {
       .defaultsTo("pending");
     tbl.boolean("isRequestingAssistance").defaultsTo(false);
     tbl
-      .enu("requestStatus", ["received", "inReview", "approved", "denied"])
-      .defaultsTo("received");
+      .enu("requestStatus", ["received", "inReview", "approved", "denied", "pending"])
+      .defaultsTo("pending");
     tbl.integer("familySize").defaultsTo(0);
     tbl
       .integer("monthlyIncome")
