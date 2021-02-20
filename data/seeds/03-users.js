@@ -20,7 +20,9 @@ exports.seed = function (knex) {
           lastName: "Shelby",
           role: "landlord",
           organizationId: 1,
-          addressId: 2
+          addressId: 2,
+          isRequestingAssistance: true,
+          requestStatus: 'received'
         },
         {
           id: "00u4o1di44exWPbUQ5d6",
@@ -28,7 +30,9 @@ exports.seed = function (knex) {
           firstName: "John",
           lastName: "Shelby",
           role: "tenant",
-          addressId: 3
+          addressId: 3,
+          isRequestingAssistance: true,
+          requestStatus: 'received'
         },
         {
           id: "00u4o22duEeEM1UIj5d6",
