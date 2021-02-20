@@ -1,5 +1,7 @@
 const db = require('../data/db-config');
 const Addr = require('../api/routes/addresses/addr-model');
+const { seed } = require('../data/seeds/01-addresses');
+const { expectedAudience } = require('../config/okta');
 
 //Mock Data:
 const addrs = [
@@ -26,9 +28,13 @@ const addrs = [
 //Organize DB
 // !! Ideally move migrate and rollback to before All - this is slowing the test down
 //Find a way around foreign key constraint when truncating addresses
-beforeEach(async () => {
+beforeAll(async () => {
   await db.migrate.rollback();
   await db.migrate.latest();
+});
+beforeEach(async () => {
+  await db.seed.run();
+  //Seeds add 4 addresses to table
 });
 afterAll(async () => {
   await db.destroy();
@@ -38,12 +44,13 @@ afterAll(async () => {
 describe('Address Model', () => {
   describe('CRUD Operations', () => {
     it('should insert provided addresses into the db', async () => {
-      await Addr.create(addrs[0]);
-      await Addr.create(addrs[1]);
+      const seedAddrs = await Addr.findAll();
+      const initialLength = seedAddrs.length;
 
+      await Addr.create(addrs[0]);
       const newAddrs = await Addr.findAll();
 
-      expect(newAddrs).toHaveLength(2);
+      expect(newAddrs.length).toBeGreaterThan(initialLength);
     });
     it('should update address and return success responce', async () => {
       await Addr.create(addrs[0]);
@@ -54,18 +61,15 @@ describe('Address Model', () => {
     });
     it('should delete address', async () => {
       await Addr.create(addrs[0]);
-      await Addr.create(addrs[1]);
+      await Addr.remove(5);
 
-      await Addr.remove(1);
+      const addrLength = await Addr.findAll();
 
-      const addrList = await Addr.findAll();
-
-      expect(addrList).toHaveLength(1);
+      expect(addrLength.length).toBe(4);
     });
     it('should find address by id', async () => {
-      await Addr.create(addrs[0]);
-
       const foundById = await Addr.findBy({ id: 1 });
+
       expect(foundById).toHaveLength(1);
     });
   });
