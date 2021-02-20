@@ -2,7 +2,7 @@ const request = require('supertest');
 const express = require('express');
 const Users = require('../../api/routes/users/userModel');
 const userRouter = require('../../api/routes/users/userRouter');
-const generatorData = require('../../api/generatorData');
+const mockAuthRequired = require('../../mock/mockAuthRequired')
 
 const server = express();
 server.use(express.json());
@@ -10,8 +10,9 @@ server.use(express.json());
 // mock the authId 
 
 // Mock authRequired middleware
+
 jest.mock('../../api/middleware/authRequired', () => {
-  jest.fn((req, res, next) => next());
+  return jest.fn((req,res,next) => next());
 });
 
 // Mock the database
