@@ -2,33 +2,39 @@ const request = require('supertest');
 const express = require('express');
 const Users = require('../../api/routes/users/userModel');
 const userRouter = require('../../api/routes/users/userRouter');
-const generatorData = require('../../api/generatorData');
+// const generatorData = require('../../api/generatorData/generate.js');
 
 const server = express();
 server.use(express.json());
 
 // mock the authId 
 
-// Mock authRequired middleware
-jest.mock('../../api/middleware/authRequired', () => {
-  jest.fn((req, res, next) => next());
-});
-
 // Mock the database
 jest.mock('../../api/routes/users/userModel');
+
+// Mock authRequired middleware
+jest.mock('../../api/middleware/authRequired', () => {
+  return jest.fn((req, res, next) =>  next());
+ 
+});
+
 
 // Test users/me route
 describe('User router endpoints', () => {
   beforeAll(() => {
     server.use(['/user', '/users'], userRouter);
-    jest.clearAllMocks();
   });
+  beforeEach(() => {
+    jest.clearAllMocks();
+  })
 
   describe('GET /me', () => {
     it('Should return 200', async () => {
       Users.findByIdAndUpdate.mockResolvedValue([]);
 
       const res = await request(server).get('/me');
+
+      expect(res.status).toBe(200);
     });
   });
 });
