@@ -1,9 +1,10 @@
 exports.up = function (knex) {
   return knex.schema.createTable("users", (tbl) => {
-    tbl.string("id").unique().notNullable();
-    tbl.string("email", 128).unique().notNullable();
+    tbl.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()"))
     tbl.string("firstName", 128).notNullable();
     tbl.string("lastName", 128).notNullable();
+    tbl.string("email", 128).unique().notNullable();
+    tbl.string('password', 256).notNullable()
     tbl
       .enu("role", [
         "pending",

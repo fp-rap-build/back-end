@@ -1,4 +1,6 @@
 
+const bcrypt = require('bcryptjs')
+
 exports.seed = function (knex) {
   return knex("users")
     .del()
@@ -6,18 +8,20 @@ exports.seed = function (knex) {
       // Inserts seed entries
       return knex("users").insert([
         {
-          id: "00u4o3bmgukEv4uzA5d6",
+          
           email: "admin@gmail.com",
           firstName: "Tommy",
           lastName: "Shelby",
+          password: bcrypt.hashSync('testpassword', 12),
           role: "admin",
           addressId: 1
         },
         {
-          id: "00u4o1ofebvodClCm5d6",
+
           email: "landlord@gmail.com",
           firstName: "John",
           lastName: "Shelby",
+          password: bcrypt.hashSync('testpassword', 12),
           role: "landlord",
           organizationId: 1,
           addressId: 2,
@@ -25,20 +29,22 @@ exports.seed = function (knex) {
           requestStatus: 'received'
         },
         {
-          id: "00u4o1di44exWPbUQ5d6",
+
           email: "tenant@gmail.com",
           firstName: "John",
           lastName: "Shelby",
+          password: bcrypt.hashSync('testpassword', 12),
           role: "tenant",
           addressId: 3,
           isRequestingAssistance: true,
           requestStatus: 'received'
         },
         {
-          id: "00u4o22duEeEM1UIj5d6",
+
           email: "pending@gmail.com",
           firstName: "Billy",
           lastName: "Kimber",
+          password: bcrypt.hashSync('testpassword', 12),
           addressId: 4
         },
       ]);
