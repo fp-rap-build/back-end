@@ -4,7 +4,7 @@ const Users = require('./userModel');
 const router = express.Router();
 const restrictTo = require('../../middleware/restrictTo');
 
-/** 
+/**
  * @swagger
  * components:
  *   schemas:
@@ -19,7 +19,7 @@ const restrictTo = require('../../middleware/restrictTo');
  *           type: string
  *         lastName:
  *           type: string
- *         role: 
+ *         role:
  *           type: string
  *         is_requesting_assistance:
  *           type: boolean
@@ -36,21 +36,21 @@ const restrictTo = require('../../middleware/restrictTo');
  *     User:
  *       type: object
  *       properties:
- *         id: 
+ *         id:
  *           type: string
- *         email: 
+ *         email:
  *           type: string
- *         firstName: 
+ *         firstName:
  *           type: string
- *         lastName: 
+ *         lastName:
  *           type: string
  *         role:
  *           type: string
- *         isRequestingAssistance: 
+ *         isRequestingAssistance:
  *           type: boolean
  *         requestStatus:
  *           type: string
- *         familySize: 
+ *         familySize:
  *           type: number
  *         monthlyIncome:
  *           type: float
@@ -58,7 +58,7 @@ const restrictTo = require('../../middleware/restrictTo');
  *           type: string
  *         state:
  *           type: string
- *         cityName: 
+ *         cityName:
  *           type: string
  *         zipCode:
  *           type: number
@@ -75,7 +75,7 @@ const restrictTo = require('../../middleware/restrictTo');
  *         code:
  *           type: integer
  *         message:
-*            type: string
+ *            type: string
  *   responses:
  *     ServerError:
  *       description: Unknown Server Error
@@ -103,18 +103,18 @@ const restrictTo = require('../../middleware/restrictTo');
  *             - $ref: '#/components/schemas/Error'
  * */
 
-/** 
+/**
  * @swagger
  * /me:
  *  get:
  *    summary: Attempts to request the current users profile.
- *    description: 
+ *    description:
  *     returns all the information about a user
- *    security:   
+ *    security:
  *      - okta: []
- *    tags: 
+ *    tags:
  *      - users
- *    responses: 
+ *    responses:
  *      200:
  *        description: add a description of what a successful response looks like
  *        content:
@@ -144,31 +144,31 @@ router.get('/me', authRequired, (req, res) => {
   });
 });
 
-/** 
+/**
  * @swagger
  * /me:
  *  put:
  *    summary: Attempts to request the current users profile.
- *    description: 
+ *    description:
  *      add the description of what this endpoint does here
- *    security:   
+ *    security:
  *      - okta: []
- *    tags: 
+ *    tags:
  *      - users
  *    parameters:
  *      - $ref: '#/components/parameters/id'
- *    responses: 
+ *    responses:
  *      200:
  *        description: add a description of what a successful response looks like
  *        content:
- *          application/json: 
+ *          application/json:
  *            schema:
  *              type: object
  *              description: add a description here
  *              items:
  *                anyOf:
  *                  - $ref: ''
- *                example: 
+ *                example:
  *                  - Add an example of the shape of the data that is returned
  *      500:
  *        description: add a description of what a successful response looks like
@@ -184,91 +184,89 @@ router.get('/me', authRequired, (req, res) => {
  *                  - Add an example of the shape of the data that is returned
  * */
 router.put('/me', authRequired, async (req, res) => {
- const { id } = req.user;
+  const { id } = req.user;
 
-  let role = req.body['role']
+  let role = req.body['role'];
 
   // Users can't update their role to admin or program manager
 
   if (role == 'admin' || role == 'programManager') {
-    req.body['role'] = undefined
+    req.body['role'] = undefined;
   }
 
-  let payload = req.body
+  let payload = req.body;
 
   try {
-    let updatedUser = await Users.findByIdAndUpdate(id, payload)
+    let updatedUser = await Users.findByIdAndUpdate(id, payload);
 
-    res.status(200).json({ user: updatedUser[0] })
-
+    res.status(200).json({ user: updatedUser[0] });
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ message: "Internal server error" })
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
-/** 
+/**
  * @swagger
  * /me/address:
  *  put:
  *    summary: Attempts to request the current users profile.
- *    description: 
+ *    description:
  *      add the description of what this endpoint does here
- *    security:   
+ *    security:
  *      - okta: []
- *    tags: 
+ *    tags:
  *      - users
- *    responses: 
+ *    responses:
  *      200:
  *        description: add a description of what a successful response looks like
  *        content:
- *          application/json: 
+ *          application/json:
  *            schema:
  *              type: object
  *              description: add a description here
  *              items:
  *                anyOf:
  *                  - $ref: ''
- *                example: 
+ *                example:
  *                  - Add an example of the shape of the data that is returned
  *      500:
  * */
 router.put('/me/address', authRequired, async (req, res) => {
-  let { id } = req.user
+  let { id } = req.user;
 
   // Make it impossible to update the id
-  req.body['id'] = undefined
+  req.body['id'] = undefined;
 
-  let payload = req.body
+  let payload = req.body;
 
   try {
-    let user = await Users.findById(id)
+    let user = await Users.findById(id);
 
-    let updatedAddress = await Users.updateAddressById(user.addressId, payload)
+    let updatedAddress = await Users.updateAddressById(user.addressId, payload);
 
-    res.status(200).json({ address: updatedAddress[0] })
-
+    res.status(200).json({ address: updatedAddress[0] });
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({ message: error.message });
   }
-})
+});
 
-/** 
+/**
  * @swagger
  * /:
  *  get:
  *    summary: Attempts to request the data of all users in the database
- *    description: 
+ *    description:
  *      add the description of what this endpoint does here
- *    security:   
+ *    security:
  *      - okta: []
- *    tags: 
+ *    tags:
  *      - users
- *    responses: 
+ *    responses:
  *      200:
  *        description: add a description of what a successful response looks like
  *        content:
- *          application/json: 
+ *          application/json:
  *            schema:
  *              type: array
  *              description: add a description here
@@ -308,36 +306,36 @@ router.put('/me/address', authRequired, async (req, res) => {
 router.get('/', authRequired, restrictTo('admin'), async (req, res) => {
   try {
     let users = await Users.findAll();
-    console.log(users)
+    console.log(users);
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-/** 
+/**
  * @swagger
  * /requests:
  *  get:
  *    summary: Attempts to request all users that have request for assistance
- *    description: 
+ *    description:
  *      add the description of what this endpoint does here
- *    security:   
+ *    security:
  *      - okta: []
- *    tags: 
+ *    tags:
  *      - users
- *    responses: 
+ *    responses:
  *      200:
  *        description: Returns an array of objects that contain the data for all users with at minimum a request with a status of recieved
  *        content:
- *          application/json: 
+ *          application/json:
  *            schema:
  *              type: array
  *              description: add a description here
  *              items:
  *                anyOf:
  *                  - $ref: '#/components/schemas/User'
- *                example: 
+ *                example:
  *                  - id: "00u4o1ofebvodClCm5d6"
  *                    email: "landlord@gmail.com"
  *                    firstName: "John"
@@ -352,7 +350,7 @@ router.get('/', authRequired, restrictTo('admin'), async (req, res) => {
  *                    cityName: "Spokane"
  *                    zipCode: 99202
  *      500:
- *       $ref: '#/components/responses/ServerError'     
+ *       $ref: '#/components/responses/ServerError'
  * */
 router.get(
   '/requests',
@@ -369,31 +367,31 @@ router.get(
   }
 );
 
-/** 
+/**
  * @swagger
  * /:
  *  post:
  *    summary: Attempts to request the current users profile.
- *    description: 
+ *    description:
  *      add the description of what this endpoint does here
- *    security:   
+ *    security:
  *      - okta: []
- *    tags: 
+ *    tags:
  *      - users
  *    parameters:
  *      - $ref: ''
- *    responses: 
+ *    responses:
  *      201:
  *        description: add a description of what a successful response looks like
  *        content:
- *          application/json: 
+ *          application/json:
  *            schema:
  *              type: array
  *              description: add a description here
  *              items:
  *                anyOf:
  *                  - $ref: ''
- *                example: 
+ *                example:
  *                  - Add an example of the shape of the data that is returned
  *      500:
  * */
@@ -408,30 +406,30 @@ router.post('/', (req, res) => {
     });
 });
 
-/** 
+/**
  * @swagger
  * /{id}:
  *  get:
  *    summary: Attempts to request the users profile with the specified id.
- *    description: 
+ *    description:
  *      Sends a request to retrieve all the data in the users table for the user with the specified ID
- *    security:   
+ *    security:
  *      - okta: []
- *    tags: 
+ *    tags:
  *      - users
  *    parameters:
  *      - $ref: '#/components/schemas/User'
- *    responses: 
+ *    responses:
  *      200:
- *        description: Returns all the data about a user with the specified id 
+ *        description: Returns all the data about a user with the specified id
  *        content:
- *          application/json: 
+ *          application/json:
  *            schema:
  *              description: add a description here
  *              items:
  *                anyOne:
  *                  - $ref: '#/components/responses/Success'
- *                example: 
+ *                example:
  *                  - id: "00u4o3bmgukEv4uzA5d6"
  *                    email: "admin@gmail.com"
  *                    firstName: "Tommy"
@@ -443,7 +441,7 @@ router.post('/', (req, res) => {
  *                    monthlyIncome: 2000.00
  *                    addressId: 1
  *                    organizationId: 3
- *      404: 
+ *      404:
  *        $ref: ''
  *      500:
  * */
@@ -462,37 +460,37 @@ router.get('/:id', authRequired, restrictTo('admin'), (req, res) => {
     });
 });
 
-/** 
+/**
  * @swagger
  * /{id}/address/:
  *  get:
  *    summary: Attempts to request the address of the current user
- *    description: 
+ *    description:
  *      add the description of what this endpoint does here
- *    security:   
+ *    security:
  *      - okta: []
- *    tags: 
+ *    tags:
  *      - users
  *    parameters:
  *      - $ref: '#/components/schemas/User'
- *    responses: 
+ *    responses:
  *      200:
- *        description: Returns the users address 
+ *        description: Returns the users address
  *        content:
- *          application/json: 
+ *          application/json:
  *            schema:
  *              type: array
  *              description: The address of the user with the id given in the parameters
  *              items:
  *                anyOne:
  *                  - $ref: '#/components/responses/Success'
- *                example: 
+ *                example:
  *                  - address:
  *                      - address: "904 E. Hartson Ave"
  *                        state: "WA"
  *                        cityName: "Spokane"
  *                        zipCode: 99202
- *                          
+ *
  *      500:
  * */
 router.get(
@@ -510,31 +508,31 @@ router.get(
   }
 );
 
-/** 
+/**
  * @swagger
  * /{id}/address:
  *  put:
  *    summary: Attempts to request the current users profile.
- *    description: 
+ *    description:
  *      add the description of what this endpoint does here
- *    security:   
+ *    security:
  *      - okta: []
- *    tags: 
+ *    tags:
  *      - users
  *    parameters:
  *      - $ref: ''
- *    responses: 
+ *    responses:
  *      200:
  *        description: add a description of what a successful response looks like
  *        content:
- *          application/json: 
+ *          application/json:
  *            schema:
  *              type: array
  *              description: add a description here
  *              items:
  *                anyOf:
  *                  - $ref: ''
- *                example: 
+ *                example:
  *                  - Add an example of the shape of the data that is returned
  *      500:
  * */
@@ -565,31 +563,31 @@ router.put(
   }
 );
 
-/** 
+/**
  * @swagger
  * /{id}:
  *  put:
  *    summary: Attempts to request the current users profile.
- *    description: 
+ *    description:
  *      add the description of what this endpoint does here
- *    security:   
+ *    security:
  *      - okta: []
- *    tags: 
+ *    tags:
  *      - users
  *    parameters:
  *      - $ref: ''
- *    responses: 
+ *    responses:
  *      200:
  *        description: add a description of what a successful response looks like
  *        content:
- *          application/json: 
+ *          application/json:
  *            schema:
  *              type: array
  *              description: add a description here
  *              items:
  *                anyOf:
  *                  - $ref: ''
- *                example: 
+ *                example:
  *                  - Add an example of the shape of the data that is returned
  *      500:
  * */
@@ -598,38 +596,38 @@ router.put('/:id', authRequired, restrictTo('admin'), async (req, res) => {
   const { id } = req.params;
 
   try {
-    const updatedUser = await Users.findByIdAndUpdate(id, payload)
-    res.status(200).json({ user: updatedUser[0] })
+    const updatedUser = await Users.findByIdAndUpdate(id, payload);
+    res.status(200).json({ user: updatedUser[0] });
   } catch (error) {
-    res.status(500).json({ message: 'Internal service error' })
+    res.status(500).json({ message: 'Internal service error' });
   }
 });
 
-/** 
+/**
  * @swagger
  * /{id}:
  *  delete:
  *    summary: Attempts to request the current users profile.
- *    description: 
+ *    description:
  *      add the description of what this endpoint does here
- *    security:   
+ *    security:
  *      - okta: []
- *    tags: 
+ *    tags:
  *      - users
  *    parameters:
  *      - $ref: ''
- *    responses: 
+ *    responses:
  *      200:
  *        description: add a description of what a successful response looks like
  *        content:
- *          application/json: 
+ *          application/json:
  *            schema:
  *              type: array
  *              description: add a description here
  *              items:
  *                anyOf:
  *                  - $ref: ''
- *                example: 
+ *                example:
  *                  - Add an example of the shape of the data that is returned
  *      500:
  * */

@@ -1,18 +1,36 @@
 const db = require('../../../data/db-config');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
 
 const findAll = async (query = {}) =>
-  await db('users as u').join('addresses as a', 'u.addressId', '=', 'a.id').select('u.id', 'u.email', 'u.firstName', 'u.lastName', 'u.role', 'u.isRequestingAssistance', 'u.requestStatus', 'u.familySize', 'u.monthlyIncome', 'a.address', 'a.state', 'a.cityName', 'a.zipCode').modify((qb) => {
-    if (query.isRequestingAssistance) {
-      qb.where({ isRequestingAssistance: true });
-    }
-  })
+  await db('users as u')
+    .join('addresses as a', 'u.addressId', '=', 'a.id')
+    .select(
+      'u.id',
+      'u.email',
+      'u.firstName',
+      'u.lastName',
+      'u.role',
+      'u.isRequestingAssistance',
+      'u.requestStatus',
+      'u.familySize',
+      'u.monthlyIncome',
+      'a.address',
+      'a.state',
+      'a.cityName',
+      'a.zipCode'
+    )
+    .modify((qb) => {
+      if (query.isRequestingAssistance) {
+        qb.where({ isRequestingAssistance: true });
+      }
+    });
 
-const findBy = (filter) => db('users').where(filter);
+const findBy = async (filter) => await db('users').where(filter);
 
 const findById = async (id) => db('users').where({ id }).first('*');
 
-const findByIdAndUpdate = async (id, payload) => await db('users').where({ id }).update(payload).returning('*')
+const findByIdAndUpdate = async (id, payload) =>
+  await db('users').where({ id }).update(payload).returning('*');
 
 const findAddressByUserId = async (id) =>
   await db('users')
@@ -37,7 +55,6 @@ const updateAddressById = async (addressId, payload) =>
 const findByOktaId = async (okta_id) => db('users').where({ okta_id });
 
 const create = async (user) => {
-
   // Create an empty address for the user and set the addressId
 
   let newAddress = await db('addresses').insert({}).returning('*');
@@ -46,9 +63,9 @@ const create = async (user) => {
 
   // Encrypt password
 
-  user['password'] = await bcrypt.hash(user['password'],12)
+  user['password'] = await bcrypt.hash(user['password'], 12);
 
-  return db('users').insert(user).returning('*')
+  return db('users').insert(user).returning('*');
 };
 
 const update = (id, profile) => {
@@ -87,5 +104,5 @@ module.exports = {
   findOrCreateProfile,
   findAddressByUserId,
   findOrCreateAddress,
-  updateAddressById
+  updateAddressById,
 };

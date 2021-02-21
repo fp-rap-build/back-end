@@ -1,11 +1,11 @@
-const express = require("express");
-const authRequired = require("../../middleware/authRequired");
+const express = require('express');
+const authRequired = require('../../middleware/authRequired');
 
-const Addr = require("./addr-model");
+const Addr = require('./addr-model');
 const router = express.Router();
-const restrictTo = require("../../middleware/restrictTo");
+const restrictTo = require('../../middleware/restrictTo');
 
-router.get("/", authRequired, restrictTo("admin"), async (req, res) => {
+router.get('/', authRequired, restrictTo('admin'), async (req, res) => {
   try {
     const addrs = await Addr.findAll();
     res.status(200).json(addrs);
@@ -14,7 +14,7 @@ router.get("/", authRequired, restrictTo("admin"), async (req, res) => {
   }
 });
 
-router.get("/:id", authRequired, restrictTo("admin"), async (req, res) => {
+router.get('/:id', authRequired, restrictTo('admin'), async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -25,7 +25,7 @@ router.get("/:id", authRequired, restrictTo("admin"), async (req, res) => {
   }
 });
 
-router.post("/", authRequired, restrictTo("admin"), async (req, res) => {
+router.post('/', authRequired, restrictTo('admin'), async (req, res) => {
   const newAddr = req.body;
   try {
     const addedAddr = await Addr.create(newAddr);
@@ -35,22 +35,22 @@ router.post("/", authRequired, restrictTo("admin"), async (req, res) => {
   }
 });
 
-router.put("/:id", authRequired, restrictTo("admin"), async (req, res) => {
+router.put('/:id', authRequired, restrictTo('admin'), async (req, res) => {
   const { id } = req.params;
   const changes = req.body;
   try {
     const updated = await Addr.update(id, changes);
-    res.status(200).json({ message: "You succesfully updated your address" });
+    res.status(200).json({ message: 'You succesfully updated your address' });
   } catch (err) {
     res.status(500).json({ errorMessage: err });
   }
 });
 
-router.delete("/:id", authRequired, restrictTo("admin"), async (req, res) => {
+router.delete('/:id', authRequired, restrictTo('admin'), async (req, res) => {
   const { id } = req.params;
   try {
     await Addr.remove(id);
-    res.status(200).json({ message: "Address deleted!" });
+    res.status(200).json({ message: 'Address deleted!' });
   } catch (err) {
     res.status(500).json({ errorMessage: err });
   }

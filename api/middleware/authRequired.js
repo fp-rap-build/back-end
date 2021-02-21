@@ -1,7 +1,7 @@
-const createError = require("http-errors");
-const OktaJwtVerifier = require("@okta/jwt-verifier");
-const oktaVerifierConfig = require("../../config/okta");
-const Users = require("../routes/users/userModel");
+const createError = require('http-errors');
+const OktaJwtVerifier = require('@okta/jwt-verifier');
+const oktaVerifierConfig = require('../../config/okta');
+const Users = require('../routes/users/userModel');
 
 const oktaJwtVerifier = new OktaJwtVerifier(oktaVerifierConfig.config);
 
@@ -9,7 +9,7 @@ const makeProfileObj = (claims) => {
   let id,
     email,
     firstName,
-    lastName = "";
+    lastName = '';
 
   if (claims.firstName) {
     firstName = claims.firstName;
@@ -20,7 +20,7 @@ const makeProfileObj = (claims) => {
   }
 
   if (claims.name) {
-    firstName = claims.name.split(" ")[0];
+    firstName = claims.name.split(' ')[0];
   }
 
   id = claims.sub;
@@ -44,10 +44,10 @@ const makeProfileObj = (claims) => {
 
 const authRequired = async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization || "";
+    const authHeader = req.headers.authorization || '';
     const match = authHeader.match(/Bearer (.+)/);
 
-    if (!match) throw new Error("Missing idToken");
+    if (!match) throw new Error('Missing idToken');
 
     const idToken = match[1];
 
@@ -59,13 +59,13 @@ const authRequired = async (req, res, next) => {
         if (user) {
           req.user = user;
         } else {
-          throw new Error("Unable to process idToken");
+          throw new Error('Unable to process idToken');
         }
         next();
       })
       .catch((e) => {
         console.log(e);
-        res.status(401).json({ message: "Invalid token" });
+        res.status(401).json({ message: 'Invalid token' });
       });
   } catch (err) {
     next(createError(401, err.message));

@@ -1,27 +1,27 @@
-const db = require("../../../data/db-config");
+const db = require('../../../data/db-config');
 
 const findAll = () => {
-  return db("organizations");
+  return db('organizations');
 };
 
 const findById = (id) => {
-  return db("organizations").where("id", id).first();
+  return db('organizations').where('id', id).first();
 };
 
-const findBy = name => {
-  return db("organizations").where(name).first;
-}
+const findBy = (name) => {
+  return db('organizations').where(name).first;
+};
 
 const create = (org) => {
-  return db("organizations").insert(org).returning("*");
+  return db('organizations').insert(org).returning('*');
 };
 
 const update = (id, org) => {
-  return db("organizations").where("id", id).update(org);
+  return db('organizations').where('id', id).update(org);
 };
 
 const remove = (id) => {
-  return db("organizations").where("id", id).del();
+  return db('organizations').where('id', id).del();
 };
 
 module.exports = {
@@ -30,5 +30,5 @@ module.exports = {
   create,
   update,
   remove,
-  findBy
+  findBy,
 };

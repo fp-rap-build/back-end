@@ -6,7 +6,7 @@ const userRouter = require('../../api/routes/users/userRouter');
 const server = express();
 server.use(express.json());
 
-// mock the authId 
+// mock the authId
 
 // Mock authRequired middleware
 jest.mock('../../api/middleware/authRequired', () => {
