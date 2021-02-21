@@ -25,6 +25,7 @@ const userRouter = require("./routes/users/userRouter");
 const dsRouter = require("./routes/dsService/dsRouter");
 const orgRouter = require("./routes/organizations/org-router");
 const addrRouter = require("./routes/addresses/addr-router");
+const authRouter = require('./routes/auth/authRouter')
 
 const app = express();
 
@@ -53,6 +54,7 @@ app.use(cookieParser());
 
 // application routes
 app.use("/", indexRouter);
+app.use('/auth', authRouter)
 app.use(["/user", "/users"], userRouter);
 app.use("/data", dsRouter);
 app.use("/orgs", orgRouter);

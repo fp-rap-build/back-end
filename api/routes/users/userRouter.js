@@ -397,7 +397,8 @@ router.get(
  *                  - Add an example of the shape of the data that is returned
  *      500:
  * */
-router.post('/', authRequired, (req, res) => {
+
+router.post('/', (req, res) => {
   Users.findOrCreateProfile(req.body)
     .then(() => {
       res.status(201).json({ message: 'Profile created' });
