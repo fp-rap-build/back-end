@@ -9,8 +9,9 @@ const checkIfUserExists = async (req,res,next) => {
         // Try to find a user with that email
         let user = await User.findBy({ email })
 
-        // User exists, so let's throw an error
-        if(user){
+        let userExists = user.length > 0
+
+        if(userExists){
             return res.status(400).json({ message: "User with that email already exists" })
         }
 
