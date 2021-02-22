@@ -22,7 +22,8 @@ exports.seed = function (knex) {
           organizationId: 1,
           addressId: 2,
           isRequestingAssistance: true,
-          requestStatus: 'received'
+          requestStatus: 'received',
+          monthlyIncome: 1100
         },
         {
           id: "00u4o1di44exWPbUQ5d6",
@@ -32,7 +33,8 @@ exports.seed = function (knex) {
           role: "tenant",
           addressId: 3,
           isRequestingAssistance: true,
-          requestStatus: 'received'
+          requestStatus: 'received',
+          monthlyIncome: 1100
         },
         {
           id: "00u4o22duEeEM1UIj5d6",
