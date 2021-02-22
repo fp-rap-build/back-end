@@ -1,6 +1,5 @@
-
 const User = require('../routes/users/userModel');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 
 const authRequired = async (req, res, next) => {
@@ -13,10 +12,12 @@ const authRequired = async (req, res, next) => {
   }
 
   if (!token) {
-    return res.status(401).json({ message: 'You are not logged in! Please log in to get access' })  
+    return res
+      .status(401)
+      .json({ message: 'You are not logged in! Please log in to get access' });
   }
 
-  // 2) Verification token
+  // 2) Verify token
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
@@ -24,12 +25,14 @@ const authRequired = async (req, res, next) => {
   const currentUser = await User.findById(decoded.id);
 
   if (!currentUser) {
-   return res.status(401).json({ message: "The user belonging to this token no longer exists" })
+    return res
+      .status(401)
+      .json({ message: 'The user belonging to this token no longer exists' });
   }
 
   // Hide password
-  
-  currentUser['password'] = undefined
+
+  currentUser['password'] = undefined;
 
   // GRANT ACCESS TO PROTECTED ROUTE
   req.user = currentUser;

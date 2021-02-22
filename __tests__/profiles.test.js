@@ -1,7 +1,7 @@
 const request = require('supertest');
 const express = require('express');
-const Users = require('../../api/routes/users/userModel');
-const userRouter = require('../../api/routes/users/userRouter');
+const Users = require('../api/routes/users/userModel');
+const userRouter = require('../api/routes/users/userRouter');
 
 const server = express();
 server.use(express.json());
@@ -9,12 +9,12 @@ server.use(express.json());
 // mock the authId
 
 // Mock authRequired middleware
-jest.mock('../../api/middleware/authRequired', () => {
+jest.mock('../api/middleware/authRequired', () => {
   return jest.fn((req, res, next) => next());
 });
 
 // Mock the database
-jest.mock('../../api/routes/users/userModel');
+jest.mock('../api/routes/users/userModel');
 
 // Test users/me route
 describe('User router endpoints', () => {

@@ -17,7 +17,7 @@ router.post('/login', async (req, res, next) => {
     // Check if user exists and password is correct
 
     let user = await User.findBy({ email });
-    
+
     let userExists = user.length !== 0;
     let passwordsMatch = null;
 
@@ -31,12 +31,12 @@ router.post('/login', async (req, res, next) => {
 
     // If everything is ok, send token to client
 
-    const token = signToken(user[0].id)
+    const token = signToken(user[0].id);
 
     res.status(200).json({
-        status: 'Success',
-        token, 
-        user: user[0]
+      status: 'Success',
+      token,
+      user: user[0],
     });
   } catch (error) {
     res.status(500).send({ error });
@@ -63,7 +63,7 @@ router.post('/register', async (req, res, next) => {
 
     // Generate a token
 
-    const token = signToken(user.id)
+    const token = signToken(user.id);
 
     res.status(200).json({
       status: 'success',
@@ -71,7 +71,7 @@ router.post('/register', async (req, res, next) => {
       user,
     });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: error });
   }
 });
 
