@@ -16,9 +16,8 @@ exports.up = function (knex) {
         'inReview',
         'approved',
         'denied',
-        'pending',
       ])
-      .defaultsTo('pending');
+      .defaultsTo('received');
     tbl.integer('familySize').defaultsTo(0);
     tbl.integer('monthlyIncome').unsigned();
     tbl
