@@ -33,6 +33,10 @@ router.post('/login', async (req, res, next) => {
 
     const token = signToken(user[0].id);
 
+    // Hide password
+
+    user[0]['password'] = undefined
+
     res.status(200).json({
       status: 'Success',
       token,
