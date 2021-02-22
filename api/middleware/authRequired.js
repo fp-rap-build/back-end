@@ -4,6 +4,9 @@ const { promisify } = require('util');
 
 const authRequired = async (req, res, next) => {
   let token;
+
+  console.log(req.headers)
+
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
@@ -19,24 +22,32 @@ const authRequired = async (req, res, next) => {
 
   // 2) Verify token
 
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  // 3) Check if user still exists
-  const currentUser = await User.findById(decoded.id);
+  try {
+    
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  
+    // 3) Check if user still exists
+    const currentUser = await User.findById(decoded.id);
+  
+    if (!currentUser) {
+      return res
+        .status(401)
+        .json({ message: 'The user belonging to this token no longer exists' });
+    }
+  
+    // Hide password
+  
+    currentUser['password'] = undefined;
+  
+    // GRANT ACCESS TO PROTECTED ROUTE
+    req.user = currentUser;
+    next();
 
-  if (!currentUser) {
-    return res
-      .status(401)
-      .json({ message: 'The user belonging to this token no longer exists' });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" })
   }
 
-  // Hide password
-
-  currentUser['password'] = undefined;
-
-  // GRANT ACCESS TO PROTECTED ROUTE
-  req.user = currentUser;
-  next();
 };
 
 module.exports = authRequired;

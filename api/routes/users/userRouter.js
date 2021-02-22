@@ -396,14 +396,27 @@ router.get(
  *      500:
  * */
 
-router.post('/', (req, res) => {
-  Users.findOrCreateProfile(req.body)
-    .then(() => {
-      res.status(201).json({ message: 'Profile created' });
-    })
-    .catch(() => {
-      res.status(500).json({ message: 'Unable to create profile' });
-    });
+router.post('/', authRequired, restrictTo('admin') ,async (req, res) => {
+    try {
+      // Create user
+
+      const newUser = await Users.create(req.body)
+
+      // hide password
+
+      newUser[0]['password'] = undefined
+
+      // Send back the newly created user
+
+      res.status(201).json({
+        user: newUser[0]
+      })
+
+    } catch (error) {
+      res.status(500).json({
+        message: "Internal server error"
+      })
+    }
 });
 
 /**
