@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../users/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { checkIfUserExists } = require('./middleware')
 
 router.post('/login', async (req, res, next) => {
   const { email, password } = req.body;
@@ -47,7 +48,7 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
-router.post('/register', async (req, res, next) => {
+router.post('/register', checkIfUserExists ,async (req, res, next) => {
   let payload = req.body;
 
   // Users can't give themselves a role of admin or program manager

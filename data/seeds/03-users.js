@@ -21,6 +21,7 @@ exports.seed = function (knex) {
           password: bcrypt.hashSync('testpassword', 12),
           role: 'landlord',
           organizationId: 1,
+          familySize: 3,
           addressId: 2,
           isRequestingAssistance: true,
           requestStatus: 'received',
@@ -28,22 +29,16 @@ exports.seed = function (knex) {
         },
         {
           email: 'tenant@gmail.com',
-          firstName: 'John',
-          lastName: 'Shelby',
+          firstName: 'Billy',
+          lastName: 'Kimber',
+          familySize: 4,
           password: bcrypt.hashSync('testpassword', 12),
           role: 'tenant',
           addressId: 3,
           isRequestingAssistance: true,
           requestStatus: 'received',
           monthlyIncome: 400
-        },
-        {
-          email: 'pending@gmail.com',
-          firstName: 'Billy',
-          lastName: 'Kimber',
-          password: bcrypt.hashSync('testpassword', 12),
-          addressId: 4,
-        },
+        }
       ]);
     });
 };
