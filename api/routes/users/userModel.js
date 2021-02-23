@@ -1,4 +1,5 @@
 const db = require('../../../data/db-config');
+const bcrypt = require('bcryptjs');
 
 const findAll = async (query = {}) =>
   await db('users as u')
@@ -24,12 +25,17 @@ const findAll = async (query = {}) =>
       }
     });
 
-const findBy = (filter) => db('users').where(filter);
+
+const findBy = async (filter) => await db('users').where(filter);
+
 
 const findById = async (id) => db('users').where({ id }).first('*');
 
 const findByIdAndUpdate = async (id, payload) =>
   await db('users').where({ id }).update(payload).returning('*');
+
+const findByIdAndDelete = async (id) => await db('users').where({ id }).del();
+
 
 const findAddressByUserId = async (id) =>
   await db('users')
@@ -53,7 +59,19 @@ const updateAddressById = async (addressId, payload) =>
 
 const findByOktaId = async (okta_id) => db('users').where({ okta_id });
 
-const create = async (profile) => db('users').insert(profile).returning('*');
+const create = async (user) => {
+  // Create an empty address for the user and set the addressId
+
+  let newAddress = await db('addresses').insert({}).returning('*');
+
+  user['addressId'] = newAddress[0].id;
+
+  // Encrypt password
+
+  user['password'] = await bcrypt.hash(user['password'], 12);
+
+  return db('users').insert(user).returning('*');
+};
 
 const update = (id, profile) => {
   return db('users').where({ id }).first().update(profile).returning('*');
@@ -83,6 +101,7 @@ module.exports = {
   findBy,
   findById,
   findByIdAndUpdate,
+  findByIdAndDelete,
   findByOktaId,
   create,
   update,
