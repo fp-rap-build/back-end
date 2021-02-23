@@ -1,7 +1,8 @@
 const db = require('../data/db-config');
 const Addr = require('../api/routes/addresses/addr-model');
 const Orgs = require('../api/routes/organizations/org-model');
-
+const { update } = require('../data/db-config');
+const { ExpectationFailed } = require('http-errors');
 
 //Mock Data:
 const addrs = [
@@ -32,7 +33,7 @@ const testOrgs = [
   {
     organization: 'Non-Profit',
   },
-]
+];
 //Organize DB
 // !! Ideally move migrate and rollback to before All - this is slowing the test down
 //Find a way around foreign key constraint when truncating addresses
@@ -59,7 +60,7 @@ describe('Address Model', () => {
 
       expect(newAddrs.length).toBeGreaterThan(initialLength);
     });
-    it('should update address and return success responce', async () => {
+    it('should update address and return success response', async () => {
       await Addr.create(addrs[0]);
       const updated = await Addr.update(1, addrs[1]);
 
@@ -84,12 +85,37 @@ describe('Address Model', () => {
 
 describe('Organization Model', () => {
   describe('Crud Operations', () => {
-    it('Should insert organization into db', async () => {
+    it('should insert organization into db', async () => {
       await Orgs.create(testOrgs[0]);
+
       const allOrgs = await Orgs.findAll();
 
       expect(allOrgs.length).toBe(4);
     });
+    it('should update organization and return success response', async () => {
+      await Orgs.create(testOrgs[0]);
+
+      const updateRes = await Orgs.update(4, testOrgs[1]);
+      const updatedOrg = await Orgs.findById(4);
+
+      expect(updateRes).toBe(1);
+      expect(updatedOrg.organization).toBe('Non-Profit');
+    });
+    it('should delete target organization', async () => {
+      await Orgs.create(testOrgs[0]);
+
+      const deleteRes = await Orgs.remove(4);
+      const allOrgs = await Orgs.findAll();
+
+      expect(deleteRes).toBe(1);
+      expect(allOrgs.length).toBe(3);
+    });
+    // it('should find organization by name', async () => {
+    //   await Orgs.create(testOrgs[0]);
+
+    //   const foundOrg = await Orgs.findBy('Test organization');
+
+    //   expect(foundOrg.organization).toBe('Test organization'); 
+    // });
   });
 });
-
