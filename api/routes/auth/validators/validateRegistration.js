@@ -1,5 +1,7 @@
 const { check, validationResult } = require('express-validator');
 
+const validRoles = ['tenant', 'landlord'];
+
 module.exports = [
   check('firstName')
     .notEmpty()
