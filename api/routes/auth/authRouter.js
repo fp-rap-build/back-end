@@ -11,6 +11,6 @@ const { checkIfUserExists } = require('./middleware');
 
 router.post('/login', validateLogin, loginUser);
 
-router.post('/register', checkIfUserExists, validateRegistration, registerUser);
+router.post('/register', validateRegistration, registerUser);
 
 module.exports = router;
