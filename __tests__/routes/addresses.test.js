@@ -28,10 +28,12 @@ const addrs = [
 //Organize DB
 // !! Ideally move migrate and rollback to before All - this is slowing the test down
 //Find a way around foreign key constraint when truncating addresses
+
 beforeAll(async () => {
-  await db.migrate.rollback();
-  await db.migrate.latest();
-});
+	await db.migrate.rollback()
+	await db.migrate.latest()
+})
+
 beforeEach(async () => {
   await db.seed.run();
   //Seeds add 4 addresses to table

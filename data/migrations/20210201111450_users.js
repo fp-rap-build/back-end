@@ -20,8 +20,6 @@ exports.up = function (knex) {
       .unsigned()
       .references('id')
       .inTable('addresses')
-      .onDelete('RESTRICT')
-      .onUpdate('RESTRICT');
     tbl
       .integer('organizationId')
       .unsigned()
