@@ -130,6 +130,38 @@ describe('Auth router endpoints', () => {
       expect(res.status).toBe(422);
       expect(res.body.errors).toBeTruthy();
     });
+
+    it('Responds with 401 when user does not exist', async () => {
+
+      const nonExistentUser = {
+        email: "iDontExist@gmail.com",
+        password: "testpassword"
+      }
+
+      let res = await supertest(app).post('/auth/login').send(nonExistentUser)
+
+      expect(res.type).toBe('application/json')
+      expect(res.status).toBe(401)
+      expect(res.body.message).toBe('Incorrect email or password')
+    })
+
+    it('Responds with 401 when passwords do not match', async () => {
+      const userWithInvalidPassword = {
+        email: "tenant@gmail.com",
+        password: "Wrongpassword123"
+      }
+
+      // Login
+
+      let res = await supertest(app).post('/auth/login').send(userWithInvalidPassword)
+
+      // Assertions
+
+      expect(res.type).toBe('application/json')
+      expect(res.status).toBe(401)
+      expect(res.body.message).toBe('Incorrect email or password')
+
+    })
   });
 
   describe('Protected routes', () => {
