@@ -1,7 +1,7 @@
 const { default: expectCt } = require('helmet/dist/middlewares/expect-ct');
 const supertest = require('supertest');
-const app = require('../api/app'); // the express server
-const db = require('../data/db-config');
+const app = require('../../api/app'); // the express server
+const db = require('../../data/db-config');
 
 beforeAll(async () => {
   await db.migrate.rollback();
@@ -16,7 +16,7 @@ afterAll(async () => {
   await db.destroy();
 });
 
-describe('Authentication routes', () => {
+describe('Auth router endpoints', () => {
   describe('POST /auth/register', () => {
     const testUser = {
       firstName: 'test',
@@ -130,6 +130,36 @@ describe('Authentication routes', () => {
       expect(res.status).toBe(422)
       expect(res.body.errors).toBeTruthy()
     })
-
   });
+
+  describe('Protected routes', () => {
+    const userCredentials = {
+      email: "admin@gmail.com",
+      password: "testpassword"
+    }
+
+    it('Responds with 200 when accessing a protected route with valid token', async () => {
+      // Login
+
+      let loginResponse = await supertest(app).post('/auth/login').send(userCredentials)
+
+      const { token } = loginResponse.body
+
+      // Hit the protected endpoint
+
+      let res = await supertest(app).get('/users/me').set('authorization', `Bearer ${token}`)
+
+      // Assertions
+
+      expect(res.status).toBe(200)
+    })
+
+    it('Responds with 401 when accessing a protected route without a valid token', async () => {
+        let res = await supertest(app).get('/users/me')
+
+        expect(res.type).toBe('application/json')
+        expect(res.status).toBe(401)
+        expect(res.body.message).toBe('You are not logged in! Please log in to get access')
+    })
+  })
 });
