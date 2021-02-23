@@ -35,7 +35,7 @@ const getRole = () =>
 const getId = () => faker.random.number();
 
 // Location data
-const getAddress = () => faker.address.streetAddress();
+// const getAddress = () => faker.address.streetAddress();
 const getPhoneNumber = () => faker.phone.phoneNumberFormat();
 
 // organization data
