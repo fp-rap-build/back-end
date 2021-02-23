@@ -103,63 +103,101 @@ describe('Auth router endpoints', () => {
 
   describe('POST /auth/login', () => {
     const userCredentials = {
-      email: "admin@gmail.com",
-      password: "testpassword"
-    }
+      email: 'admin@gmail.com',
+      password: 'testpassword',
+    };
 
     it('Responds with 201 when a user logs in', async () => {
-      let res = await supertest(app).post('/auth/login').send(userCredentials)
+      let res = await supertest(app).post('/auth/login').send(userCredentials);
 
-      const { token } = res.body
-      const { email, password } = res.body.user
+      const { token } = res.body;
+      const { email, password } = res.body.user;
 
-      expect(res.type).toBe('application/json')
-      expect(res.status).toBe(200)
+      expect(res.type).toBe('application/json');
+      expect(res.status).toBe(200);
 
-      expect(token).toBeTruthy()
-      expect(email).toBe('admin@gmail.com')
+      expect(token).toBeTruthy();
+      expect(email).toBe('admin@gmail.com');
 
       // Make sure the password isn't being sent back
-      expect(password).toBeFalsy()
-    })
+      expect(password).toBeFalsy();
+    });
 
     it('Responds with 422 when required fields are missing', async () => {
-      let res = await supertest(app).post('/auth/login').send({})
+      let res = await supertest(app).post('/auth/login').send({});
 
-      expect(res.type).toBe('application/json')
-      expect(res.status).toBe(422)
-      expect(res.body.errors).toBeTruthy()
-    })
+      expect(res.type).toBe('application/json');
+      expect(res.status).toBe(422);
+      expect(res.body.errors).toBeTruthy();
+    });
   });
 
   describe('Protected routes', () => {
     const userCredentials = {
-      email: "admin@gmail.com",
-      password: "testpassword"
-    }
+      email: 'admin@gmail.com',
+      password: 'testpassword',
+    };
 
     it('Responds with 200 when accessing a protected route with valid token', async () => {
       // Login
 
-      let loginResponse = await supertest(app).post('/auth/login').send(userCredentials)
+      let loginResponse = await supertest(app)
+        .post('/auth/login')
+        .send(userCredentials);
 
-      const { token } = loginResponse.body
+      const { token } = loginResponse.body;
 
       // Hit the protected endpoint
+
+      let res = await supertest(app)
+        .get('/users/me')
+        .set('authorization', `Bearer ${token}`);
+
+      // Assertions
+
+      expect(res.status).toBe(200);
+    });
+
+    it('Responds with 401 when accessing a protected route without a valid token', async () => {
+      let res = await supertest(app).get('/users/me');
+
+      expect(res.type).toBe('application/json');
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe(
+        'You are not logged in! Please log in to get access'
+      );
+    });
+
+    it('Responds with 401 when user is deleted after retrieving token', async () => {
+      // ** We don't want a token to be valid if that user has been deleted **
+
+      // Login
+
+      let loginResponse = await supertest(app)
+        .post('/auth/login')
+        .send(userCredentials);
+
+      const { token } = loginResponse.body;
+
+      // Delete user that recently logged in
+
+      let deletedResponse = await supertest(app)
+        .del('/user/me')
+        .set('authorization', `Bearer ${token}`);
+
+      // Verify user was deleted
+
+      expect(deletedResponse.status).toBe(204);
+
+      // Hit a protected route
 
       let res = await supertest(app).get('/users/me').set('authorization', `Bearer ${token}`)
 
       // Assertions
 
-      expect(res.status).toBe(200)
-    })
-
-    it('Responds with 401 when accessing a protected route without a valid token', async () => {
-        let res = await supertest(app).get('/users/me')
-
-        expect(res.type).toBe('application/json')
-        expect(res.status).toBe(401)
-        expect(res.body.message).toBe('You are not logged in! Please log in to get access')
-    })
-  })
+      expect(res.type).toBe('application/json')
+      expect(res.status).toBe(401)
+      expect(res.body.message).toBe('The user belonging to this token no longer exists')
+    });
+  });
 });

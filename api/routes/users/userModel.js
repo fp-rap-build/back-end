@@ -32,6 +32,8 @@ const findById = async (id) => db('users').where({ id }).first('*');
 const findByIdAndUpdate = async (id, payload) =>
   await db('users').where({ id }).update(payload).returning('*');
 
+const findByIdAndDelete = async (id) => await db('users').where({ id }).del();
+
 const findAddressByUserId = async (id) =>
   await db('users')
     .where('users.id', id)
@@ -97,6 +99,7 @@ module.exports = {
   findBy,
   findById,
   findByIdAndUpdate,
+  findByIdAndDelete,
   findByOktaId,
   create,
   update,

@@ -206,6 +206,18 @@ router.put('/me', authRequired, async (req, res) => {
   }
 });
 
+router.delete('/me', authRequired, async (req, res, next) => {
+  const { id } = req.user;
+
+  try {
+    await Users.findByIdAndDelete(id);
+
+    res.status(204).json({ message: 'User was successfully deleted' });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 /**
  * @swagger
  * /me/address:

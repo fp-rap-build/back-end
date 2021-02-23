@@ -6,9 +6,7 @@ const { loginUser, registerUser } = require('./controllers');
 // Validators
 const { validateRegistration, validateLogin } = require('./validators');
 
-// Utility middleware
-const { checkIfUserExists } = require('./middleware');
-
+// Routes
 router.post('/login', validateLogin, loginUser);
 
 router.post('/register', validateRegistration, registerUser);
