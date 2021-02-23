@@ -29,11 +29,11 @@ describe('Authentication routes', () => {
       isRequestingAssistance: true,
     };
 
-    it('Works as expected', async () => {
+    it('Creates a new user and sends back token', async () => {
       let res = await supertest(app).post('/auth/register').send(testUser);
 
       expect(res.type).toBe('application/json');
-      expect(res.status).toBe(200);
+      expect(res.status).toBe(201);
 
       // Verify response body
       const {
@@ -50,7 +50,6 @@ describe('Authentication routes', () => {
       const { token, status } = res.body;
 
       expect(token).toBeTruthy();
-      expect(status).toBe('success');
 
       expect(firstName).toBe('test');
       expect(lastName).toBe('test');
@@ -80,7 +79,7 @@ describe('Authentication routes', () => {
       expect(res.body.message).toBe('User with that email already exists');
     });
 
-    it('Responds with 422 when missing fields', async () => {
+    it('Responds with 422 when required are missing', async () => {
       let res = await supertest(app).post('/auth/register').send({});
 
       expect(res.type).toBe('application/json');
@@ -103,6 +102,34 @@ describe('Authentication routes', () => {
   });
 
   describe('POST /auth/login', () => {
-    expect(2 + 2).toBe(4);
+    const userCredentials = {
+      email: "admin@gmail.com",
+      password: "testpassword"
+    }
+
+    it('Responds with 201 when a user logs in', async () => {
+      let res = await supertest(app).post('/auth/login').send(userCredentials)
+
+      const { token } = res.body
+      const { email, password } = res.body.user
+
+      expect(res.type).toBe('application/json')
+      expect(res.status).toBe(200)
+
+      expect(token).toBeTruthy()
+      expect(email).toBe('admin@gmail.com')
+
+      // Make sure the password isn't being sent back
+      expect(password).toBeFalsy()
+    })
+
+    it('Responds with 422 when required fields are missing', async () => {
+      let res = await supertest(app).post('/auth/login').send({})
+
+      expect(res.type).toBe('application/json')
+      expect(res.status).toBe(422)
+      expect(res.body.errors).toBeTruthy()
+    })
+
   });
 });

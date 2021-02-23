@@ -16,8 +16,7 @@ const registerUser = async (req, res, next) => {
     // Generate a token
     const token = signToken(user.id);
 
-    res.status(200).json({
-      status: 'success',
+    res.status(201).json({
       token,
       user,
     });
