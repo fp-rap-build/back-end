@@ -107,7 +107,7 @@ describe('User router endpoints', () => {
         organizationId: null,
       };
       const response = { user: user };
-
+      Users.findById.mockResolvedValue(response)
       const res = await request(server).get('/users/me');
       expect(res.statusCode).toBe(200);
     });
