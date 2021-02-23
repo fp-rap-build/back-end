@@ -1,8 +1,7 @@
 const db = require('../data/db-config');
 const Addr = require('../api/routes/addresses/addr-model');
 const Orgs = require('../api/routes/organizations/org-model');
-const { update } = require('../data/db-config');
-const { ExpectationFailed } = require('http-errors');
+const Users = require('../api/routes/users/userModel');
 
 //Mock Data:
 const addrs = [
@@ -34,6 +33,10 @@ const testOrgs = [
     organization: 'Non-Profit',
   },
 ];
+
+const testUser = {
+
+}
 //Organize DB
 // !! Ideally move migrate and rollback to before All - this is slowing the test down
 //Find a way around foreign key constraint when truncating addresses
@@ -113,9 +116,21 @@ describe('Organization Model', () => {
     // it('should find organization by name', async () => {
     //   await Orgs.create(testOrgs[0]);
 
-    //   const foundOrg = await Orgs.findBy('Test organization');
+    //   const foundOrg = await Orgs.findBy({organization: 'Test organization'});
 
-    //   expect(foundOrg.organization).toBe('Test organization'); 
+    //   expect(foundOrg.organization).toBe('Test organization');
     // });
+  });
+});
+
+describe('Users Model', () => {
+  describe('Crud Operations', () => {
+    it('Should return all users', async () => {
+      const allUsers = await Users.findAll()
+      expect(allUsers.length).toBe(4)
+    })
+    it('Should add a user', async () => {
+      await Users.create()
+    })
   });
 });
