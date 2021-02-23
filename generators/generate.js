@@ -1,4 +1,4 @@
-const faker = require("faker");
+const faker = require('faker');
 
 /**
  * This file includes generator data for testing
@@ -15,6 +15,24 @@ const getOktaId = () => faker.random.alphaNumeric(20);
 const getEmail = () => faker.internet.email();
 const getName = () => `${faker.name.firstName()} ${faker.name.lastName()}`;
 const getAssistanceReq = () => faker.random.boolean();
+const getRequestStatus = () =>
+	faker.random.arrayElement([
+		'recieved',
+		'inReview',
+		'approved',
+		'denied',
+	]);
+const getRole = () =>
+	faker.random.arrayElement([
+		'pending',
+		'tenant',
+		'landlord',
+		'admin',
+		'programManger',
+	]);
+
+// Random ID
+const getId = () => faker.random.number();
 
 // Location data
 // const getAddress = () => faker.address.streetAddress();
@@ -24,7 +42,7 @@ const getPhoneNumber = () => faker.phone.phoneNumberFormat();
 const getOrganization = () => faker.company.companyName();
 
 // User
-function buildUser(overrides = {}) {
+function buildUser() {
 	return {
 		id: getOktaId(),
 		email: getEmail(),
@@ -33,7 +51,8 @@ function buildUser(overrides = {}) {
 		city: getCity(),
 		state: getState(),
 		zip: getZipCode(),
-		...overrides,
+		role: getRole(),
+		requestStatus: getRequestStatus(),
 	};
 }
 
@@ -61,8 +80,8 @@ function buildLocation() {
 // Response
 function buildRes(overrides = {}) {
 	const res = {
-		json: jest.fn(() => res).mockName("res.json"),
-		status: jest.fn(() => res).mockName("res.status"),
+		json: jest.fn(() => res).mockName('res.json'),
+		status: jest.fn(() => res).mockName('res.status'),
 		...overrides,
 	};
 	return res;
