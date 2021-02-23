@@ -11,8 +11,8 @@ afterAll(async () => {
   await db.destroy();
 });
 
-describe('POST /auth/register', () => {
-  describe('User is created', () => {
+describe('POST /auth', () => {
+  describe('POST /auth/register', () => {
     const testUser = {
       firstName: 'test',
       lastName: 'test',
@@ -43,6 +43,11 @@ describe('POST /auth/register', () => {
         isRequestingAssistance,
       } = res.body.user;
 
+      const { token, status } = res.body
+
+      expect(token).toBeTruthy()
+      expect(status).toBe('success')
+
       expect(firstName).toBe('test');
       expect(lastName).toBe('test');
       expect(email).toBe('testemail@gmail.com');
@@ -52,5 +57,30 @@ describe('POST /auth/register', () => {
       expect(isRequestingAssistance).toBe(true)
       expect(monthlyIncome).toBe(500)
     });
+
+    const existingUser = {
+      firstName: "John",
+      lastName: "shelby",
+      email: "tenant@gmail.com",
+      password: "testpassword"
+    }
+
+    it('Responds with 400 when user already exists', async () => {
+      let res = await supertest(app).post('/auth/register').send(existingUser)
+
+      expect(res.type).toBe('application/json')
+      expect(res.status).toBe(400)
+      expect(res.body.message).toBe('User with that email already exists')
+    })
+
+    it('Responds with 400 when missing fields', () => {
+      let res = await supertest(app).post({})
+
+      expect(res.type).toBe('application/json')
+      expect(res.status).toBe(400)
+      
+
+    })
+
   });
 });

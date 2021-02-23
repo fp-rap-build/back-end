@@ -3,6 +3,9 @@ const User = require('../../users/userModel');
 const checkIfUserExists = async (req, res, next) => {
   const { email } = req.body;
 
+  // Skip directly to the validation middlware
+  if (!email) return next();
+
   try {
     // Try to find a user with that email
     let user = await User.findBy({ email });
