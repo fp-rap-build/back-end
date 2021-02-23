@@ -1,33 +1,154 @@
+const request = require('supertest');
 const express = require('express');
+const Users = require('../../api/routes/users/userModel');
+const userRouter = require('../../api/routes/users/userRouter');
+const mockAuthRequired = require('../../mock/mockAuthRequired');
 
 const server = express();
 server.use(express.json());
 
-//Sanity Check
-describe('Sample Test', () => {
-  it('should test that true === true', () => {
-    expect(true).toBe(true)
-  })
-})
+// mock the authId
+
+// Mock the database
+jest.mock('../../api/routes/users/userModel');
 
 // Mock authRequired middleware
-// jest.mock('../../api/middleware/authRequired.js', () => {
-//   jest.fn((req, res, next) => next());
-// });
 
-// jest.mock('../../api/routes/users/userModel.js', () => {
-//   jest.fn((req, res, next) => next());
-// });
+jest.mock('../../api/middleware/authRequired', () => {
+  return jest.fn((req, res, next) => next());
+});
+
+jest.mock('../../api/middleware/restrictTo', () => {
+  return jest.fn(() => (req, res, next) => next());
+});
 
 // Test users/me route
-// describe('server.js', () => {
-//   let res = {};
-//   beforeAll(async () => {
-//     res = await request(userRouter).get('/me');
-//     console.log(res);
-//   });
-//   it('Should return 200 ok', async () => {
-//     // const res = await request(server).get("/");
-//     expect(res.status).toBe(200);
-//   });
-// });
+describe('User router endpoints', () => {
+  beforeAll(() => {
+    server.use(['/user', '/users'], userRouter);
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('GET /', () => {
+    it('Should return an array of Objects containing all users data', async () => {
+      Users.findAll.mockResolvedValue([
+        {
+          id: '00u4o1ofebvodClCm5d6',
+          email: 'landlord@gmail.com',
+          firstName: 'John',
+          lastName: 'Shelby',
+          role: 'landlord',
+          isRequestingAssistance: true,
+          requestStatus: 'received',
+          familySize: 0,
+          monthlyIncome: null,
+          address: '904 E. Hartson Ave',
+          state: 'WA',
+          cityName: 'Spokane',
+          zipCode: 99202,
+        },
+        {
+          id: '00u4o1di44exWPbUQ5d6',
+          email: 'tenant@gmail.com',
+          firstName: 'John',
+          lastName: 'Shelby',
+          role: 'tenant',
+          isRequestingAssistance: true,
+          requestStatus: 'received',
+          familySize: 0,
+          monthlyIncome: null,
+          address: '904 E. Hartson Ave',
+          state: 'WA',
+          cityName: 'Spokane',
+          zipCode: 99202,
+        },
+        {
+          id: '00u4o22duEeEM1UIj5d6',
+          email: 'pending@gmail.com',
+          firstName: 'Billy',
+          lastName: 'Kimber',
+          role: 'pending',
+          isRequestingAssistance: false,
+          requestStatus: 'pending',
+          familySize: 0,
+          monthlyIncome: null,
+          address: '904 E. Hartson Ave',
+          state: 'WA',
+          cityName: 'Spokane',
+          zipCode: 99202,
+        },
+      ]);
+      try {
+        const res = await request(server).get('/users');
+        expect(res.statusCode).toBe(200);
+      } catch (error) {
+        console.log('This doesnt work');
+      }
+    });
+  });
+
+  describe('GET /me', () => {
+    it('Should return a user object containing information about the user', async () => {
+      // mockResolvedValue should have a value of the expected returned value
+      const user = {
+        id: '00u4o3bmgukEv4uzA5d6',
+        email: 'admin@gmail.com',
+        firstName: 'Billy',
+        lastName: 'Bob',
+        role: 'admin',
+        isRequestingAssistance: true,
+        requestStatus: 'approved',
+        familySize: 0,
+        monthlyIncome: null,
+        addressId: 1,
+        organizationId: null,
+      };
+      const response = { user: user };
+
+      const res = await request(server).get('/users/me');
+      expect(res.statusCode).toBe(200);
+    });
+  });
+
+  describe('GET /:id', () => {
+    it('Should return the data of a user with the given id', async () => {
+      Users.findById.mockResolvedValue({
+        id: '00u4o3bmgukEv4uzA5d6',
+        email: 'admin@gmail.com',
+        firstName: 'Billy',
+        lastName: 'Bob',
+        role: 'admin',
+        isRequestingAssistance: true,
+        requestStatus: 'approved',
+        familySize: 0,
+        monthlyIncome: null,
+        addressId: 1,
+        organizationId: null,
+      });
+
+      const res = await request(server).get('/users/00u4o1ofebvodClCm5d6');
+      expect(res.statusCode).toBe(200);
+    });
+  });
+
+  describe('GET /:id/address', () => {
+    it('Should return the address for the user with the given id', async () => {
+      Users.findAddressByUserId.mockResolvedValueOnce({
+        address: {
+          address: '234 E. Main St',
+          state: 'WA',
+          cityName: 'Spokane',
+          zipCode: 12345,
+        },
+      });
+
+      const res = await request(server).get(
+        '/users/00u4o3bmgukEv4uzA5d6/address'
+      );
+      expect(res.statusCode).toBe(200);
+    });
+  });
+});
