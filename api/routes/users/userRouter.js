@@ -396,27 +396,26 @@ router.get(
  *      500:
  * */
 
-router.post('/', authRequired, restrictTo('admin') ,async (req, res) => {
-    try {
-      // Create user
+router.post('/', authRequired, restrictTo('admin'), async (req, res) => {
+  try {
+    // Create user
 
-      const newUser = await Users.create(req.body)
+    const newUser = await Users.create(req.body);
 
-      // hide password
+    // hide password
 
-      newUser[0]['password'] = undefined
+    newUser[0]['password'] = undefined;
 
-      // Send back the newly created user
+    // Send back the newly created user
 
-      res.status(201).json({
-        user: newUser[0]
-      })
-
-    } catch (error) {
-      res.status(500).json({
-        message: "Internal server error"
-      })
-    }
+    res.status(201).json({
+      user: newUser[0],
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Internal server error',
+    });
+  }
 });
 
 /**

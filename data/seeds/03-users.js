@@ -25,7 +25,7 @@ exports.seed = function (knex) {
           addressId: 2,
           isRequestingAssistance: true,
           requestStatus: 'received',
-          monthlyIncome: 250
+          monthlyIncome: 250,
         },
         {
           email: 'tenant@gmail.com',
@@ -37,8 +37,8 @@ exports.seed = function (knex) {
           addressId: 3,
           isRequestingAssistance: true,
           requestStatus: 'received',
-          monthlyIncome: 400
-        }
+          monthlyIncome: 400,
+        },
       ]);
     });
 };
