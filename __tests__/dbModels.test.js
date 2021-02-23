@@ -35,8 +35,12 @@ const testOrgs = [
 ];
 
 const testUser = {
-
-}
+  id: '00u4o22duEeEM1UITEST',
+  email: 'test@gmail.com',
+  firstName: 'Test',
+  lastName: 'Test',
+  role: 'tenant',
+};
 //Organize DB
 // !! Ideally move migrate and rollback to before All - this is slowing the test down
 //Find a way around foreign key constraint when truncating addresses
@@ -126,11 +130,31 @@ describe('Organization Model', () => {
 describe('Users Model', () => {
   describe('Crud Operations', () => {
     it('Should return all users', async () => {
-      const allUsers = await Users.findAll()
-      expect(allUsers.length).toBe(4)
-    })
+      const allUsers = await Users.findAll();
+      expect(allUsers.length).toBe(4);
+    });
     it('Should add a user', async () => {
-      await Users.create()
-    })
+      await Users.findOrCreateProfile(testUser);
+      const allUsers = await Users.findAll();
+      expect(allUsers.length).toBe(5);
+    });
+    it('Should update a user', async () => {
+      await Users.findOrCreateProfile(testUser);
+      await Users.update('00u4o22duEeEM1UITEST', {
+        ...testUser,
+        firstName: 'Updated',
+      });
+      const updated = await Users.findById('00u4o22duEeEM1UITEST');
+      expect(updated.firstName).toBe('Updated');
+    });
+    it('Should delete a user', async () => {
+      await Users.findOrCreateProfile(testUser);
+      const preUsers = await Users.findAll();
+
+      await Users.remove('00u4o22duEeEM1UITEST');
+      const postUsers = await Users.findAll();
+
+      expect(preUsers.length - postUsers.length).toBe(1);
+    });
   });
 });
