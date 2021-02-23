@@ -309,7 +309,6 @@ router.put('/me/address', authRequired, async (req, res) => {
 router.get('/', authRequired, restrictTo('admin'), async (req, res) => {
   try {
     let users = await Users.findAll();
-    console.log(users)
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
