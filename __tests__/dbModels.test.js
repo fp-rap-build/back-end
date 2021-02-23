@@ -1,5 +1,6 @@
 const db = require('../data/db-config');
 const Addr = require('../api/routes/addresses/addr-model');
+const Orgs = require('../api/routes/organizations/org-model');
 
 
 //Mock Data:
@@ -24,6 +25,14 @@ const addrs = [
   },
 ];
 
+const testOrgs = [
+  {
+    organization: 'Test organization',
+  },
+  {
+    organization: 'Non-Profit',
+  },
+]
 //Organize DB
 // !! Ideally move migrate and rollback to before All - this is slowing the test down
 //Find a way around foreign key constraint when truncating addresses
@@ -33,7 +42,6 @@ beforeAll(async () => {
 });
 beforeEach(async () => {
   await db.seed.run();
-  //Seeds add 4 addresses to table
 });
 afterAll(async () => {
   await db.destroy();
@@ -73,3 +81,15 @@ describe('Address Model', () => {
     });
   });
 });
+
+describe('Organization Model', () => {
+  describe('Crud Operations', () => {
+    it('Should insert organization into db', async () => {
+      await Orgs.create(testOrgs[0]);
+      const allOrgs = await Orgs.findAll();
+
+      expect(allOrgs.length).toBe(4);
+    });
+  });
+});
+
