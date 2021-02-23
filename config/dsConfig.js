@@ -1,6 +1,6 @@
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
 
-dotenv.config({ path: "../.env" });
+dotenv.config({ path: '../.env' });
 
 module.exports = {
   baseURL: process.env.DS_API_URL,

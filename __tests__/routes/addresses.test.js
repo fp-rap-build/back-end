@@ -1,7 +1,7 @@
-const db = require('../data/db-config');
-const Addr = require('../api/routes/addresses/addr-model');
-const { seed } = require('../data/seeds/01-addresses');
-const { expectedAudience } = require('../config/okta');
+const db = require('../../data/db-config');
+const Addr = require('../../api/routes/addresses/addr-model');
+const { seed } = require('../../data/seeds/01-addresses');
+const { expectedAudience } = require('../../config/okta');
 
 //Mock Data:
 const addrs = [
@@ -28,14 +28,11 @@ const addrs = [
 //Organize DB
 // !! Ideally move migrate and rollback to before All - this is slowing the test down
 //Find a way around foreign key constraint when truncating addresses
+
 beforeAll(async () => {
-  await db.migrate.rollback();
-  await db.migrate.latest();
-});
-beforeEach(async () => {
   await db.seed.run();
-  //Seeds add 4 addresses to table
-});
+})
+
 afterAll(async () => {
   await db.destroy();
 });
@@ -65,7 +62,7 @@ describe('Address Model', () => {
 
       const addrLength = await Addr.findAll();
 
-      expect(addrLength.length).toBe(4);
+      expect(addrLength.length).toBe(6);
     });
     it('should find address by id', async () => {
       const foundById = await Addr.findBy({ id: 1 });

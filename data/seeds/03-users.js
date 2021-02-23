@@ -1,47 +1,49 @@
-
+const bcrypt = require('bcryptjs');
+const db = require('../db-config')
 exports.seed = function (knex) {
-  return knex("users")
+
+  db('addresses').then(rows => {
+    console.log(rows)
+  }).catch(err => {
+    console.error(err)
+  })
+  
+  return knex('users')
     .del()
     .then(function () {
       // Inserts seed entries
-      return knex("users").insert([
+      return knex('users').insert([
         {
-          id: "00u4o3bmgukEv4uzA5d6",
-          email: "admin@gmail.com",
-          firstName: "Tommy",
-          lastName: "Shelby",
-          role: "admin",
-          addressId: 1
+          email: 'admin@gmail.com',
+          firstName: 'Tommy',
+          lastName: 'Shelby',
+          password: bcrypt.hashSync('testpassword', 1),
+          role: 'admin',
+          addressId: 1,
         },
         {
-          id: "00u4o1ofebvodClCm5d6",
-          email: "landlord@gmail.com",
-          firstName: "John",
-          lastName: "Shelby",
-          role: "landlord",
-          organizationId: 1,
+          email: 'landlord@gmail.com',
+          firstName: 'John',
+          lastName: 'Shelby',
+          password: bcrypt.hashSync('testpassword', 1),
+          role: 'landlord',
+          familySize: 3,
           addressId: 2,
           isRequestingAssistance: true,
           requestStatus: 'received',
           monthlyIncome: 1100
         },
         {
-          id: "00u4o1di44exWPbUQ5d6",
-          email: "tenant@gmail.com",
-          firstName: "John",
-          lastName: "Shelby",
-          role: "tenant",
+          email: 'tenant@gmail.com',
+          firstName: 'Billy',
+          lastName: 'Kimber',
+          familySize: 4,
+          password: bcrypt.hashSync('testpassword', 1),
+          role: 'tenant',
           addressId: 3,
           isRequestingAssistance: true,
           requestStatus: 'received',
-          monthlyIncome: 1100
-        },
-        {
-          id: "00u4o22duEeEM1UIj5d6",
-          email: "pending@gmail.com",
-          firstName: "Billy",
-          lastName: "Kimber",
-          addressId: 4
+          monthlyIncome: 400,
         },
       ]);
     });
