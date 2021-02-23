@@ -25,7 +25,7 @@ exports.seed = function (knex) {
           addressId: 2,
           isRequestingAssistance: true,
           requestStatus: 'received',
-          monthlyIncome: 250,
+          monthlyIncome: 1100
         },
         {
           email: 'tenant@gmail.com',

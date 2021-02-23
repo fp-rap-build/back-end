@@ -144,7 +144,8 @@ router.get('/me', authRequired, (req, res) => {
   });
 });
 
-/**
+
+/** 
  * @swagger
  * /me:
  *  put:
