@@ -5,11 +5,6 @@ const User = require('../../users/userModel');
 const registerUser = async (req, res, next) => {
   let payload = req.body;
 
-  // Users can't give themselves a role of admin or program manager
-  if (payload['role'] == 'admin' || payload['role'] == 'programManager') {
-    payload['role'] = undefined;
-  }
-
   try {
     let user = await User.create(payload);
 
