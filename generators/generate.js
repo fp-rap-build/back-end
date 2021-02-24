@@ -11,7 +11,7 @@ const getState = () => faker.address.stateAbbr();
 const getZipCode = () => faker.address.zipCode();
 
 // profile data
-const getOktaId = () => faker.random.alphaNumeric(20);
+const getId = () => faker.random.uuid();
 const getEmail = () => faker.internet.email();
 const geFirstName = () => faker.name.firstName();
 const geLastName = () => faker.name.lastName();
