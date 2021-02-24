@@ -13,7 +13,8 @@ const getZipCode = () => faker.address.zipCode();
 // profile data
 const getOktaId = () => faker.random.alphaNumeric(20);
 const getEmail = () => faker.internet.email();
-const getName = () => `${faker.name.firstName()} ${faker.name.lastName()}`;
+const getFirstName = () => faker.name.firstName();
+const getLastName = () => faker.name.lastName();
 const getAssistanceReq = () => faker.random.boolean();
 const getRequestStatus = () =>
 	faker.random.arrayElement([
@@ -35,7 +36,6 @@ const getRole = () =>
 const getId = () => faker.random.number();
 
 // Location data
-const getAddress = () => faker.address.streetAddress();
 const getPhoneNumber = () => faker.phone.phoneNumberFormat();
 
 // organization data
@@ -46,13 +46,15 @@ function buildUser() {
 	return {
 		id: getOktaId(),
 		email: getEmail(),
-		name: getName(),
+		firstName: getFirstName(),
+		lastName: getLastName(),
 		address: getAddress(),
-		city: getCity(),
+		cityName: getCity(),
 		state: getState(),
-		zip: getZipCode(),
+		zipCode: getZipCode(),
 		role: getRole(),
 		requestStatus: getRequestStatus(),
+	  isRequestingAssistance: getAssistanceReq(),
 	};
 }
 
@@ -101,9 +103,9 @@ module.exports = {
 	getId,
 	getOktaId,
 	getEmail,
-	getName,
+	getFirstName,
+	getLastName,
 	getAddress,
-	getLocationName,
 	getPhoneNumber,
 	getCity,
 	getState,

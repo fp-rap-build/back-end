@@ -3,6 +3,7 @@ const express = require('express');
 const Users = require('../../api/routes/users/userModel');
 const userRouter = require('../../api/routes/users/userRouter');
 const mockAuthRequired = require('../../mock/mockAuthRequired');
+const mockData = require('../../generators/generate');
 
 const server = express();
 server.use(express.json());
@@ -34,54 +35,9 @@ describe('User router endpoints', () => {
 
   describe('GET /', () => {
     it('Should return an array of Objects containing all users data', async () => {
-      Users.findAll.mockResolvedValue([
-        {
-          id: '00u4o1ofebvodClCm5d6',
-          email: 'landlord@gmail.com',
-          firstName: 'John',
-          lastName: 'Shelby',
-          role: 'landlord',
-          isRequestingAssistance: true,
-          requestStatus: 'received',
-          familySize: 0,
-          monthlyIncome: null,
-          address: '904 E. Hartson Ave',
-          state: 'WA',
-          cityName: 'Spokane',
-          zipCode: 99202,
-        },
-        {
-          id: '00u4o1di44exWPbUQ5d6',
-          email: 'tenant@gmail.com',
-          firstName: 'John',
-          lastName: 'Shelby',
-          role: 'tenant',
-          isRequestingAssistance: true,
-          requestStatus: 'received',
-          familySize: 0,
-          monthlyIncome: null,
-          address: '904 E. Hartson Ave',
-          state: 'WA',
-          cityName: 'Spokane',
-          zipCode: 99202,
-        },
-        {
-          id: '00u4o22duEeEM1UIj5d6',
-          email: 'pending@gmail.com',
-          firstName: 'Billy',
-          lastName: 'Kimber',
-          role: 'pending',
-          isRequestingAssistance: false,
-          requestStatus: 'pending',
-          familySize: 0,
-          monthlyIncome: null,
-          address: '904 E. Hartson Ave',
-          state: 'WA',
-          cityName: 'Spokane',
-          zipCode: 99202,
-        },
-      ]);
-      try {
+      Users.findAll.mockResolvedValue(mockData.buildUser());
+      console.log(mockData.buildUser());
+        try {
         const res = await request(server).get('/users');
         expect(res.statusCode).toBe(200);
       } catch (error) {
@@ -107,7 +63,7 @@ describe('User router endpoints', () => {
         organizationId: null,
       };
       const response = { user: user };
-      Users.findById.mockResolvedValue(response)
+      Users.findByIdAndUpdate.mockResolvedValue(response);
       const res = await request(server).get('/users/me');
       expect(res.statusCode).toBe(200);
     });
@@ -136,7 +92,7 @@ describe('User router endpoints', () => {
 
   describe('GET /:id/address', () => {
     it('Should return the address for the user with the given id', async () => {
-      Users.findAddressByUserId.mockResolvedValueOnce({
+      Users.findAddressByUserId.mockResolvedValue({
         address: {
           address: '234 E. Main St',
           state: 'WA',
@@ -149,6 +105,17 @@ describe('User router endpoints', () => {
         '/users/00u4o3bmgukEv4uzA5d6/address'
       );
       expect(res.statusCode).toBe(200);
+    });
+  });
+
+  it('Should return all users that are requesting assistance', async () => {
+    Users.findAll.mockResolvedValue({
+      address: {
+        address: '234 E. Main St.',
+        state: 'WA',
+        cityName: 'Spokane',
+        zipCode: 12345,
+      },
     });
   });
 });
