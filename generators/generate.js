@@ -13,7 +13,8 @@ const getZipCode = () => faker.address.zipCode();
 // profile data
 const getOktaId = () => faker.random.alphaNumeric(20);
 const getEmail = () => faker.internet.email();
-const getName = () => `${faker.name.firstName()} ${faker.name.lastName()}`;
+const geFirstName = () => faker.name.firstName();
+const geLastName = () => faker.name.lastName();
 const getAssistanceReq = () => faker.random.boolean();
 const getRequestStatus = () =>
   faker.random.arrayElement(['recieved', 'inReview', 'approved', 'denied']);
@@ -23,7 +24,7 @@ const getRole = () =>
     'tenant',
     'landlord',
     'admin',
-    'programManger',
+    'programManager',
   ]);
 const getFamilySize = () => faker.random.number();
 // Random ID
