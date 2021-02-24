@@ -25,9 +25,10 @@ const getRole = () =>
     'admin',
     'programManger',
   ]);
-
+const getFamilySize = () => faker.random.number();
 // Random ID
 const getId = () => faker.random.number();
+const getMonthlyIncome = () => faker.finance.amount();
 
 // Location data
 // const getAddress = () => faker.address.streetAddress();
@@ -48,6 +49,8 @@ function buildUser() {
     zip: getZipCode(),
     role: getRole(),
     requestStatus: getRequestStatus(),
+    familySize: getFamilySize(),
+    monthlyIncome: getMonthlyIncome(),
   };
 }
 
@@ -103,6 +106,10 @@ module.exports = {
   getCity,
   getState,
   getZipCode,
+  getAssistanceReq,
+  getRequestStatus,
+  getRole,
+  getFamilySize,
   buildUser,
   buildLocation,
   buildRes,

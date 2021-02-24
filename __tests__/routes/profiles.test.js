@@ -2,7 +2,7 @@ const request = require('supertest');
 const express = require('express');
 const Users = require('../../api/routes/users/userModel');
 const userRouter = require('../../api/routes/users/userRouter');
-
+const mockData = require('../../generators/generate');
 
 const server = express();
 server.use(express.json());
@@ -48,17 +48,17 @@ describe('User router endpoints', () => {
     it('Should return a user object containing information about the user', async () => {
       // mockResolvedValue should have a value of the expected returned value
       const user = {
-        id: '00u4o3bmgukEv4uzA5d6',
-        email: 'admin@gmail.com',
-        firstName: 'Billy',
-        lastName: 'Bob',
-        role: 'admin',
-        isRequestingAssistance: true,
-        requestStatus: 'approved',
-        familySize: 0,
-        monthlyIncome: null,
-        addressId: 1,
-        organizationId: null,
+        id: mockData?.getOktaId(),
+        email: mockData?.getEmail(),
+        firstName: mockData?.getFirstName(),
+        lastName: mockData?.getLastName(),
+        role: mockData?.getRole(),
+        is_requesting_assistance: mockData?.getAssistanceReq(),
+        request_status: mockData?.getRequestStatus(),
+        familySize: mockData?.getFamilySize(),
+        income_id: mockData?.getId(),
+        address_id: mockData?.getId(),
+        organization_id: mockData?.getId()
       };
       const response = { user: user };
 
