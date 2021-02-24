@@ -34,58 +34,12 @@ describe('User router endpoints', () => {
 
   describe('GET /', () => {
     it('Should return an array of Objects containing all users data', async () => {
-      Users.findAll.mockResolvedValue([
-        {
-          id: '00u4o1ofebvodClCm5d6',
-          email: 'landlord@gmail.com',
-          firstName: 'John',
-          lastName: 'Shelby',
-          role: 'landlord',
-          isRequestingAssistance: true,
-          requestStatus: 'received',
-          familySize: 0,
-          monthlyIncome: null,
-          address: '904 E. Hartson Ave',
-          state: 'WA',
-          cityName: 'Spokane',
-          zipCode: 99202,
-        },
-        {
-          id: '00u4o1di44exWPbUQ5d6',
-          email: 'tenant@gmail.com',
-          firstName: 'John',
-          lastName: 'Shelby',
-          role: 'tenant',
-          isRequestingAssistance: true,
-          requestStatus: 'received',
-          familySize: 0,
-          monthlyIncome: null,
-          address: '904 E. Hartson Ave',
-          state: 'WA',
-          cityName: 'Spokane',
-          zipCode: 99202,
-        },
-        {
-          id: '00u4o22duEeEM1UIj5d6',
-          email: 'pending@gmail.com',
-          firstName: 'Billy',
-          lastName: 'Kimber',
-          role: 'pending',
-          isRequestingAssistance: false,
-          requestStatus: 'pending',
-          familySize: 0,
-          monthlyIncome: null,
-          address: '904 E. Hartson Ave',
-          state: 'WA',
-          cityName: 'Spokane',
-          zipCode: 99202,
-        },
-      ]);
+      Users.findAll.mockResolvedValue([mockData.buildUser(), mockData.buildUser(), mockData.buildUser()]);
       try {
         const res = await request(server).get('/users');
         expect(res.statusCode).toBe(200);
       } catch (error) {
-        console.log('This doesnt work');
+        expect(res.statusCode).toBe(500);
       }
     });
   });
