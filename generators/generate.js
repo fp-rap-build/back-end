@@ -13,8 +13,8 @@ const getZipCode = () => faker.address.zipCode();
 // profile data
 const getUserId = () => faker.random.uuid();
 const getEmail = () => faker.internet.email();
-const geFirstName = () => faker.name.firstName();
-const geLastName = () => faker.name.lastName();
+const getFirstName = () => faker.name.firstName();
+const getLastName = () => faker.name.lastName();
 const getAssistanceReq = () => faker.random.boolean();
 const getRequestStatus = () =>
   faker.random.arrayElement(['recieved', 'inReview', 'approved', 'denied']);
@@ -43,7 +43,8 @@ function buildUser() {
   return {
     id: getUserId(),
     email: getEmail(),
-    name: getName(),
+    getFirstName: getFirstName(),
+    getLastName: getLastName(),
     address: getAddress(),
     city: getCity(),
     state: getState(),
@@ -100,7 +101,8 @@ module.exports = {
   getId,
   getUserId,
   getEmail,
-  getName,
+  getFirstName,
+  getLastName,
   getAddress,
   getLocationName,
   getPhoneNumber,
