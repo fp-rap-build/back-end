@@ -11,7 +11,7 @@ const getState = () => faker.address.stateAbbr();
 const getZipCode = () => faker.address.zipCode();
 
 // profile data
-const getId = () => faker.random.uuid();
+const getUserId = () => faker.random.uuid();
 const getEmail = () => faker.internet.email();
 const geFirstName = () => faker.name.firstName();
 const geLastName = () => faker.name.lastName();
@@ -41,7 +41,7 @@ const getOrganization = () => faker.company.companyName();
 // User
 function buildUser() {
   return {
-    id: getOktaId(),
+    id: getUserId(),
     email: getEmail(),
     name: getName(),
     address: getAddress(),
@@ -98,7 +98,7 @@ function buildReq(overrides = {}) {
 
 module.exports = {
   getId,
-  getOktaId,
+  getUserId,
   getEmail,
   getName,
   getAddress,
