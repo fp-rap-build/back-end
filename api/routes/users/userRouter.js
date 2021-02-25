@@ -4,6 +4,7 @@ const Users = require('./userModel');
 const router = express.Router();
 const restrictTo = require('../../middleware/restrictTo');
 
+// Controllers
 const {
   getAllUsers,
   createUser,
@@ -25,18 +26,21 @@ router.use(authRequired);
 router.route('/').get(getAllUsers).post(createUser);
 
 router
-.route('/me')
-.get(getCurrentUser)
-.put(updateCurrentUser)
-.delete(deleteCurrentUser);
+  .route('/me')
+  .get(getCurrentUser)
+  .put(updateCurrentUser)
+  .delete(deleteCurrentUser);
 
 router
-.route('/:id')
-.all(restrictTo('admin', 'programManager'))
-.get(getUserById)
-.put(updateUserById)
-.delete(deleteUserById);
+  .route('/:id')
+  .all(restrictTo('admin', 'programManager'))
+  .get(getUserById)
+  .put(updateUserById)
+  .delete(deleteUserById);
 
-router.route('/:id/address').get(getUserAddressById);
+router
+  .route('/:id/address')
+  .all(restrictTo('admin', 'programManager'))
+  .get(getUserAddressById);
 
 module.exports = router;
