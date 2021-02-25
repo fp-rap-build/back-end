@@ -13,7 +13,7 @@ const {
   getOrganizationById,
   updateOrganizationById,
   deleteOrganizationById,
-} = require('./controllers')
+} = require('./controllers');
 
 // These middewares will run for every route
 router.use(authRequired, restrictTo('admin'));
