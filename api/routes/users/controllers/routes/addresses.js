@@ -1,4 +1,4 @@
-const Users = require('../userModel');
+const Users = require('../../userModel');
 
 exports.getUserAddressById = async (req, res) => {
   let { id } = req.params;

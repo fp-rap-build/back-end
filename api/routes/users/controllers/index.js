@@ -22,6 +22,7 @@ const {
 module.exports = {
   getAllUsers,
   createUser,
+  getUserById,
   updateUserById,
   deleteUserById,
   getCurrentUser,

@@ -18,7 +18,7 @@ const {
   getUserAddressById,
 } = require('./controllers');
 
-router.route('/').get(getAllUsers).post(createUser);
+router.route('/').all(authRequired).get(getAllUsers).post(createUser);
 
 router.route('/me').get(getCurrentUser).put(updateCurrentUser);
 
