@@ -11,9 +11,10 @@ const getState = () => faker.address.stateAbbr();
 const getZipCode = () => faker.address.zipCode();
 
 // profile data
-const getOktaId = () => faker.random.alphaNumeric(20);
+const getUserId = () => faker.random.uuid();
 const getEmail = () => faker.internet.email();
-const getName = () => `${faker.name.firstName()} ${faker.name.lastName()}`;
+const getFirstName = () => faker.name.firstName();
+const getLastName = () => faker.name.lastName();
 const getAssistanceReq = () => faker.random.boolean();
 const getRequestStatus = () =>
   faker.random.arrayElement(['recieved', 'inReview', 'approved', 'denied']);
@@ -23,11 +24,12 @@ const getRole = () =>
     'tenant',
     'landlord',
     'admin',
-    'programManger',
+    'programManager',
   ]);
-
+const getFamilySize = () => faker.random.number();
 // Random ID
 const getId = () => faker.random.number();
+const getMonthlyIncome = () => faker.finance.amount();
 
 // Location data
 // const getAddress = () => faker.address.streetAddress();
@@ -39,15 +41,18 @@ const getOrganization = () => faker.company.companyName();
 // User
 function buildUser() {
   return {
-    id: getOktaId(),
+    id: getUserId(),
     email: getEmail(),
-    name: getName(),
+    getFirstName: getFirstName(),
+    getLastName: getLastName(),
     address: getAddress(),
     city: getCity(),
     state: getState(),
     zip: getZipCode(),
     role: getRole(),
     requestStatus: getRequestStatus(),
+    familySize: getFamilySize(),
+    monthlyIncome: getMonthlyIncome(),
   };
 }
 
@@ -94,15 +99,20 @@ function buildReq(overrides = {}) {
 
 module.exports = {
   getId,
-  getOktaId,
+  getUserId,
   getEmail,
-  getName,
+  getFirstName,
+  getLastName,
   getAddress,
   getLocationName,
   getPhoneNumber,
   getCity,
   getState,
   getZipCode,
+  getAssistanceReq,
+  getRequestStatus,
+  getRole,
+  getFamilySize,
   buildUser,
   buildLocation,
   buildRes,

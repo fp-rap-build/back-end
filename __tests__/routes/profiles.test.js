@@ -2,6 +2,7 @@ const request = require('supertest');
 const express = require('express');
 const Users = require('../../api/routes/users/userModel');
 const userRouter = require('../../api/routes/users/userRouter');
+const mockData = require('../../generators/generate');
 
 const server = express();
 server.use(express.json());
@@ -33,58 +34,12 @@ describe('User router endpoints', () => {
 
   describe('GET /', () => {
     it('Should return an array of Objects containing all users data', async () => {
-      Users.findAll.mockResolvedValue([
-        {
-          id: '00u4o1ofebvodClCm5d6',
-          email: 'landlord@gmail.com',
-          firstName: 'John',
-          lastName: 'Shelby',
-          role: 'landlord',
-          isRequestingAssistance: true,
-          requestStatus: 'received',
-          familySize: 0,
-          monthlyIncome: null,
-          address: '904 E. Hartson Ave',
-          state: 'WA',
-          cityName: 'Spokane',
-          zipCode: 99202,
-        },
-        {
-          id: '00u4o1di44exWPbUQ5d6',
-          email: 'tenant@gmail.com',
-          firstName: 'John',
-          lastName: 'Shelby',
-          role: 'tenant',
-          isRequestingAssistance: true,
-          requestStatus: 'received',
-          familySize: 0,
-          monthlyIncome: null,
-          address: '904 E. Hartson Ave',
-          state: 'WA',
-          cityName: 'Spokane',
-          zipCode: 99202,
-        },
-        {
-          id: '00u4o22duEeEM1UIj5d6',
-          email: 'pending@gmail.com',
-          firstName: 'Billy',
-          lastName: 'Kimber',
-          role: 'pending',
-          isRequestingAssistance: false,
-          requestStatus: 'pending',
-          familySize: 0,
-          monthlyIncome: null,
-          address: '904 E. Hartson Ave',
-          state: 'WA',
-          cityName: 'Spokane',
-          zipCode: 99202,
-        },
-      ]);
+      Users.findAll.mockResolvedValue([mockData.buildUser(), mockData.buildUser(), mockData.buildUser()]);
       try {
         const res = await request(server).get('/users');
         expect(res.statusCode).toBe(200);
       } catch (error) {
-        console.log('This doesnt work');
+        expect(res.statusCode).toBe(500);
       }
     });
   });
@@ -93,17 +48,17 @@ describe('User router endpoints', () => {
     it('Should return a user object containing information about the user', async () => {
       // mockResolvedValue should have a value of the expected returned value
       const user = {
-        id: '00u4o3bmgukEv4uzA5d6',
-        email: 'admin@gmail.com',
-        firstName: 'Billy',
-        lastName: 'Bob',
-        role: 'admin',
-        isRequestingAssistance: true,
-        requestStatus: 'approved',
-        familySize: 0,
-        monthlyIncome: null,
-        addressId: 1,
-        organizationId: null,
+        id: mockData?.getOktaId(),
+        email: mockData?.getEmail(),
+        firstName: mockData?.getFirstName(),
+        lastName: mockData?.getLastName(),
+        role: mockData?.getRole(),
+        is_requesting_assistance: mockData?.getAssistanceReq(),
+        request_status: mockData?.getRequestStatus(),
+        familySize: mockData?.getFamilySize(),
+        income_id: mockData?.getId(),
+        address_id: mockData?.getId(),
+        organization_id: mockData?.getId()
       };
       const response = { user: user };
 
