@@ -1,13 +1,14 @@
 const bcrypt = require('bcryptjs');
-const db = require('../db-config')
+const db = require('../db-config');
 exports.seed = function (knex) {
+  db('addresses')
+    .then((rows) => {
+      console.log(rows);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 
-  db('addresses').then(rows => {
-    console.log(rows)
-  }).catch(err => {
-    console.error(err)
-  })
-  
   return knex('users')
     .del()
     .then(function () {
@@ -31,7 +32,7 @@ exports.seed = function (knex) {
           addressId: 2,
           isRequestingAssistance: true,
           requestStatus: 'received',
-          monthlyIncome: 1100
+          monthlyIncome: 1100,
         },
         {
           email: 'tenant@gmail.com',
