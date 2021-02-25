@@ -18,15 +18,24 @@ const {
   getUserAddressById,
 } = require('./controllers');
 
-router.route('/').all(authRequired).get(getAllUsers).post(createUser);
+// Global middleware
+router.use(authRequired);
 
-router.route('/me').get(getCurrentUser).put(updateCurrentUser);
+// Routes
+router.route('/').get(getAllUsers).post(createUser);
 
 router
-  .route('/:id')
-  .get(getUserById)
-  .put(updateUserById)
-  .delete(deleteUserById);
+.route('/me')
+.get(getCurrentUser)
+.put(updateCurrentUser)
+.delete(deleteCurrentUser);
+
+router
+.route('/:id')
+.all(restrictTo('admin', 'programManager'))
+.get(getUserById)
+.put(updateUserById)
+.delete(deleteUserById);
 
 router.route('/:id/address').get(getUserAddressById);
 

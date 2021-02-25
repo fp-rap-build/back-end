@@ -1,6 +1,6 @@
 const Users = require('../../userModel');
 
-exports.getCurrentUser = () => (req, res) => {
+exports.getCurrentUser = (req, res) => {
   const { user } = req;
   res.status(200).json({
     user,
@@ -15,7 +15,7 @@ exports.updateCurrentUser = async (req, res) => {
   // Users can't update their role to admin or program manager
 
   if (role == 'admin' || role == 'programManager') {
-    req.body['role'] = undefined;
+    return res.status(401).json({ message: 'Nice try' });
   }
 
   let payload = req.body;
