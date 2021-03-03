@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs');
 
 exports.seed = function (knex) {
-  
   return knex('users')
     .del()
     .then(function () {
@@ -25,19 +24,7 @@ exports.seed = function (knex) {
           addressId: 2,
           // isRequestingAssistance: true,
           // requestStatus: 'received',
-          monthlyIncome: 1100
-        },
-        {
-          email: 'tenant@gmail.com',
-          firstName: 'Billy',
-          lastName: 'Kimber',
-          familySize: 4,
-          password: bcrypt.hashSync('testpassword', 1),
-          role: 'tenant',
-          addressId: 3,
-          // isRequestingAssistance: true,
-          // requestStatus: 'received',
-          monthlyIncome: 400,
+          monthlyIncome: 1100,
         },
       ]);
     });

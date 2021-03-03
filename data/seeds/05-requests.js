@@ -16,7 +16,6 @@ exports.seed = async function (knex) {
       return knex('requests').insert([
         {
           requesterId: ids[2].id,
-          managerId: ids[0].id,
         },
       ]);
     });
