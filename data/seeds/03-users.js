@@ -1,12 +1,6 @@
 const bcrypt = require('bcryptjs');
-const db = require('../db-config')
-exports.seed = function (knex) {
 
-  db('addresses').then(rows => {
-    console.log(rows)
-  }).catch(err => {
-    console.error(err)
-  })
+exports.seed = function (knex) {
   
   return knex('users')
     .del()
@@ -29,8 +23,8 @@ exports.seed = function (knex) {
           role: 'landlord',
           familySize: 3,
           addressId: 2,
-          isRequestingAssistance: true,
-          requestStatus: 'received',
+          // isRequestingAssistance: true,
+          // requestStatus: 'received',
           monthlyIncome: 1100
         },
         {
@@ -41,8 +35,8 @@ exports.seed = function (knex) {
           password: bcrypt.hashSync('testpassword', 1),
           role: 'tenant',
           addressId: 3,
-          isRequestingAssistance: true,
-          requestStatus: 'received',
+          // isRequestingAssistance: true,
+          // requestStatus: 'received',
           monthlyIncome: 400,
         },
       ]);
