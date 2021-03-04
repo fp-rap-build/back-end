@@ -187,6 +187,8 @@ router.get('/me', authRequired, (req, res) => {
 router.put('/me', authRequired, async (req, res) => {
   const { id } = req.user;
 
+  console.log(id)
+
   let role = req.body['role'];
 
   // Users can't update their role to admin or program manager
@@ -364,20 +366,8 @@ router.get('/', authRequired, restrictTo('admin'), async (req, res) => {
  *      500:
  *       $ref: '#/components/responses/ServerError'
  * */
-router.get(
-  '/requests',
-  authRequired,
-  restrictTo('admin', 'program_manager'),
-  async (req, res) => {
-    try {
-      let users = await Users.findAll({ isRequestingAssistance: true });
 
-      res.status(200).json(users);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  }
-);
+//GET REQUESTS END POINT MOVED TO 'requests/active'
 
 /**
  * @swagger
