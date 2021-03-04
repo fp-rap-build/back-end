@@ -50,6 +50,14 @@ router.delete('/', async (req, res) => {
   }
 });
 
-//View all active requests with 
-
+//View all active requests
+router.get('/active', async (req, res) => {
+  try {
+    const resRequests = await Requests.findAllActive();
+    res.status(200).json(resRequests);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 module.exports = router;

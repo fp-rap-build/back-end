@@ -13,7 +13,7 @@ exports.up = function (knex) {
       ])
       .notNullable()
       .defaultsTo('received');
-    tbl.date('requestDate').defaultsTo(knex.raw('now()'))
+    tbl.date('requestDate').defaultsTo(knex.raw('current_date'))
     tbl.boolean('apmApproval').defaultsTo(false);
     tbl.boolean('pmApproval').defaultsTo(false);
     tbl.boolean('bookKeeperApproval').defaultsTo(false);
