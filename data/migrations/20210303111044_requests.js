@@ -1,7 +1,8 @@
 exports.up = function (knex) {
   return knex.schema.createTable('requests', (tbl) => {
     tbl.increments('id');
-    tbl.uuid('requesterId').notNullable().references('id').inTable('users');
+    tbl.uuid('tenantId').references('id').inTable('users');
+    tbl.uuid('landlordId').references('id').inTable('users');
     tbl
       .enu('requestStatus', [
         'received',
@@ -12,6 +13,7 @@ exports.up = function (knex) {
       ])
       .notNullable()
       .defaultsTo('received');
+    tbl.date('requestDate').defaultsTo(knex.raw('now()'))
     tbl.boolean('apmApproval').defaultsTo(false);
     tbl.boolean('pmApproval').defaultsTo(false);
     tbl.boolean('bookKeeperApproval').defaultsTo(false);

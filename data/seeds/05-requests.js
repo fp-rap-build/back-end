@@ -15,7 +15,8 @@ exports.seed = async function (knex) {
     .then(function () {
       return knex('requests').insert([
         {
-          requesterId: ids[2].id,
+          tenantId: ids[2].id,
+          landlordId: ids[1].id,
         },
       ]);
     });

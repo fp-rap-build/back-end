@@ -12,6 +12,8 @@ const update = (id, request) => {
   return db('requests').where({ id }).first().update(request).returning('*');
 };
 
+
+
 module.exports = {
   findAll,
   create,
