@@ -1,14 +1,14 @@
 const express = require('express');
 const authRequired = require('../../middleware/authRequired');
-const Requests = require('./requestsModel');
+const Comments = require('./commentsModel');
 const restrictTo = require('../../middleware/restrictTo');
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const allRequests = await Requests.findAll();
-    res.status(200).json({ requests: allRequests });
+    const allComments = await Comments.findAll();
+    res.status(200).json(allComments);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -17,9 +17,8 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const request = req.body;
-    const newRequest = await Requests.create(request);
-    res.status(200).json(newRequest);
+    const newComment = await Comments.create(req.body);
+    res.status(200).json(newComment);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -27,10 +26,10 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/', async (req, res) => {
+  const comment = req.body;
   try {
-    const change = req.body;
-    const updatedRequest = await Requests.update(change.id, change);
-    res.status(200).json(updatedRequest);
+    const updatedComment = await Comments.update(comment.id, comment);
+    res.status(200).json(updatedComment);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -38,12 +37,12 @@ router.put('/', async (req, res) => {
 });
 
 router.delete('/', async (req, res) => {
+  const { id } = req.body;
   try {
-    const { id } = req.body;
-    await Requests.remove(id);
+    await Comments.remove(id);
     res
       .status(200)
-      .json({ message: `Requests with id: ${id} succesfully deleted` });
+      .json({ message: `Comment with id: ${id} succesfully deleted` });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Internal server error' });

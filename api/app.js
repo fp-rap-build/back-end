@@ -27,6 +27,7 @@ const orgRouter = require('./routes/organizations/org-router');
 const addrRouter = require('./routes/addresses/addr-router');
 const authRouter = require('./routes/auth/authRouter');
 const requestsRouter = require('./routes/requests/requestsRouter');
+const commentsRouter = require('./routes/comments/commentsRouter');
 
 const app = express();
 
@@ -61,6 +62,7 @@ app.use('/data', dsRouter);
 app.use('/orgs', orgRouter);
 app.use('/addrs', addrRouter);
 app.use('/requests', requestsRouter);
+app.use('/comments', commentsRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

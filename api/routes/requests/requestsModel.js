@@ -1,6 +1,6 @@
 const db = require('../../../data/db-config');
 
-const findAll = async () => await db('requests as r');
+const findAll = async () => await db('requests');
 
 const create = (request) => {
   return db('requests').insert(request).returning('*');
