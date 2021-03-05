@@ -4,7 +4,6 @@ exports.seed = function (knex) {
   return knex('users')
     .del()
     .then(function () {
-      // Inserts seed entries
       return knex('users').insert([
         {
           email: 'admin@gmail.com',
@@ -22,9 +21,17 @@ exports.seed = function (knex) {
           role: 'landlord',
           familySize: 3,
           addressId: 2,
-          // isRequestingAssistance: true,
-          // requestStatus: 'received',
           monthlyIncome: 1100,
+        },
+        {
+          email: 'tenant@gmail.com',
+          firstName: 'Billy',
+          lastName: 'Kimber',
+          familySize: 4,
+          password: bcrypt.hashSync('testpassword', 1),
+          role: 'tenant',
+          addressId: 3,
+          monthlyIncome: 400,
         },
       ]);
     });

@@ -13,7 +13,8 @@ exports.up = function (knex) {
       ])
       .notNullable()
       .defaultsTo('received');
-    tbl.date('requestDate').defaultsTo(knex.raw('current_date'))
+    tbl.date('requestDate').defaultsTo(knex.raw('current_date'));
+    tbl.integer('orgId').references('id').inTable('organizations');
     tbl.boolean('apmApproval').defaultsTo(false);
     tbl.boolean('pmApproval').defaultsTo(false);
     tbl.boolean('bookKeeperApproval').defaultsTo(false);
