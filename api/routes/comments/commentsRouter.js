@@ -15,6 +15,18 @@ router.get('/', async (req, res) => {
   }
 });
 
+//Can filter by id, requestId, or authorId
+router.get('/find', async (req, res) => {
+  const filter = req.body;
+  try {
+    const foundComments = await Comments.findBy(filter);
+    res.status(200).json(foundComments);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 router.post('/', async (req, res) => {
   try {
     const newComment = await Comments.create(req.body);
