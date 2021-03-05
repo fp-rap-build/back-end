@@ -1,5 +1,4 @@
 const express = require('express');
-const authRequired = require('../../middleware/authRequired');
 const Requests = require('./requestsModel');
 const restrictTo = require('../../middleware/restrictTo');
 
