@@ -8,6 +8,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 const dotenv = require('dotenv');
 const jsdocConfig = require('../config/jsdoc');
+const authRequired = require('./middleware/authRequired');
 
 const config_result = dotenv.config();
 if (process.env.NODE_ENV != 'production' && config_result.error) {
@@ -61,8 +62,8 @@ app.use(['/user', '/users'], userRouter);
 app.use('/data', dsRouter);
 app.use('/orgs', orgRouter);
 app.use('/addrs', addrRouter);
-app.use('/requests', requestsRouter);
-app.use('/comments', commentsRouter);
+app.use('/requests', authRequired, requestsRouter);
+app.use('/comments', authRequired, commentsRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

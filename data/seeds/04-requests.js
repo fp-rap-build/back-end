@@ -17,6 +17,7 @@ exports.seed = async function (knex) {
         {
           tenantId: ids[2].id,
           landlordId: ids[1].id,
+          orgId: 1
         },
       ]);
     });

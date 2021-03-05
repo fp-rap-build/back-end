@@ -23,18 +23,23 @@ const findAllActive = () => {
       'landlord.firstName as llFirstName',
       'landlord.lastName as llLastName',
       'r.requestStatus',
-      'r.requestDate', 
+      'r.requestDate',
       'r.apmApproval',
       'r.pmApproval',
       'r.bookKeeperApproval',
       'r.headAcctApproval',
-      'r.adminApproval',
+      'r.adminApproval'
     )
     .whereNot('r.requestStatus', 'denied');
 };
 
+const findBy = (filter) => {
+  return db('requests').where(filter);
+};
+
 module.exports = {
   findAll,
+  findBy,
   create,
   remove,
   update,
