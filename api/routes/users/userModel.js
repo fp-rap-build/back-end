@@ -90,6 +90,13 @@ const findOrCreateProfile = async (profileObj) => {
   );
 };
 
+const nameFromId = (id) => {
+  return db('users as u')
+    .select('u.firstName', 'u.lastName')
+    .where({ id })
+    .first();
+};
+
 module.exports = {
   findAll,
   findBy,
@@ -103,4 +110,5 @@ module.exports = {
   findAddressByUserId,
   findOrCreateAddress,
   updateAddressById,
+  nameFromId,
 };
