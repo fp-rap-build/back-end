@@ -3,7 +3,7 @@ const s3 = new aws.S3();
 const multerS3 = require('multer-s3');
 const multer = require('multer');
 const path = require('path');
-
+const { v4 } = require('uuid');
 
 const fileFilter = (req, file, cb) => {
 	const filetypes = /jpeg|jpg|png|pdf/;
@@ -26,11 +26,8 @@ const upload = multer({
 		acl: 'public-read',
 		s3,
 		bucket: process.env.AWS_BUCKET_NAME,
-		metadata: function(req, file, cb) {
-			cb(null, { fieldName: 'TESTING_METADATA' });
-		},
 		key: function(req, file, cb) {
-			cb(null, Date.now().toString());
+			cb(null, file.originalname + ":" + v4());
 		}
 	})
 });

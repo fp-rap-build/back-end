@@ -6,7 +6,11 @@ const Documents = require('../documentModel');
 const deleteDocument = async (req, res) => {
 	const { id } = req.params;
 
-	let params = { Bucket: process.env.AWS_BUCKET_NAME, Key: id };
+    let document = await Documents.findById(id)
+
+    document = document[0]
+
+	let params = { Bucket: process.env.AWS_BUCKET_NAME, Key: document.key };
 
 	try {
 		// Delete document from AWS
@@ -17,7 +21,6 @@ const deleteDocument = async (req, res) => {
 
 		res.status(200).json({ message: 'Document has been deleted', documentId: id });
 	} catch (error) {
-		console.log(error);
 		res.status(400).json({ error });
 	}
 };
