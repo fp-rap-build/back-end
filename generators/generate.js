@@ -105,6 +105,7 @@ module.exports = {
   getLastName,
   getAddress,
   getPhoneNumber,
+  getMonthlyIncome,
   getCity,
   getState,
   getZipCode,
