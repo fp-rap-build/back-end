@@ -10,14 +10,13 @@ const findAll = async (query = {}) =>
       'u.firstName',
       'u.lastName',
       'u.role',
-      'u.isRequestingAssistance',
-      'u.requestStatus',
       'u.familySize',
       'u.monthlyIncome',
       'a.address',
       'a.state',
       'a.cityName',
-      'a.zipCode'
+      'a.zipCode',
+      'u.progMgrId'
     )
     .modify((qb) => {
       if (query.isRequestingAssistance) {
@@ -53,8 +52,6 @@ const findOrCreateAddress = async (user) => {
 
 const updateAddressById = async (addressId, payload) =>
   await db('addresses').where({ id: addressId }).update(payload).returning('*');
-
-const findByOktaId = async (okta_id) => db('users').where({ okta_id });
 
 const create = async (user) => {
   // Create an empty address for the user and set the addressId
@@ -93,13 +90,19 @@ const findOrCreateProfile = async (profileObj) => {
   );
 };
 
+const nameFromId = (id) => {
+  return db('users as u')
+    .select('u.firstName', 'u.lastName')
+    .where({ id })
+    .first();
+};
+
 module.exports = {
   findAll,
   findBy,
   findById,
   findByIdAndUpdate,
   findByIdAndDelete,
-  findByOktaId,
   create,
   update,
   remove,
@@ -107,4 +110,5 @@ module.exports = {
   findAddressByUserId,
   findOrCreateAddress,
   updateAddressById,
+  nameFromId,
 };

@@ -9,17 +9,9 @@ exports.up = function (knex) {
       .enu('role', ['pending', 'tenant', 'landlord', 'admin', 'programManager'])
       .notNullable()
       .defaultsTo('pending');
-    tbl.boolean('isRequestingAssistance').defaultsTo(false);
-    tbl
-      .enu('requestStatus', ['received', 'inReview', 'approved', 'denied'])
-      .defaultsTo('received');
     tbl.integer('familySize').defaultsTo(0);
     tbl.integer('monthlyIncome').unsigned();
-    tbl
-      .integer('addressId')
-      .unsigned()
-      .references('id')
-      .inTable('addresses')
+    tbl.integer('addressId').unsigned().references('id').inTable('addresses');
     tbl
       .integer('organizationId')
       .unsigned()
