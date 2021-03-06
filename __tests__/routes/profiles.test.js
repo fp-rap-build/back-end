@@ -48,7 +48,6 @@ describe('User router endpoints', () => {
     it('Should return a user object containing information about the user', async () => {
       // mockResolvedValue should have a value of the expected returned value
       const user = {
-        id: mockData?.getOktaId(),
         email: mockData?.getEmail(),
         firstName: mockData?.getFirstName(),
         lastName: mockData?.getLastName(),

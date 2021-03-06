@@ -1,13 +1,6 @@
 const bcrypt = require('bcryptjs');
 const db = require('../db-config');
 exports.seed = function (knex) {
-  db('addresses')
-    .then((rows) => {
-      console.log(rows);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
 
   return knex('users')
     .del()

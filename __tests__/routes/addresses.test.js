@@ -54,7 +54,7 @@ describe('Address Model', () => {
       const updated = await Addr.update(1, addrs[1]);
 
       // 1 is the success response - this is worth fixing
-      expect(updated).toBe(1);
+      expect(updated.length).toBe(1);
     });
     it('should delete address', async () => {
       await Addr.create(addrs[0]);

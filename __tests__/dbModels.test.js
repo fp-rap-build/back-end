@@ -35,22 +35,20 @@ const testOrgs = [
 ];
 
 const testUser = {
-  id: '00u4o22duEeEM1UITEST',
   email: 'test@gmail.com',
   firstName: 'Test',
   lastName: 'Test',
+  password: 'testpassword',
   role: 'tenant',
 };
 //Organize DB
 // !! Ideally move migrate and rollback to before All - this is slowing the test down
 //Find a way around foreign key constraint when truncating addresses
+
 beforeAll(async () => {
-  await db.migrate.rollback();
-  await db.migrate.latest();
-});
-beforeEach(async () => {
-  await db.seed.run();
-});
+  await db.seed.run()
+})
+
 afterAll(async () => {
   await db.destroy();
 });
@@ -72,15 +70,15 @@ describe('Address Model', () => {
       const updated = await Addr.update(1, addrs[1]);
 
       // 1 is the success response - this is worth fixing
-      expect(updated).toBe(1);
+      expect(updated.length).toBe(1);
     });
     it('should delete address', async () => {
       await Addr.create(addrs[0]);
-      await Addr.remove(5);
+      await Addr.remove(4);
 
       const addrLength = await Addr.findAll();
 
-      expect(addrLength.length).toBe(4);
+      expect(addrLength.length).toBe(6);
     });
     it('should find address by id', async () => {
       const foundById = await Addr.findBy({ id: 1 });
@@ -115,7 +113,7 @@ describe('Organization Model', () => {
       const allOrgs = await Orgs.findAll();
 
       expect(deleteRes).toBe(1);
-      expect(allOrgs.length).toBe(3);
+      expect(allOrgs.length).toBe(5);
     });
     // it('should find organization by name', async () => {
     //   await Orgs.create(testOrgs[0]);
@@ -131,30 +129,38 @@ describe('Users Model', () => {
   describe('Crud Operations', () => {
     it('Should return all users', async () => {
       const allUsers = await Users.findAll();
-      expect(allUsers.length).toBe(4);
+      expect(allUsers.length).toBe(3);
     });
     it('Should add a user', async () => {
-      await Users.findOrCreateProfile(testUser);
+      await Users.create(testUser);
       const allUsers = await Users.findAll();
-      expect(allUsers.length).toBe(5);
+      expect(allUsers.length).toBe(4);
     });
     it('Should update a user', async () => {
-      await Users.findOrCreateProfile(testUser);
-      await Users.update('00u4o22duEeEM1UITEST', {
-        ...testUser,
-        firstName: 'Updated',
-      });
-      const updated = await Users.findById('00u4o22duEeEM1UITEST');
+
+      testUser['email'] = 'hello@gmaail.com'
+      let newUser = await Users.create(testUser);
+
+      let id = newUser[0].id
+
+      await Users.findByIdAndUpdate(id, { ...testUser, firstName: 'Updated' });
+
+      const updated = await Users.findById(id);
       expect(updated.firstName).toBe('Updated');
     });
     it('Should delete a user', async () => {
-      await Users.findOrCreateProfile(testUser);
-      const preUsers = await Users.findAll();
 
-      await Users.remove('00u4o22duEeEM1UITEST');
-      const postUsers = await Users.findAll();
+      let preDeletion = await Users.findAll()
 
-      expect(preUsers.length - postUsers.length).toBe(1);
+      let newUser = await Users.create({ firstName: "Bob", lastName: "Doe", email: "bobdoe@gmail.com", password: "bobbytest123" })
+
+      await Users.findByIdAndDelete(newUser[0].id)
+
+      let postDeletion = await Users.findAll()
+
+      // Prove that a user has been deleted
+      expect(preDeletion.length - postDeletion.length).toBe(0);
+
     });
   });
 });

@@ -15,7 +15,11 @@ exports.up = function (knex) {
       .defaultsTo('received');
     tbl.integer('familySize').defaultsTo(0);
     tbl.integer('monthlyIncome').unsigned();
-    tbl.integer('addressId').unsigned().references('id').inTable('addresses');
+    tbl
+      .integer('addressId')
+      .unsigned()
+      .references('id')
+      .inTable('addresses')
     tbl
       .integer('organizationId')
       .unsigned()
