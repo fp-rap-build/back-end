@@ -1,0 +1,43 @@
+const aws = require('aws-sdk');
+const s3 = new aws.S3();
+const multerS3 = require('multer-s3');
+const multer = require('multer');
+const path = require('path');
+
+aws.config.update({
+	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+	accessKeyId: process.env.AWS_ACCESS_KEY,
+	region: 'us-east-2'
+});
+
+const fileFilter = (req, file, cb) => {
+	const filetypes = /jpeg|jpg|png|pdf/;
+	// Check ext
+	const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+	// Check mime
+	const mimetype = filetypes.test(file.mimetype);
+
+	if (mimetype && extname) {
+		cb(null, true);
+	} else {
+		cb(new Error('Invalid file type, only images and pdfs are allowed!'), false);
+	}
+};
+
+const upload = multer({
+	fileFilter,
+	storage: multerS3({
+		acl: 'public-read',
+		s3,
+		bucket: process.env.AWS_BUCKET_NAME,
+		metadata: function(req, file, cb) {
+			cb(null, { fieldName: 'TESTING_METADATA' });
+		},
+		key: function(req, file, cb) {
+			cb(null, Date.now().toString());
+		}
+	})
+});
+
+module.exports = upload;
