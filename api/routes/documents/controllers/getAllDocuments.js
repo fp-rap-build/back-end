@@ -1,5 +1,18 @@
-const getAllDocuments = (req,res) => {
-    res.send('all documents')
-}
+const Documents = require('../documentModel');
 
-module.exports = getAllDocuments
+const getAllDocuments = async (req, res) => {
+	const { id } = req.params;
+
+	try {
+		const documents = await Documents.findAllByRequestId(id);
+
+		res.status(200).json({
+			results: documents.length,
+			documents: documents
+		});
+	} catch (error) {
+		res.status(500).json({ message: 'Unable to retrieve documents' });
+	}
+};
+
+module.exports = getAllDocuments;

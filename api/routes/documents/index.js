@@ -8,6 +8,6 @@ const utils = require('./utils');
 const { getAllDocuments, createDocument } = require('./controllers');
 
 // Routes
-router.route('/').post(createDocument);
+router.route('/').post(createDocument).get(getAllDocuments);
 
 module.exports = router;
