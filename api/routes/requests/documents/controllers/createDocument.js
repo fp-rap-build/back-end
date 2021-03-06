@@ -3,6 +3,7 @@ const singleUpload = upload.single('image');
 const Documents = require('../documentModel');
 
 const createDocument = async (req, res) => {
+
 	singleUpload(req, res, async (err) => {
 		if (err) {
 			return res.json({
@@ -17,8 +18,10 @@ const createDocument = async (req, res) => {
 		// Document was successfully saved to the S3 bucket, let's store a reference to that document in our db
 
 		let documentData = {
+			id: req.file.key,
 			requestId: req.params.id,
-			key: req.file.key,
+			type: req.file.mimetype,
+			name: req.file.originalname,
 			location: req.file.location
 		};
 

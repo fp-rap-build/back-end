@@ -1,10 +1,11 @@
 exports.up = function(knex) {
 	return knex.schema.createTable('documents', (tbl) => {
-		tbl.increments();
+		tbl.string('id').notNullable().primary();
 		tbl.integer('requestId').notNullable().references('id').inTable('requests');
-		tbl.string('key').notNullable();
+		tbl.string('name')
+		tbl.string('type')
 		tbl.string('location').notNullable();
-        tbl.timestamp('createdAt').defaultTo(knex.fn.now());
+		tbl.timestamp('createdAt').defaultTo(knex.fn.now());
 	});
 };
 

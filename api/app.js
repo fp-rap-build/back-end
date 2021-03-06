@@ -59,9 +59,9 @@ app.use([ '/user', '/users' ], userRouter);
 app.use('/data', dsRouter);
 app.use('/orgs', orgRouter);
 app.use('/addrs', addrRouter);
-app.use('/requests/:id/documents', documentsRouter);
 app.use('/requests', authRequired, requestsRouter);
 app.use('/comments', authRequired, commentsRouter);
+app.use('/documents', authRequired, documentsRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

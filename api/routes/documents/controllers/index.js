@@ -1,8 +1,5 @@
-const createDocument = require('./createDocument');
-
-const getAllDocuments = require('./getAllDocuments');
+const deleteDocument = require('./deleteDocument')
 
 module.exports = {
-	createDocument,
-	getAllDocuments
-};
+    deleteDocument
+}

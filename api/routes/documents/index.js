@@ -1,18 +1,12 @@
 const express = require('express');
-const router = express.Router({ mergeParams: true });
-
-// Middlewares
-const utils = require('./utils');
-
-// Validators
-const { validateRequestId } = require('./validators');
+const router = express.Router();
 
 // Controllers
-const { getAllDocuments, createDocument } = require('./controllers');
+const { deleteDocument } = require('./controllers');
 
-router.use(validateRequestId);
+// Validators
+const { checkIfDocumentExists } = require('./validators');
 
-// Routes
-router.route('/').post(createDocument).get(getAllDocuments);
+router.route('/:id').all(checkIfDocumentExists).delete(deleteDocument);
 
 module.exports = router;

@@ -8,7 +8,7 @@ const getAllDocuments = async (req, res) => {
 
 		res.status(200).json({
 			results: documents.length,
-			documents: documents
+			documents
 		});
 	} catch (error) {
 		res.status(500).json({ message: 'Unable to retrieve documents' });

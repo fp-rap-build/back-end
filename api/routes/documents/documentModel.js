@@ -1,13 +1,13 @@
-const db = require('../../../data/db-config');
+const db = require('../../../data/db-config')
 
-const save = (document) => db('documents').insert(document).returning('*');
+const findAll = () => db('documents')
 
-const findAll = () => db('documents');
+const findById = (id) => db('documents').where({ id })
 
-const findAllByRequestId = (requestId) => db('documents').where({ requestId });
+const findByIdAndDelete = (id) => db('documents').where({ id }).del();
 
 module.exports = {
-	save,
-	findAll,
-	findAllByRequestId
+    findAll,
+    findById,
+	findByIdAndDelete
 };

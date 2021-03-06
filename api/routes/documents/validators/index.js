@@ -1,13 +1,13 @@
-const Requests = require('../../requests/requestsModel');
+const Documents = require('../documentModel');
 
-const validateRequestId = async (req, res, next) => {
+const checkIfDocumentExists = async (req, res, next) => {
 	const { id } = req.params;
 
 	try {
-		const request = await Requests.findBy({ id });
+		let document = await Documents.findById(id);
 
-		if (request.length === 0) {
-			return res.status(404).json({ message: `Request with id of ${id} does not exist` });
+		if (document.length == 0) {
+			return res.status(404).json({ message: `Document with id of ${id} does not exist` });
 		}
 
 		next();
@@ -16,4 +16,4 @@ const validateRequestId = async (req, res, next) => {
 	}
 };
 
-module.exports = { validateRequestId };
+module.exports = { checkIfDocumentExists };
