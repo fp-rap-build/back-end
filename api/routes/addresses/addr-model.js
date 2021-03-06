@@ -17,7 +17,7 @@ const create = (addr) => {
 };
 
 const update = (id, addr) => {
-  return db('addresses').where('id', id).update(addr);
+  return db('addresses').where('id', id).update(addr).returning('*')
 };
 
 const remove = (id) => {

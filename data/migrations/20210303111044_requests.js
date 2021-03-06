@@ -4,8 +4,8 @@ exports.up = function (knex) {
     tbl.uuid('tenantId').references('id').inTable('users');
     tbl.uuid('landlordId').references('id').inTable('users');
     tbl
-      .enu('requestStatus', [
-        'received',
+    .enu('requestStatus', [
+      'received',
         'inReview',
         'pending',
         'approved',
@@ -13,13 +13,14 @@ exports.up = function (knex) {
       ])
       .notNullable()
       .defaultsTo('received');
-    tbl.date('requestDate').defaultsTo(knex.raw('current_date'));
-    tbl.integer('orgId').references('id').inTable('organizations');
+      tbl.date('requestDate').defaultsTo(knex.raw('current_date'));
+      tbl.integer('orgId').references('id').inTable('organizations');
     tbl.boolean('apmApproval').defaultsTo(false);
     tbl.boolean('pmApproval').defaultsTo(false);
     tbl.boolean('bookKeeperApproval').defaultsTo(false);
     tbl.boolean('headAcctApproval').defaultsTo(false);
     tbl.boolean('adminApproval').defaultsTo(false);
+    tbl.timestamp('createdAt').defaultTo(knex.fn.now());
   });
 };
 

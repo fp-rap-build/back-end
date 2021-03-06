@@ -2,6 +2,16 @@ const express = require('express');
 const Requests = require('./requestsModel');
 const restrictTo = require('../../middleware/restrictTo');
 
+
+// Middlewares
+const utils = require('./documents/utils');
+
+// Validators
+const { validateRequestId } = require('./documents/validators');
+
+// Controllers
+const { getAllDocuments, createDocument } = require('./documents/controllers');
+
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -71,5 +81,8 @@ router.delete('/', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
+router.route('/:id/documents').all(validateRequestId).post(createDocument).get(getAllDocuments)
 
 module.exports = router;
