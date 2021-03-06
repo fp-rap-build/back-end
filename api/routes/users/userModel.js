@@ -16,7 +16,6 @@ const findAll = async (query = {}) =>
       'a.state',
       'a.cityName',
       'a.zipCode',
-      'u.progMgrId'
     )
     .modify((qb) => {
       if (query.isRequestingAssistance) {
