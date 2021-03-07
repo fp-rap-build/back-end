@@ -4,7 +4,7 @@ const db = require('../../data/db-config');
 
 beforeAll(async () => {
   await db.seed.run();
-})
+});
 
 afterAll(async () => {
   await db.destroy();
@@ -126,36 +126,36 @@ describe('Auth router endpoints', () => {
     });
 
     it('Responds with 401 when user does not exist', async () => {
-
       const nonExistentUser = {
-        email: "iDontExist@gmail.com",
-        password: "testpassword"
-      }
+        email: 'iDontExist@gmail.com',
+        password: 'testpassword',
+      };
 
-      let res = await supertest(app).post('/auth/login').send(nonExistentUser)
+      let res = await supertest(app).post('/auth/login').send(nonExistentUser);
 
-      expect(res.type).toBe('application/json')
-      expect(res.status).toBe(401)
-      expect(res.body.message).toBe('Incorrect email or password')
-    })
+      expect(res.type).toBe('application/json');
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Incorrect email or password');
+    });
 
     it('Responds with 401 when passwords do not match', async () => {
       const userWithInvalidPassword = {
-        email: "tenant@gmail.com",
-        password: "Wrongpassword123"
-      }
+        email: 'tenant@gmail.com',
+        password: 'Wrongpassword123',
+      };
 
       // Login
 
-      let res = await supertest(app).post('/auth/login').send(userWithInvalidPassword)
+      let res = await supertest(app)
+        .post('/auth/login')
+        .send(userWithInvalidPassword);
 
       // Assertions
 
-      expect(res.type).toBe('application/json')
-      expect(res.status).toBe(401)
-      expect(res.body.message).toBe('Incorrect email or password')
-
-    })
+      expect(res.type).toBe('application/json');
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Incorrect email or password');
+    });
   });
 
   describe('Protected routes', () => {
@@ -217,13 +217,17 @@ describe('Auth router endpoints', () => {
 
       // Hit a protected route
 
-      let res = await supertest(app).get('/users/me').set('authorization', `Bearer ${token}`)
+      let res = await supertest(app)
+        .get('/users/me')
+        .set('authorization', `Bearer ${token}`);
 
       // Assertions
 
-      expect(res.type).toBe('application/json')
-      expect(res.status).toBe(401)
-      expect(res.body.message).toBe('The user belonging to this token no longer exists')
+      expect(res.type).toBe('application/json');
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe(
+        'The user belonging to this token no longer exists'
+      );
     });
   });
 });

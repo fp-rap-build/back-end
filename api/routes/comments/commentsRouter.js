@@ -1,5 +1,4 @@
 const express = require('express');
-const authRequired = require('../../middleware/authRequired');
 const Comments = require('./commentsModel');
 const restrictTo = require('../../middleware/restrictTo');
 
@@ -9,6 +8,18 @@ router.get('/', async (req, res) => {
   try {
     const allComments = await Comments.findAll();
     res.status(200).json(allComments);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+//Can filter by id, requestId, or authorId
+router.get('/find', async (req, res) => {
+  const filter = req.body;
+  try {
+    const foundComments = await Comments.findBy(filter);
+    res.status(200).json(foundComments);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Internal server error' });

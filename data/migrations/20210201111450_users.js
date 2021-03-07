@@ -19,13 +19,9 @@ exports.up = function (knex) {
       .inTable('organizations')
       .onDelete('RESTRICT')
       .onUpdate('RESTRICT');
-    tbl
-      .uuid('progMgrId')
-      .references('id')
-      .inTable('users')
-      .onDelete('RESTRICT')
-      .onUpdate('RESTRICT');
+    tbl.timestamp('createdAt').defaultTo(knex.fn.now());
   });
+
 };
 
 exports.down = function (knex) {

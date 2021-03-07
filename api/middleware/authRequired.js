@@ -40,6 +40,10 @@ const authRequired = async (req, res, next) => {
     req.user = currentUser;
     next();
   } catch (error) {
+    if (error.message == 'invalid token') {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+
     res.status(500).json({ message: 'Internal server error' });
   }
 };
