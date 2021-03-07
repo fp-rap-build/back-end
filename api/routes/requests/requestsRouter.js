@@ -2,7 +2,6 @@ const express = require('express');
 const Requests = require('./requestsModel');
 const restrictTo = require('../../middleware/restrictTo');
 
-
 // Middlewares
 const utils = require('./documents/utils');
 
@@ -46,6 +45,17 @@ router.get('/active', async (req, res) => {
   }
 });
 
+//Endpoint tailored for req table
+//Updates to shape data should be done in model @ 'findForTable'
+router.get('/table', async (req, res) => {
+  try {
+    const resRequests = await Requests.findForTable();
+    res.status(200).json(resRequests);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 router.get('/find', async (req, res) => {
   const filter = req.body;
@@ -82,7 +92,10 @@ router.delete('/', async (req, res) => {
   }
 });
 
-
-router.route('/:id/documents').all(validateRequestId).post(createDocument).get(getAllDocuments)
+router
+  .route('/:id/documents')
+  .all(validateRequestId)
+  .post(createDocument)
+  .get(getAllDocuments);
 
 module.exports = router;

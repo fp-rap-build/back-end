@@ -33,6 +33,24 @@ const findAllActive = () => {
     .whereNot('r.requestStatus', 'denied');
 };
 
+const findForTable = () => {
+  return db('requests as r')
+    .join('users as tenant', 'r.tenantId', '=', 'tenant.id')
+    .select(
+      'r.id',
+      'tenant.firstName',
+      'tenant.lastName',
+      'tenant.email',
+      'r.requestStatus',
+      'r.requestDate',
+      'r.apmApproval',
+      'r.pmApproval',
+      'r.bookKeeperApproval',
+      'r.headAcctApproval',
+      'r.adminApproval'
+    );
+};
+
 const findBy = (filter) => {
   return db('requests').where(filter);
 };
@@ -44,4 +62,5 @@ module.exports = {
   remove,
   update,
   findAllActive,
+  findForTable,
 };
