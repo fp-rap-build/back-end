@@ -1,7 +1,7 @@
 exports.up = function(knex) {
 	return knex.schema.createTable('requests', (tbl) => {
 		tbl.increments('id');
-		tbl.uuid('userId').references('id').inTable('users');
+		tbl.uuid('userId').notNullable().references('id').inTable('users');
 		tbl
 			.enu('requestStatus', [ 'received', 'inReview', 'pending', 'approved', 'denied' ])
 			.notNullable()
@@ -10,6 +10,7 @@ exports.up = function(knex) {
 		tbl.integer('familySize').defaultsTo(0);
 		tbl.integer('monthlyIncome').unsigned();
 		tbl.integer('addressId').unsigned().references('id').inTable('addresses');
+		
 		tbl.boolean('apmApproval').defaultsTo(false);
 		tbl.boolean('pmApproval').defaultsTo(false);
 		tbl.boolean('bookKeeperApproval').defaultsTo(false);
