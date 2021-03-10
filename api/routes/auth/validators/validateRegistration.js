@@ -30,18 +30,6 @@ module.exports = [
     .withMessage('Role is required')
     .custom((role) => validRoles.includes(role))
     .withMessage('Invalid role - your options are [tenant, landlord]'),
-  check('monthlyIncome')
-    .notEmpty()
-    .withMessage('Income is required')
-    .isInt()
-    .withMessage('Income must be a number'),
-  check('familySize')
-    .notEmpty()
-    .withMessage('Family Size is required')
-    .isInt()
-    .withMessage('Family size must be a number')
-    .isLength({ min: 1 })
-    .withMessage('Family size must be greater than 0'),
   async (req, res, next) => {
     const errors = validationResult(req);
     const { email } = req.body;

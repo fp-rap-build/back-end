@@ -30,6 +30,9 @@ router.post('/', async (req, res) => {
 		// Link the new address to the request
 		request['addressId'] = address[0].id;
 
+		// Remove the address before saving to db
+		delete request['address'];
+
 		const newRequest = await Requests.create(request);
 
 		res.status(200).json(newRequest);
@@ -84,7 +87,7 @@ router.get('/find', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-	const { id } = req.params
+	const { id } = req.params;
 	try {
 		const change = req.body;
 		const updatedRequest = await Requests.update(id, change);
