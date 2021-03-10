@@ -83,10 +83,12 @@ router.get('/find', async (req, res) => {
 	}
 });
 
-router.put('/', async (req, res) => {
+router.put('/:id', async (req, res) => {
+
+	const { id } = req.params
 	try {
 		const change = req.body;
-		const updatedRequest = await Requests.update(change.id, change);
+		const updatedRequest = await Requests.update(id, change);
 		res.status(200).json(updatedRequest);
 	} catch (error) {
 		console.log(error);
