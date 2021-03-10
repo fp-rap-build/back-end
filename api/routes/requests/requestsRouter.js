@@ -84,7 +84,6 @@ router.get('/find', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-
 	const { id } = req.params
 	try {
 		const change = req.body;
