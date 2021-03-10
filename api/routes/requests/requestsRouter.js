@@ -1,6 +1,7 @@
 const express = require('express');
 const Requests = require('./requestsModel');
 const restrictTo = require('../../middleware/restrictTo');
+const Addresses = require('../addresses/addr-model');
 
 // Middlewares
 const utils = require('./documents/utils');
@@ -11,17 +12,26 @@ const { validateRequestId } = require('./documents/validators');
 // Controllers
 const { getAllDocuments, createDocument } = require('./documents/controllers');
 
+const { createAddress, updateAddress } = require('./address/controllers');
+
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-	const { id } = req.user;
-
 	try {
 		const request = req.body;
 
-		request['userId'] = id;
+		// Create a new address
+		const addressInfo = request['address'] || {};
+		const address = await Addresses.create(addressInfo);
+
+		// Default to the current users ID if one isn't specified
+		request['userId'] = request['userId'] || req.user.id;
+
+		// Link the new address to the request
+		request['addressId'] = address[0].id;
 
 		const newRequest = await Requests.create(request);
+
 		res.status(200).json(newRequest);
 	} catch (error) {
 		console.log(error);
@@ -106,6 +116,8 @@ router.delete('/', async (req, res) => {
 		res.status(500).json({ message: 'Internal server error' });
 	}
 });
+
+router.route('/:id/address').all(validateRequestId).put(updateAddress);
 
 router.route('/:id/documents').all(validateRequestId).post(createDocument).get(getAllDocuments);
 
