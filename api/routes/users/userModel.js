@@ -23,7 +23,8 @@ const findRequestsByUserId = (userId) =>
 			'a.zipCode',
 			'a.cityName',
 			'a.state'
-		);
+		)
+		.where({ userId });
 
 const findById = async (id) => db('users').where({ id }).first('*');
 
