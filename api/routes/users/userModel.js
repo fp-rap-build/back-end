@@ -5,6 +5,26 @@ const findAll = async (query = {}) => await db('users');
 
 const findBy = async (filter) => await db('users').where(filter);
 
+const findRequestsByUserId = (userId) =>
+	db('requests as r')
+		.join('addresses as a', 'r.addressId', '=', 'a.id')
+		.select(
+			'r.id',
+			'r.familySize',
+			'r.monthlyIncome',
+			'r.requestStatus',
+			'r.requestDate',
+			'r.apmApproval',
+			'r.pmApproval',
+			'r.bookKeeperApproval',
+			'r.headAcctApproval',
+			'r.adminApproval',
+			'a.address',
+			'a.zipCode',
+			'a.cityName',
+			'a.state'
+		);
+
 const findById = async (id) => db('users').where({ id }).first('*');
 
 const findByIdAndUpdate = async (id, payload) => await db('users').where({ id }).update(payload).returning('*');
@@ -72,5 +92,6 @@ module.exports = {
 	findAddressByUserId,
 	findOrCreateAddress,
 	updateAddressById,
-	nameFromId
+	nameFromId,
+	findRequestsByUserId
 };
