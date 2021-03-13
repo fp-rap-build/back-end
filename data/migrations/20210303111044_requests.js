@@ -10,7 +10,6 @@ exports.up = function(knex) {
 		tbl.integer('familySize').defaultsTo(0);
 		tbl.integer('monthlyIncome').unsigned();
 		tbl.integer('addressId').unsigned().references('id').inTable('addresses');
-		
 		tbl.boolean('apmApproval').defaultsTo(false);
 		tbl.boolean('pmApproval').defaultsTo(false);
 		tbl.boolean('bookKeeperApproval').defaultsTo(false);
