@@ -53,6 +53,8 @@ const findForTable = () => {
       'r.headAcctApproval',
       'r.adminApproval',
       'r.verifiedDocuments',
+      'r.foodWrkr',
+      'r.unEmp90',
       'a.address',
       'a.zipCode',
       'a.cityName',
