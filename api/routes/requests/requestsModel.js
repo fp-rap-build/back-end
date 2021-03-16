@@ -35,14 +35,16 @@ const findAllActive = () => {
 
 const findForTable = () => {
   return db('requests as r')
-    .join('users as tenant', 'r.tenantId', '=', 'tenant.id')
-    .join('addresses as a', 'tenant.addressId', '=', 'a.id')
+    .join('addresses as a', 'r.addressId', '=', 'a.id')
+    .join('users as u', 'r.userId', '=', 'u.id')
     .select(
       'r.id',
-      'tenant.firstName',
-      'tenant.lastName',
-      'tenant.email',
-      'tenant.role',
+      'u.firstName',
+      'u.lastName',
+      'u.email',
+      'u.role',
+      'r.familySize',
+      'r.monthlyIncome',
       'r.requestStatus',
       'r.requestDate',
       'r.apmApproval',
@@ -50,6 +52,9 @@ const findForTable = () => {
       'r.bookKeeperApproval',
       'r.headAcctApproval',
       'r.adminApproval',
+      'r.verifiedDocuments',
+      'r.foodWrkr',
+      'r.unEmp90',
       'a.address',
       'a.zipCode',
       'a.cityName',
