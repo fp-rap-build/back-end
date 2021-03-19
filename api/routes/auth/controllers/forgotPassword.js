@@ -1,6 +1,6 @@
 const Users = require('../../users/userModel');
 
-const crypto = require('crypto')
+const crypto = require('crypto');
 
 const forgotPassword = async (req, res, next) => {
   const { email } = req.body;
@@ -11,7 +11,6 @@ const forgotPassword = async (req, res, next) => {
   }
 
   try {
-
     // Find user by email
     const user = await Users.findBy({ email });
 
@@ -22,12 +21,20 @@ const forgotPassword = async (req, res, next) => {
     }
 
     // Generate reset token
-    const resetToken = crypto.randomBytes(32).toString('hex')
+    const resetToken = crypto.randomBytes(32).toString('hex');
 
     // encrypt it
-    crypto.createHash('sha256').update(resetToken).digest('hex')
+    let encyptedResetToken = crypto
+      .createHash('sha256')
+      .update(resetToken)
+      .digest('hex');
+    
+    // Attach it to the user
+    await Users.update(user.id, encyptedResetToken);
 
+    res.send('wit');
   } catch (error) {
+    console.log(error);
     res.json(error);
   }
 };
