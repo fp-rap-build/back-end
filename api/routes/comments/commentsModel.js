@@ -16,7 +16,7 @@ const update = (id, comment) => {
 const findBy = (filter) => {
   return db('comments as c')
     .join('users as u', 'c.authorId', '=', 'u.id')
-    .select('c.id', 'c.requestId', 'u.firstName', 'u.lastName', 'c.comment')
+    .select('c.id', 'c.requestId', 'u.firstName', 'u.lastName', 'c.comment', 'c.createdAt')
     .where(filter);
 };
 
