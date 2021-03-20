@@ -30,6 +30,7 @@ const authRouter = require('./routes/auth/authRouter');
 const requestsRouter = require('./routes/requests/requestsRouter');
 const commentsRouter = require('./routes/comments/commentsRouter');
 const documentsRouter = require('./routes/documents');
+const analyticsRouter = require('./routes/analytics/analytics.router');
 
 const app = express();
 
@@ -62,6 +63,7 @@ app.use('/addrs', addrRouter);
 app.use('/requests', authRequired, requestsRouter);
 app.use('/comments', authRequired, commentsRouter);
 app.use('/documents', authRequired, documentsRouter);
+app.use('/analytics', authRequired, analyticsRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
