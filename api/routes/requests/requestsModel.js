@@ -66,6 +66,36 @@ const findBy = (filter) => {
   return db('requests').where(filter);
 };
 
+const findById = (id) => {
+  return db('requests as r')
+    .join('addresses as a', 'r.addressId', '=', 'a.id')
+    .join('users as u', 'r.userId', '=', 'u.id')
+    .select(
+      'r.id',
+      'u.firstName',
+      'u.lastName',
+      'u.email',
+      'u.role',
+      'r.familySize',
+      'r.monthlyIncome',
+      'r.requestStatus',
+      'r.requestDate',
+      'r.apmApproval',
+      'r.pmApproval',
+      'r.bookKeeperApproval',
+      'r.headAcctApproval',
+      'r.adminApproval',
+      'r.verifiedDocuments',
+      'r.foodWrkr',
+      'r.unEmp90',
+      'a.address',
+      'a.zipCode',
+      'a.cityName',
+      'a.state'
+    )
+    .where('r.id', '=', id);
+};
+
 module.exports = {
   findAll,
   findBy,
@@ -74,4 +104,5 @@ module.exports = {
   update,
   findAllActive,
   findForTable,
+  findById,
 };
