@@ -6,5 +6,9 @@ const getFamiliesServed = () => {
 
 const getPeopleServed = () => {
     return db.count("requestStatus").from("requests").where("requestStatus", "=", "approved");
+};
+
+const getChildrenServed = () => {
+    return db.sum("numChildren").from("requests").where("requestStatus", "=", "approved");
 }
-module.exports = {getFamiliesServed, getPeopleServed}
+module.exports = {getFamiliesServed, getPeopleServed, getChildrenServed}

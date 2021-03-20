@@ -23,4 +23,14 @@ router.get('/people_served', restrictTo('admin', 'programManager'), async (req, 
     }
 });
 
+router.get('/children_served', restrictTo('admin', 'programManager'), async (req, res) => {
+    try{
+        const sumChildrenServed = await Analytics.getChildrenServed();
+        res.status(200).json({ sumChildrenServed: sumChildrenServed });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: err.message });
+    }
+})
+
 module.exports = router;
