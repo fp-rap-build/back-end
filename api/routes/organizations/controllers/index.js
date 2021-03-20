@@ -31,10 +31,10 @@ const createOrganization = async (req, res) => {
 
 const updateOrganizationById = async (req, res) => {
   const { id } = req.params;
-  const newOrgName = req.body;
+  const newOrg = req.body;
   try {
-    const edit = await Org.update(id, newOrgName);
-    res.status(200).json({ message: `Organization name succesfully changed` });
+    const edit = await Org.update(id, newOrg);
+    res.status(200).json({ organization: edit[0] });
   } catch (err) {
     res.status(500).json({ errorMessage: err });
   }
