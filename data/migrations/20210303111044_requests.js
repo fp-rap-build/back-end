@@ -8,6 +8,7 @@ exports.up = function(knex) {
 			.defaultsTo('received');
 		tbl.integer('orgId').references('id').inTable('organizations');
 		tbl.integer('familySize').defaultsTo(0);
+		tbl.integer('numChildren').defaultsTo(0);
 		tbl.integer('monthlyIncome').unsigned();
 		tbl.integer('addressId').unsigned().references('id').inTable('addresses');
 		tbl.boolean('apmApproval').defaultsTo(false);
