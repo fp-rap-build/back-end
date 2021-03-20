@@ -17,7 +17,7 @@ const create = (org) => {
 };
 
 const update = (id, org) => {
-  return db('organizations').where('id', id).update(org);
+  return db('organizations').where('id', id).update(org).returning('*')
 };
 
 const remove = (id) => {
