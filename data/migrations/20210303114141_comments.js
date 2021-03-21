@@ -4,7 +4,8 @@ exports.up = function(knex) {
 		tbl.integer('requestId').references('id').inTable('requests');
 		tbl.uuid('authorId').references('id').inTable('users');
 		tbl.text('comment').notNullable();
-		tbl.timestamp('createdAt').defaultTo(knex.fn.now());
+    //Times stored using 24hr format i.e '2021-03-21 17:00:00'
+		tbl.timestamp('createdAt');
 	});
 };
 
