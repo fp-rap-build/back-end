@@ -12,6 +12,13 @@ const update = (id, comment) => {
   return db('comments').where({ id }).first().update(comment).returning('*');
 };
 
+const findByRequestId = id => {
+  return db('comments as c')
+  .join('users as u', 'c.authorId', '=', 'u.id')
+  .select('c.id', 'c.requestId', 'u.firstName', 'u.lastName', 'c.comment', 'c.createdAt')
+  .where({'c.requestId': id})
+  .orderByRaw('c.id ASC');
+}
 
 const findBy = (filter) => {
   return db('comments as c')
@@ -27,4 +34,5 @@ module.exports = {
   remove,
   update,
   findBy,
+  findByRequestId,
 };
