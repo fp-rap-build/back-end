@@ -16,7 +16,7 @@ const getPeopleServed = () => {
 
 const getChildrenServed = () => {
   return db
-    .sum('numChildren')
+    .sum('totalChildren')
     .from('requests')
     .where('requestStatus', '=', 'approved');
 };
