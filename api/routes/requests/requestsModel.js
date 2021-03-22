@@ -87,6 +87,7 @@ const findById = (id) => {
       'r.adminApproval',
       'r.verifiedDocuments',
       'r.foodWrkr',
+      'r.amountRequested',
       'r.unEmp90',
       'a.address',
       'a.zipCode',
