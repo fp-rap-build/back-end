@@ -37,7 +37,7 @@ router.get('/find/request/:id', async (req, res) => {
   }
 });
 
-router.get('/find/request/:id/category', async (req, res) => {
+router.post('/find/request/:id/category', async (req, res) => {
   const { id } = req.params;
   const { category } = req.body;
   try {
