@@ -1,11 +1,11 @@
 exports.up = function (knex) {
   return knex.schema.table('comments', (tbl) => {
-    tbl.enu('type', ['internal', 'external']).notNullable();
+    tbl.enu('category', ['internal', 'external']).notNullable();
   });
 };
 
 exports.down = function (knex) {
   return knex.schema.table('comments', (tbl) => {
-    tbl.dropColumn('type');
+    tbl.dropColumn('category');
   });
 };
