@@ -20,4 +20,11 @@ const getChildrenServed = () => {
     .from('requests')
     .where('requestStatus', '=', 'approved');
 };
+
+const getOrgBudget = (orgId) => {
+  return db
+    .select("budget")
+    .from("requests")
+    .where('id', '=', orgId);
+}
 module.exports = { getFamiliesServed, getPeopleServed, getChildrenServed };

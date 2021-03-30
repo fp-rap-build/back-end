@@ -46,4 +46,16 @@ router.get(
   }
 );
 
+router.get(
+  '/organization_budget/:id',
+  restrictTo('admin', 'programManager'),
+  async (req, res) => {
+    const id = req.params.id;
+    try {
+      const orgBudget = await analytics.getOrgBudget(id);
+      
+    }
+  }
+);
+
 module.exports = router;
