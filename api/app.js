@@ -31,6 +31,7 @@ const requestsRouter = require('./routes/requests/requestsRouter');
 const commentsRouter = require('./routes/comments/commentsRouter');
 const documentsRouter = require('./routes/documents');
 const analyticsRouter = require('./routes/analytics/analytics.router');
+const programsRouter = require('./routes/programs')
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.use(cookieParser());
 
 // application routes
 app.use('/', indexRouter);
+app.use('/programs', programsRouter)
 app.use('/auth', authRouter);
 app.use([ '/user', '/users' ], userRouter);
 app.use('/data', dsRouter);
