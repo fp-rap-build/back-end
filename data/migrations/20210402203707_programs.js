@@ -4,13 +4,14 @@ exports.up = function(knex) {
 		tbl
 			.integer('organizationId')
 			.unsigned()
+            .notNullable()
 			.references('id')
 			.inTable('organizations')
 			.onDelete('RESTRICT')
 			.onUpdate('RESTRICT');
-            
+
 		tbl.string('name', 128).notNullable();
-        tbl.integer('budget')
+        tbl.integer('budget').defaultTo(0)
 		tbl.timestamp('createdAt').defaultTo(knex.fn.now());
 	});
 };

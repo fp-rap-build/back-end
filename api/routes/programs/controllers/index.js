@@ -13,12 +13,16 @@ const getAllPrograms = async (req, res, next) => {
 };
 
 const createProgram = async (req, res, next) => {
+    const program = req.body
+
     try {
-        
+        const newProgram = await Programs.create(program)
+
+        res.status(201).json({ program: newProgram })
     } catch (error) {
-        res.status(500).json({ message: 'internal server error' })
+        res.status(500).json({ message: 'unable to create program' })
     }
-  res.send('create program');
+
 };
 const getProgramById = async (req, res, next) => {
     try {
