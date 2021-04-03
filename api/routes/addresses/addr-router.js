@@ -9,7 +9,7 @@ const {
   getAllAddresses,
   createAddress,
   getAddressById,
-  updateAddressById
+  updateAddressById,
 } = require('./controllers');
 
 // Global middleware
@@ -18,9 +18,6 @@ router.use(authRequired, restrictTo('admin'));
 // Routes
 router.route('/').get(getAllAddresses).post(createAddress);
 
-router
-  .route('/:id')
-  .get(getAddressById)
-  .put(updateAddressById)
+router.route('/:id').get(getAddressById).put(updateAddressById);
 
 module.exports = router;

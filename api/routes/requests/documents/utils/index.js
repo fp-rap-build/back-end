@@ -6,30 +6,33 @@ const path = require('path');
 const { v4 } = require('uuid');
 
 const fileFilter = (req, file, cb) => {
-	const filetypes = /jpeg|jpg|png|pdf/;
-	// Check ext
-	const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const filetypes = /jpeg|jpg|png|pdf/;
+  // Check ext
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
 
-	// Check mime
-	const mimetype = filetypes.test(file.mimetype);
+  // Check mime
+  const mimetype = filetypes.test(file.mimetype);
 
-	if (mimetype && extname) {
-		cb(null, true);
-	} else {
-		cb(new Error('Invalid file type, only images and pdfs are allowed!'), false);
-	}
+  if (mimetype && extname) {
+    cb(null, true);
+  } else {
+    cb(
+      new Error('Invalid file type, only images and pdfs are allowed!'),
+      false
+    );
+  }
 };
 
 const upload = multer({
-	fileFilter,
-	storage: multerS3({
-		acl: 'public-read',
-		s3,
-		bucket: process.env.AWS_BUCKET_NAME,
-		key: function(req, file, cb) {
-			cb(null, Date.now() + '-' + file.originalname);
-		}
-	})
+  fileFilter,
+  storage: multerS3({
+    acl: 'public-read',
+    s3,
+    bucket: process.env.AWS_BUCKET_NAME,
+    key: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname);
+    },
+  }),
 });
 
 module.exports = upload;

@@ -1,6 +1,6 @@
 const Org = require('../org-model');
 
-const Programs = require('../../programs/model')
+const Programs = require('../../programs/model');
 
 const getAllOrganizations = async (req, res) => {
   try {
@@ -11,18 +11,19 @@ const getAllOrganizations = async (req, res) => {
   }
 };
 
-const getAllProgramsByOrganizationId = async (req,res) => {
-
-  const { id } = req.params
+const getAllProgramsByOrganizationId = async (req, res) => {
+  const { id } = req.params;
 
   try {
-    const programs = await Org.getProgramsByOrgId(id)
+    const programs = await Org.getProgramsByOrgId(id);
 
-    res.status(200).json({ programs })
+    res.status(200).json({ programs });
   } catch (error) {
-    res.status(500).json({ message: 'unable to get programs by orginization id' })
+    res
+      .status(500)
+      .json({ message: 'unable to get programs by orginization id' });
   }
-}
+};
 
 const getOrganizationById = async (req, res) => {
   const { id } = req.params;
@@ -44,21 +45,20 @@ const createOrganization = async (req, res) => {
   }
 };
 
-const createProgram = async (req,res) => {
+const createProgram = async (req, res) => {
+  let program = req.body;
+  const organizationId = req.params.id;
 
-  let program = req.body
-  const organizationId = req.params.id
-
-  program['organizationId'] = organizationId
+  program['organizationId'] = organizationId;
 
   try {
-    const newProgram = await Programs.create(program)
+    const newProgram = await Programs.create(program);
 
-    res.status(201).json({ program: newProgram[0] })
+    res.status(201).json({ program: newProgram[0] });
   } catch (error) {
-    res.status(500).json({ message: 'unable to create program' })
+    res.status(500).json({ message: 'unable to create program' });
   }
-}
+};
 
 const updateOrganizationById = async (req, res) => {
   const { id } = req.params;
@@ -81,8 +81,6 @@ const deleteOrganizationById = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
   getAllOrganizations,
   createOrganization,
@@ -90,5 +88,5 @@ module.exports = {
   updateOrganizationById,
   deleteOrganizationById,
   getAllProgramsByOrganizationId,
-  createProgram
+  createProgram,
 };
