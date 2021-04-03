@@ -1,6 +1,7 @@
 const Programs = require('../model')
 
 const Orginizations = require('../../organizations/org-model')
+const { updateProgramById } = require('../controllers')
 
 const validateProgramId = async (req,res,next) => {
 
@@ -17,6 +18,8 @@ const validateProgramId = async (req,res,next) => {
     }
 }
 
+// #TODO
+// Use express-validator to validate the type of each field
 const validateCreateProgram = async (req,res,next) => {
 
     const program = req.body
@@ -25,7 +28,8 @@ const validateCreateProgram = async (req,res,next) => {
         if(!program.name || !program.organizationId) {
             return res.status(400).json({ message: 'name and organizationId is required' })
         }
-        
+    
+
         // validate orginization exists
         const orginization = await Orginizations.findById(program.organizationId)
 
@@ -36,12 +40,23 @@ const validateCreateProgram = async (req,res,next) => {
         // Passed all checks, move on to the next middleware
         next()
     } catch (error) {
-        console.log(error)
         res.status(500).json({ message: "unable to validate create program" })
     }
 }
 
+
+const validateUpdateProgram = async (req,res,next) => {
+    const updatedProgram = req.body
+
+    if(updatedProgram.organizationId) {
+        return res.status(401).json({ message: "Cannot transfer a program to another organization" })
+    }
+
+    next()
+}
+
 module.exports = {
     validateProgramId,
-    validateCreateProgram
+    validateCreateProgram,
+    validateUpdateProgram
 }
