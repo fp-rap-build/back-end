@@ -22,7 +22,8 @@ const findByRequestId = (id) => {
       'u.firstName',
       'u.lastName',
       'c.comment',
-      'c.createdAt'
+      'c.createdAt',
+      'c.category'
     )
     .where({ 'c.requestId': id })
     .orderByRaw('c.id ASC');
@@ -40,7 +41,7 @@ const findByRequestIdAndCategory = (id, category) => {
       'c.createdAt'
     )
     .where({ 'c.requestId': id })
-    .andWhere({ category: category })
+    .andWhere({ 'c.category': category })
     .orderByRaw('c.id ASC');
 };
 
