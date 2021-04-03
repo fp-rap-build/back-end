@@ -13,6 +13,9 @@ const {
   getOrganizationById,
   updateOrganizationById,
   deleteOrganizationById,
+  getAllProgramsByOrganizationId,
+  createProgram
+  
 } = require('./controllers');
 
 // These middewares will run for every route
@@ -25,5 +28,7 @@ router
   .get(getOrganizationById)
   .put(updateOrganizationById)
   .delete(deleteOrganizationById);
+
+router.route('/:id/programs').get(getAllProgramsByOrganizationId).post(createProgram)
 
 module.exports = router;
