@@ -25,28 +25,47 @@ const createProgram = async (req, res, next) => {
 
 };
 const getProgramById = async (req, res, next) => {
+
+    const { id } = req.params
+
     try {
-        
+        const program = await Programs.findById(id)
+
+        res.status(200).json({ program: program[0] })
+
     } catch (error) {
-        res.status(500).json({ message: 'internal server error' })
+        res.status(500).json({ message: 'unable to get program by id' })
     }
   res.send('create program');
 };
+
+
 const updateProgramById = async (req, res, next) => {
+
+    const { id } = req.params
+    const payload = req.body
     try {
+        const updatedProgram = await Programs.findByIdAndUpdate(id, payload) 
         
+        res.status(500).json({ program: updatedProgram[0] })
+
     } catch (error) {
-        res.status(500).json({ message: 'internal server error' })
+        console.log(error)
+        res.status(500).json({ message: 'unable to update program' })
     }
-  res.send('create program');
 };
 const deleteProgramById = async (req, res, next) => {
+
+    const { id } = req.params
+
     try {
-        
+        await Programs.findByIdAndDelete(id)
+
+        res.status(200).json({ message: "Program deleted" })
+
     } catch (error) {
-        res.status(500).json({ message: 'internal server error' })
+        res.status(500).json({ message: 'unable to delete program' })
     }
-  res.send('create program');
 };
 
 module.exports = {
