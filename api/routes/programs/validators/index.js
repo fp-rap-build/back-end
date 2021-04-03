@@ -1,5 +1,7 @@
 const Programs = require('../model')
 
+const Orginizations = require('../../organizations/org-model')
+
 const validateProgramId = async (req,res,next) => {
 
     const { id } = req.params
@@ -9,12 +11,37 @@ const validateProgramId = async (req,res,next) => {
 
         if(program.length !== 0) return next()
 
-        res.status(404).json({ message: `Unable to find program with id of ${id}` })
+        res.status(404).json({ message: `program with id of ${id} does not exist` })
     } catch (error) {
         res.status(500).json({ message: "unable to validate program id" })
     }
 }
 
+const validateCreateProgram = async (req,res,next) => {
+
+    const program = req.body
+    try {
+        // validate required fields
+        if(!program.name || !program.organizationId) {
+            return res.status(400).json({ message: 'name and organizationId is required' })
+        }
+        
+        // validate orginization exists
+        const orginization = await Orginizations.findById(program.organizationId)
+
+        if(!orginization) {
+            return res.status(404).json({ message: `organization with id of ${program.organizationId} does not exist` })
+        } 
+
+        // Passed all checks, move on to the next middleware
+        next()
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "unable to validate create program" })
+    }
+}
+
 module.exports = {
-    validateProgramId
+    validateProgramId,
+    validateCreateProgram
 }

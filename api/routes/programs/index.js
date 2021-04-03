@@ -15,14 +15,14 @@ const {
 } = require('./controllers');
 
 // validators
-const { validateProgramId } = require('./validators')
+const { validateProgramId, validateCreateProgram } = require('./validators')
 
 // Global middleware
 router.use(authRequired)
 router.use(restrictTo('programManager', 'admin'))
 
 // Routes
-router.route('/').get(getAllPrograms).post(createProgram)
+router.route('/').get(getAllPrograms).post(validateCreateProgram,createProgram)
 
 router.route('/:id').all(validateProgramId).get(getProgramById).put(updateProgramById).delete(deleteProgramById)
 
