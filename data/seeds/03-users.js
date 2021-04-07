@@ -13,6 +13,27 @@ exports.seed = function (knex) {
           role: 'admin',
         },
         {
+          email: 'orgAdmin@gmail.com',
+          firstName: 'Tommy',
+          lastName: 'Shelby',
+          password: bcrypt.hashSync('testpassword', 1),
+          role: 'orgAdmin',
+        },
+        {
+          email: 'programManager@gmail.com',
+          firstName: 'Tommy',
+          lastName: 'Shelby',
+          password: bcrypt.hashSync('testpassword', 1),
+          role: 'programManager',
+        },
+        {
+          email: 'assistantProgramManager@gmail.com',
+          firstName: 'Tommy',
+          lastName: 'Shelby',
+          password: bcrypt.hashSync('testpassword', 1),
+          role: 'assistantProgramManager',
+        },
+        {
           email: 'landlord@gmail.com',
           firstName: 'John',
           lastName: 'Shelby',
