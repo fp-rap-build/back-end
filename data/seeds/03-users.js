@@ -18,6 +18,7 @@ exports.seed = function (knex) {
           lastName: 'Shelby',
           password: bcrypt.hashSync('testpassword', 1),
           role: 'orgAdmin',
+          organizationId: 1,
         },
         {
           email: 'programManager@gmail.com',
@@ -25,6 +26,7 @@ exports.seed = function (knex) {
           lastName: 'Shelby',
           password: bcrypt.hashSync('testpassword', 1),
           role: 'programManager',
+          organizationId: 1,
         },
         {
           email: 'assistantProgramManager@gmail.com',
@@ -32,6 +34,7 @@ exports.seed = function (knex) {
           lastName: 'Shelby',
           password: bcrypt.hashSync('testpassword', 1),
           role: 'assistantProgramManager',
+          organizationId: 1,
         },
         {
           email: 'landlord@gmail.com',
