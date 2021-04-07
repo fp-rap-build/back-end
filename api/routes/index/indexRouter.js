@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 
 const router = express.Router();
 
@@ -25,8 +25,8 @@ const router = express.Router();
  *                  type: boolean
  *                  example: true
  */
-router.get("/", (req, res) => {
-  res.status(200).json({ api: "test", timestamp: Date.now() });
+router.get('/', (req, res) => {
+  res.status(200).json({ api: 'up', timestamp: Date.now() });
 });
 
 module.exports = router;

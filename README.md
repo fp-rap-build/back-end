@@ -61,4 +61,3 @@ There are 3 options to get postgresql installed locally [Choose one]:
 
 > Make sure to update the details of the app name, description and version in
 > the `package.json` and `config/jsdoc.js` files.
-
