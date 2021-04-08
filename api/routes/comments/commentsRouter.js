@@ -37,6 +37,18 @@ router.get('/find/request/:id', async (req, res) => {
   }
 });
 
+router.post('/find/request/:id/category', async (req, res) => {
+  const { id } = req.params;
+  const {category} = req.body;
+  try {
+    const comments = await Comments.findByRequestIdAndCategory(id, category);
+    res.status(200).json(comments);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 router.post('/', async (req, res) => {
   try {
     const newComment = await Comments.create(req.body);
