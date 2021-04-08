@@ -12,7 +12,24 @@ const update = (id, comment) => {
   return db('comments').where({ id }).first().update(comment).returning('*');
 };
 
+//Comments By Requests
 const findByRequestId = (id) => {
+  return db('comments as c')
+    .join('users as u', 'c.authorId', '=', 'u.id')
+    .select(
+      'c.id',
+      'c.requestId',
+      'u.firstName',
+      'u.lastName',
+      'c.comment',
+      'c.createdAt',
+      'c.category'
+    )
+    .where({ 'c.requestId': id })
+    .orderByRaw('c.id ASC');
+};
+
+const findByRequestIdAndCategory = (id, category) => {
   return db('comments as c')
     .join('users as u', 'c.authorId', '=', 'u.id')
     .select(
@@ -24,6 +41,7 @@ const findByRequestId = (id) => {
       'c.createdAt'
     )
     .where({ 'c.requestId': id })
+    .andWhere({ 'c.category': category })
     .orderByRaw('c.id ASC');
 };
 
@@ -49,4 +67,5 @@ module.exports = {
   update,
   findBy,
   findByRequestId,
+  findByRequestIdAndCategory,
 };
