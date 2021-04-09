@@ -13,17 +13,33 @@ const {
   getOrganizationById,
   updateOrganizationById,
   deleteOrganizationById,
+  getAllProgramsByOrganizationId,
+  createProgram,
 } = require('./controllers');
 
-// These middewares will run for every route
-router.use(authRequired, restrictTo('admin'));
+// validators
+const { validateOrgId } = require('./validators');
 
-router.route('/').get(getAllOrganizations).post(createOrganization);
+// These middewares will run for every route
+router.use(authRequired);
+
+router
+  .route('/')
+  .all(restrictTo('admin'))
+  .get(getAllOrganizations)
+  .post(createOrganization);
 
 router
   .route('/:id')
+  .all(restrictTo('admin'), validateOrgId)
   .get(getOrganizationById)
   .put(updateOrganizationById)
   .delete(deleteOrganizationById);
+
+router
+  .route('/:id/programs')
+  .all(restrictTo('admin', 'programManager'), validateOrgId)
+  .get(getAllProgramsByOrganizationId)
+  .post(createProgram);
 
 module.exports = router;

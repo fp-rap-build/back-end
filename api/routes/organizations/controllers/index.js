@@ -1,11 +1,27 @@
 const Org = require('../org-model');
 
+const Programs = require('../../programs/model');
+
 const getAllOrganizations = async (req, res) => {
   try {
     const orgs = await Org.findAll();
     res.status(200).json(orgs);
   } catch (err) {
     res.status(500).json({ errorMessage: err });
+  }
+};
+
+const getAllProgramsByOrganizationId = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const programs = await Org.getProgramsByOrgId(id);
+
+    res.status(200).json({ programs });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'unable to get programs by orginization id' });
   }
 };
 
@@ -26,6 +42,21 @@ const createOrganization = async (req, res) => {
     res.status(200).json(newOrg);
   } catch (err) {
     res.status(500).json({ errorMessage: err });
+  }
+};
+
+const createProgram = async (req, res) => {
+  let program = req.body;
+  const organizationId = req.params.id;
+
+  program['organizationId'] = organizationId;
+
+  try {
+    const newProgram = await Programs.create(program);
+
+    res.status(201).json({ program: newProgram[0] });
+  } catch (error) {
+    res.status(500).json({ message: 'unable to create program' });
   }
 };
 
@@ -56,4 +87,6 @@ module.exports = {
   getOrganizationById,
   updateOrganizationById,
   deleteOrganizationById,
+  getAllProgramsByOrganizationId,
+  createProgram,
 };
