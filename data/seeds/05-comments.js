@@ -28,7 +28,7 @@ exports.seed = async function (knex) {
         },
         {
           requestId: 1,
-          authorId: ids[0].id,
+          authorId: programManager.id,
           comment: 'Internal Test Comment',
           createdAt: '2021-03-20 14:00:00',
           category: 'internal',
