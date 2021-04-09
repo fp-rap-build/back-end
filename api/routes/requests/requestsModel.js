@@ -1,6 +1,12 @@
 const db = require('../../../data/db-config');
 
-const findAll = async () => await db('requests');
+const findAll = async (user) =>
+  await db('requests').modify((qb) => {
+    // Only return requests that belong to the users organization
+    if (user.organizationId) {
+      qb.where({ orgId: user.organizationId });
+    }
+  });
 
 const create = (request) => {
   return db('requests').insert(request).returning('*');

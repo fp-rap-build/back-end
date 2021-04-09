@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const allRequests = await Requests.findAll();
+    const allRequests = await Requests.findAll(req.user);
     res.status(200).json({ requests: allRequests });
   } catch (error) {
     console.log(error);
