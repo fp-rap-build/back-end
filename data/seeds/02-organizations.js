@@ -6,8 +6,8 @@ exports.seed = function (knex) {
       // Inserts seed entries
       return knex('organizations').insert([
         { organization: 'Family Promise of Spokane' },
-        { organization: 'Family Promise of Clark County' },
-        { organization: 'Family Promise of Cowlitz County' },
+        { organization: 'Spokane Neighborhood Action Partners (SNAP)' },
+        { organization: 'Catholic Charities' },
       ]);
     });
 };
