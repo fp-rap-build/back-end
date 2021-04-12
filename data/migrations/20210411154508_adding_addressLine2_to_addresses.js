@@ -6,6 +6,6 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return knex.schema.table('addresses', (tbl) => {
-    tbl.string('addressLine2');
+    tbl.dropColumn('addressLine2');
   });
 };
