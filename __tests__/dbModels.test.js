@@ -46,8 +46,8 @@ const testUser = {
 //Find a way around foreign key constraint when truncating addresses
 
 beforeAll(async () => {
-  await db.seed.run()
-})
+  await db.seed.run();
+});
 
 afterAll(async () => {
   await db.destroy();
@@ -137,11 +137,10 @@ describe('Users Model', () => {
       expect(allUsers.length).toBe(4);
     });
     it('Should update a user', async () => {
-
-      testUser['email'] = 'hello@gmaail.com'
+      testUser['email'] = 'hello@gmaail.com';
       let newUser = await Users.create(testUser);
 
-      let id = newUser[0].id
+      let id = newUser[0].id;
 
       await Users.findByIdAndUpdate(id, { ...testUser, firstName: 'Updated' });
 
@@ -149,18 +148,21 @@ describe('Users Model', () => {
       expect(updated.firstName).toBe('Updated');
     });
     it('Should delete a user', async () => {
+      let preDeletion = await Users.findAll();
 
-      let preDeletion = await Users.findAll()
+      let newUser = await Users.create({
+        firstName: 'Bob',
+        lastName: 'Doe',
+        email: 'bobdoe@gmail.com',
+        password: 'bobbytest123',
+      });
 
-      let newUser = await Users.create({ firstName: "Bob", lastName: "Doe", email: "bobdoe@gmail.com", password: "bobbytest123" })
+      await Users.findByIdAndDelete(newUser[0].id);
 
-      await Users.findByIdAndDelete(newUser[0].id)
-
-      let postDeletion = await Users.findAll()
+      let postDeletion = await Users.findAll();
 
       // Prove that a user has been deleted
       expect(preDeletion.length - postDeletion.length).toBe(0);
-
     });
   });
 });

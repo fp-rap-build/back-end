@@ -17,6 +17,7 @@ const { createAddress, updateAddress } = require('./address/controllers');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
+  console.log(req.body)
   try {
     const request = req.body;
 
@@ -37,7 +38,7 @@ router.post('/', async (req, res) => {
 
     res.status(200).json(newRequest);
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -52,66 +53,65 @@ router.get('/', async (req, res) => {
   }
 });
 
-
 //View all active requests
 router.get('/active', async (req, res) => {
-	try {
-		const resRequests = await Requests.findAllActive();
-		res.status(200).json(resRequests);
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({ message: 'Internal server error' });
-	}
+  try {
+    const resRequests = await Requests.findAllActive();
+    res.status(200).json(resRequests);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 //Endpoint tailored for req table
 //Updates to shape data should be done in model @ 'findForTable'
 router.get('/table', async (req, res) => {
-	try {
-		const resRequests = await Requests.findForTable();
-		res.status(200).json(resRequests);
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({ message: 'Internal server error' });
-	}
+  try {
+    const resRequests = await Requests.findForTable();
+    res.status(200).json(resRequests);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 router.get('/find', async (req, res) => {
-	const filter = req.body;
-	try {
-		const foundRequests = await Requests.findBy(filter);
-		res.status(200).json(foundRequests);
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({ message: 'Internal server error' });
-	}
+  const filter = req.body;
+  try {
+    const foundRequests = await Requests.findBy(filter);
+    res.status(200).json(foundRequests);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
-	const request = await Requests.findById(id);
-	res.status(200).json({ request: request[0] });
+    const request = await Requests.findById(id);
+    res.status(200).json({ request: request[0] });
   } catch (error) {
-	res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
 router.put('/:id', async (req, res) => {
-	const { id } = req.params;
-	try {
-		const change = req.body;
-		const updatedRequest = await Requests.update(id, change);
-		res.status(200).json(updatedRequest);
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({ message: 'Internal server error' });
-	}
+  const { id } = req.params;
+  try {
+    const change = req.body;
+    const updatedRequest = await Requests.update(id, change);
+    res.status(200).json(updatedRequest);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 router.put('/:id', async (req, res) => {
-	const { id } = req.params;
-	const update = req.body;
+  const { id } = req.params;
+  const update = req.body;
   try {
     await Requests.update(id, update);
     res.status(200);

@@ -35,7 +35,7 @@ exports.updateAddressById = async (req, res) => {
   const changes = req.body;
   try {
     const updated = await Addr.update(id, changes);
-    res.status(200).json({ 'address': updated[0] });
+    res.status(200).json({ address: updated[0] });
   } catch (err) {
     res.status(500).json({ errorMessage: err });
   }

@@ -8,6 +8,11 @@ const findById = (id) => {
   return db('organizations').where('id', id).first();
 };
 
+const getProgramsByOrgId = (organizationId) =>
+  db('programs').where({ organizationId });
+
+const createProgram = (program) => db('programs').insert(program);
+
 const findBy = (name) => {
   return db('organizations').where(name).first;
 };
@@ -17,7 +22,7 @@ const create = (org) => {
 };
 
 const update = (id, org) => {
-  return db('organizations').where('id', id).update(org).returning('*')
+  return db('organizations').where('id', id).update(org).returning('*');
 };
 
 const remove = (id) => {
@@ -31,4 +36,6 @@ module.exports = {
   update,
   remove,
   findBy,
+  getProgramsByOrgId,
+  createProgram,
 };

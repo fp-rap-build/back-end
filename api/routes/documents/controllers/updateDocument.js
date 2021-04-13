@@ -4,7 +4,7 @@ const updateDocument = async (req, res, next) => {
   const { id } = req.params;
 
   const newDocument = req.body;
-  
+
   try {
     let updatedDocument = await Documents.findByIdAndUpdate(id, newDocument);
 

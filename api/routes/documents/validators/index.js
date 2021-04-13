@@ -1,20 +1,22 @@
 const Documents = require('../documentModel');
 
 const checkIfDocumentExists = async (req, res, next) => {
-	const { id } = req.params;
+  const { id } = req.params;
 
-	try {
-		let document = await Documents.findById(id);
+  try {
+    let document = await Documents.findById(id);
 
-		if (document.length == 0) {
-			return res.status(404).json({ message: `Document with id of ${id} does not exist` });
-		}
+    if (document.length == 0) {
+      return res
+        .status(404)
+        .json({ message: `Document with id of ${id} does not exist` });
+    }
 
-		next();
-	} catch (error) {
-        console.log(error)
-		res.status(500).json({ message: 'Internal server error' });
-	}
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 module.exports = { checkIfDocumentExists };

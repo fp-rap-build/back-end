@@ -21,7 +21,7 @@ const registerUser = async (req, res, next) => {
       user,
     });
   } catch (error) {
-    console.log(error)
+    console.error(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
