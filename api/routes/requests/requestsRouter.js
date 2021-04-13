@@ -17,6 +17,7 @@ const { createAddress, updateAddress } = require('./address/controllers');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
+  console.log(req.body)
   try {
     const request = req.body;
 
@@ -37,7 +38,7 @@ router.post('/', async (req, res) => {
 
     res.status(200).json(newRequest);
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
