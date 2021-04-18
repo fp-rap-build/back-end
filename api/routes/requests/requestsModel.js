@@ -94,6 +94,7 @@ const findById = (id) => {
       'r.verifiedDocuments',
       'r.foodWrkr',
       'r.amountRequested',
+      'r.orgId',
       'r.unEmp90',
       'a.address',
       'a.zipCode',
