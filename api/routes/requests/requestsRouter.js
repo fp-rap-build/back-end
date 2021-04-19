@@ -19,7 +19,6 @@ const { test } = require('../../../config/knexfile');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-  console.log(req.body);
   try {
     const request = req.body;
 

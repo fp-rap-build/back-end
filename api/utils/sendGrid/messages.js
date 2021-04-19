@@ -2,7 +2,6 @@ const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const requestStatusChange = (requestStatus, emailAddress) => {
-  console.log('EMAIL', emailAddress);
   const msg = {
     to: emailAddress,
     from: 'admin@familypromiseofspokane.org',
