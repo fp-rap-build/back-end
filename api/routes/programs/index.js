@@ -21,19 +21,24 @@ const {
   validateUpdateProgram,
 } = require('./validators');
 
-// Global middleware
-router.use(authRequired);
-router.use(restrictTo('programManager', 'admin'));
-
 // Routes
 router
   .route('/')
   .get(getAllPrograms)
-  .post(validateCreateProgram, createProgram);
+  .post(
+    authRequired,
+    restrictTo('programManager', 'admin', 'orgAdmin'),
+    validateCreateProgram,
+    createProgram
+  );
 
 router
   .route('/:id')
-  .all(validateProgramId)
+  .all(
+    authRequired,
+    restrictTo('programManager', 'admin', 'orgAdmin'),
+    validateProgramId
+  )
   .get(getProgramById)
   .put(validateUpdateProgram, updateProgramById)
   .delete(deleteProgramById);

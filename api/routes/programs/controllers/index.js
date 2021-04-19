@@ -40,9 +40,8 @@ const updateProgramById = async (req, res, next) => {
   try {
     const updatedProgram = await Programs.findByIdAndUpdate(id, payload);
 
-    res.status(500).json({ program: updatedProgram[0] });
+    res.status(200).json({ program: updatedProgram[0] });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'unable to update program' });
   }
 };

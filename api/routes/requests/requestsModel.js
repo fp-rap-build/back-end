@@ -1,6 +1,12 @@
 const db = require('../../../data/db-config');
 
-const findAll = async () => await db('requests');
+const findAll = async (user) =>
+  await db('requests').modify((qb) => {
+    // Only return requests that belong to the users organization
+    if (user.organizationId) {
+      qb.where({ orgId: user.organizationId });
+    }
+  });
 
 const create = (request) => {
   return db('requests').insert(request).returning('*');
@@ -71,6 +77,7 @@ const findById = (id) => {
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
     .select(
+      'r.*',
       'r.id',
       'u.firstName',
       'u.lastName',
@@ -88,6 +95,7 @@ const findById = (id) => {
       'r.verifiedDocuments',
       'r.foodWrkr',
       'r.amountRequested',
+      'r.orgId',
       'r.unEmp90',
       'a.address',
       'a.zipCode',

@@ -2,7 +2,7 @@ const db = require('../db-config');
 
 exports.seed = async function (knex) {
   //Pull uuids from newley created users table
-  const ids = await db('users').select('id');
+  const users = await db('users')
   //res:
   //[
   //   { id: 'e709953d-4871-4d1a-b0ae-94ef429cf5c9' },
@@ -10,12 +10,14 @@ exports.seed = async function (knex) {
   //   { id: 'db1537ed-556e-4bd8-be81-ea01c9011c73' }
   // ]
 
+  const tenant = users.find(user => user.email === 'tenant@gmail.com')
+
   return knex('requests')
     .del()
     .then(function () {
       return knex('requests').insert([
         {
-          userId: ids[2].id,
+          userId: tenant.id,
           orgId: 1,
           addressId: 1,
         },

@@ -1,11 +1,11 @@
 exports.seed = function (knex) {
   // Deletes ALL existing entries
-  return knex('organizations')
+  return knex('programs')
     .del()
     .then(function () {
       // Inserts seed entries
-      return knex('organizations').insert([
-        { organization: 'Family Promise of Spokane' },
+      return knex('programs').insert([
+        { id: 1, organizationId: 1, name: 'Rental Assistance' },
       ]);
     });
 };

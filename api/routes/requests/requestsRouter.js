@@ -13,6 +13,8 @@ const { validateRequestId } = require('./documents/validators');
 // Controllers
 const { getAllDocuments, createDocument } = require('./documents/controllers');
 
+const { sendPayment } = require('./payments/controllers')
+
 const { createAddress, updateAddress } = require('./address/controllers');
 const { test } = require('../../../config/knexfile');
 
@@ -46,7 +48,7 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const allRequests = await Requests.findAll();
+    const allRequests = await Requests.findAll(req.user);
     res.status(200).json({ requests: allRequests });
   } catch (error) {
     console.log(error);
@@ -143,5 +145,7 @@ router
   .all(validateRequestId)
   .post(createDocument)
   .get(getAllDocuments);
+
+router.route('/:id/payments').all(validateRequestId).post(sendPayment)
 
 module.exports = router;

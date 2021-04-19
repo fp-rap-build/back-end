@@ -39,7 +39,7 @@ const createOrganization = async (req, res) => {
   const uploadOrg = req.body;
   try {
     const newOrg = await Org.create(uploadOrg);
-    res.status(200).json(newOrg);
+    res.status(200).json({ organization: newOrg[0] });
   } catch (err) {
     res.status(500).json({ errorMessage: err });
   }
