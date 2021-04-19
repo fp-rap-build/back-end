@@ -2,11 +2,11 @@ const express = require('express');
 const Requests = require('./requestsModel');
 const restrictTo = require('../../middleware/restrictTo');
 const Addresses = require('../addresses/addr-model');
-
 // Middlewares
 const utils = require('./documents/utils');
+//Email Middleware
 const sendMessage = require('../../utils/sendGrid/middleware');
-
+const { requestStatusChange } = sendMessage;
 // Validators
 const { validateRequestId } = require('./documents/validators');
 
@@ -99,8 +99,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-//EMAIL MIDDLEWARE GOES HERE
-router.put('/:id', sendMessage.requestStatusChange, async (req, res) => {
+router.put('/:id', requestStatusChange, async (req, res) => {
   const { id } = req.params;
   const change = req.body;
 
