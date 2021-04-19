@@ -5,6 +5,7 @@ const Addresses = require('../addresses/addr-model');
 
 // Middlewares
 const utils = require('./documents/utils');
+const sendMessage = require('../../utils/sendGrid/middleware');
 
 // Validators
 const { validateRequestId } = require('./documents/validators');
@@ -13,11 +14,12 @@ const { validateRequestId } = require('./documents/validators');
 const { getAllDocuments, createDocument } = require('./documents/controllers');
 
 const { createAddress, updateAddress } = require('./address/controllers');
+const { test } = require('../../../config/knexfile');
 
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   try {
     const request = req.body;
 
@@ -97,10 +99,12 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+//EMAIL MIDDLEWARE GOES HERE
+router.put('/:id', sendMessage.requestStatusChange, async (req, res) => {
   const { id } = req.params;
+  const change = req.body;
+
   try {
-    const change = req.body;
     const updatedRequest = await Requests.update(id, change);
     res.status(200).json(updatedRequest);
   } catch (error) {
@@ -109,17 +113,17 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
-  const { id } = req.params;
-  const update = req.body;
-  try {
-    await Requests.update(id, update);
-    res.status(200);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
+// router.put('/:id', async (req, res) => {
+//   const { id } = req.params;
+//   const update = req.body;
+//   try {
+//     await Requests.update(id, update);
+//     res.status(200);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// });
 
 router.delete('/', async (req, res) => {
   try {
