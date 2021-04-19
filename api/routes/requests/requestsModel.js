@@ -77,6 +77,7 @@ const findById = (id) => {
     .join('addresses as a', 'r.addressId', '=', 'a.id')
     .join('users as u', 'r.userId', '=', 'u.id')
     .select(
+      'r.*',
       'r.id',
       'u.firstName',
       'u.lastName',
