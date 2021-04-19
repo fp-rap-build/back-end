@@ -1,34 +1,38 @@
 exports.up = function (knex) {
-  return knex.schema.createTable('users', (tbl) => {
+  return knex.schema.createTable('payments', (tbl) => {
     tbl.increments();
     tbl
-      .integer('payerId')
+      .uuid('payerId')
       .unsigned()
       .references('id')
-      .inTable('organizations')
+      .inTable('users')
       .onDelete('RESTRICT')
-      .onUpdate('RESTRICT');
+      .onUpdate('RESTRICT')
+      .notNullable();
     tbl
       .integer('programId')
       .unsigned()
       .references('id')
-      .inTable('organizations')
+      .inTable('programs')
       .onDelete('RESTRICT')
-      .onUpdate('RESTRICT');
+      .onUpdate('RESTRICT')
+      .notNullable();
+
     tbl
       .integer('requestId')
       .unsigned()
       .references('id')
-      .inTable('organizations')
+      .inTable('requests')
       .onDelete('RESTRICT')
-      .onUpdate('RESTRICT');
-      
-    tbl.integer('amount').unsigned();
+      .onUpdate('RESTRICT')
+      .notNullable();
+
+    tbl.integer('amount').unsigned().notNullable();
 
     tbl.timestamp('createdAt').defaultTo(knex.fn.now());
   });
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists('users');
+  return knex.schema.dropTableIfExists('payments');
 };

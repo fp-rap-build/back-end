@@ -12,12 +12,14 @@ const { validateRequestId } = require('./documents/validators');
 // Controllers
 const { getAllDocuments, createDocument } = require('./documents/controllers');
 
+const { sendPayment } = require('./payments/controllers')
+
 const { createAddress, updateAddress } = require('./address/controllers');
 
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   try {
     const request = req.body;
 
@@ -141,5 +143,7 @@ router
   .all(validateRequestId)
   .post(createDocument)
   .get(getAllDocuments);
+
+router.route('/:id/payments').all(validateRequestId).post(sendPayment)
 
 module.exports = router;
